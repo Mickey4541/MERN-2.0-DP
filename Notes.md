@@ -119,7 +119,148 @@ We now have `package.json` which is basically a file that describes our project.
 
 - Browser can handle get request but we have different api like put, patch and delete. Browser cannot handle this solo. so, we need postman.
 
-- We can use extension like thunder client from vs code as a alternative of postman.
+- We can use extension like thunder client from vs code as a alternative of postman. Just install it in vs code and same as postman to run.
 
-- Now we can test it  in postman by entering http://localhost:3000/ through get method. Make sure to select body raw and json in postman.
+- Now we can test it in postman by entering http://localhost:3000/ through get method. Make sure to select body raw and json in postman.
 
+## Using Nodemon or `--watch`
+
+- Node.js 18.10 version or above that version to use watch. "--watch" feature.
+- To install nodemon: 
+  ```bash
+  npm install nodemon
+  ```
+  or 
+  ```bash
+  npm install nodemon -g
+  ```
+- After installing nodemon, inside package.json and inside scripts, write:
+  ```json
+  "start": "nodemon app.js"
+  ```
+  and save.
+- Now, inside terminal: type:
+  ```bash
+  npm start
+  ```
+- Now, whenever we change in our code, the server will automatically got started.
+- And to use watch flag, simply write:
+  ```bash
+  node --watch app.js
+  ```
+
+## What if I write `rajan` instead of `start` inside `package.json` to run nodemon?
+
+- We have to type:
+  ```bash
+  npm run rajan
+  ```
+- If we write start, we can simply write:
+  ```bash
+  npm start
+  ```
+  to run the server.
+
+## JSON
+
+- JavaScript Object Notation stores data and transfers the stored data.
+- JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to read and write, and easy for machines to parse and generate. It is primarily used for transmitting data between a server and a web application or between different parts of an application.
+- It's better to use `res.json()` over `res.send()` when sending data, as JSON is more universally accepted and standardized across different languages and platforms.
+- We can also send status codes with JSON responses:
+  ```javascript
+  response.status(200).json({
+      "message": "success"
+  });
+  ```
+
+## Connecting MongoDB
+
+- Log in into mongodb.com. Using a mongodb atlas for database, make a project, create a cluster and there you see a connect button, click on connect, click on driver button and you can see a connection string there like this:
+  ```bash
+  mongodb+srv://rajan:<db_password>@cluster0.4c60z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  ```
+- The tag you are seeing `<db_password>` should be replaced by the actual password you have created while creating a project.
+
+
+## Understanding SQL CRUD and Sequelize CRUD
+
+### SQL CRUD Operations
+
+- **CREATE**: Insert data into the users table
+  ```sql
+  INSERT INTO users (name, email, age) VALUES ('John Doe', 'john@example.com', 30);
+  ```
+
+- **READ**: Select all users with age greater than or equal to 18
+  ```sql
+  SELECT * FROM users WHERE age >= 18;
+  ```
+
+- **UPDATE**: Update a user's email where their id is 1
+  ```sql
+  UPDATE users SET email = 'newemail@example.com' WHERE id = 1;
+  ```
+
+- **DELETE**: Delete a user where their id is 1
+  ```sql
+  DELETE FROM users WHERE id = 1;
+  ```
+
+
+
+### Sequelize CRUD Operations
+
+- **CREATE**
+  ```javascript
+  User.create({
+    name: 'John Doe',
+    email: 'john@example.com',
+    age: 30
+  });
+  ```
+
+- **READ**
+  ```javascript
+  User.findAll({
+    where: {
+      age: { [Op.gte]: 18 }  // greater than or equal to 18
+    }
+  });
+  ```
+
+- **UPDATE**
+  ```javascript
+  User.update(
+    { email: 'newemail@example.com' },  // Update the email
+    { where: { id: 1 } }  // Where id is 1
+  );
+  ```
+
+- **DELETE**
+  ```javascript
+  User.destroy({
+    where: { id: 1 }  // Delete where id is 1
+  });
+  ```
+
+## Understanding Mongoose
+
+- Mongoose is a npm package. Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. Just like sequelize in SQL, there is moongoose in Mongodb. We can say mongoose as a agent between mongodb database and nodejs. If we need a data from db, we can tell moongoose to bring and also can send data to store in database through mongodb. The connection string is also handover to moongoose and it try to connect our nodejs with database. Simply if we have to make a query, we do it with the help of mongoose.
+
+- To install mongoose: npm install mongoose.
+
+- make a folder database and make a file index.js or any name and put the database connection function code.
+
+- we have to require it at index.js::: const mongoose = require("mongoose")
+
+- another is connectionString = "connecting string from mongodbatlas" inside index.js (but do it in .env folder)
+
+ # IMPORTANT:::::
+ > inside the mondodb website:: inside network access :: there is a button called add ip address:: we should add 0.0.0.0/0 to give access to all the ipv4 address. because all these router and wifi turnoff the dhcp assign each time a ip address to each device. if we dont do this, the connection string refuses to connect our nodejs app with the database. This type of error if we get,is a whitelist ip error.
+
+
+
+# importing and Exporting modules.
+- 'module.exports' for exporting file and 'require' to importing file is a common js system/convention. like we do in nodejs here.
+
+- But  ' import from ' to import file and 'export default' to export file like in react is es(ecma script) system.

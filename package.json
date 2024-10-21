@@ -4,11 +4,14 @@
   "description": "> **Frontend:**\r > - UI + interaction + taking input from the server and showing the data to the user (Client). React, Vue, Angular, Svelte. We cannot directly interact with the database with frontend technologies.",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2",
+    "nodemon": "^3.1.7"
   }
 }
