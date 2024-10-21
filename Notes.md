@@ -47,53 +47,6 @@
 > - **Runtime**: It represents the state from start to end of the execution process.
 
 
-# Initializing NOdejs / Setup:::
-(npm, yarn, pnpm etc are some methods but we use npm(node package manager.))::
-
-- Make a folder and open it in terminal or vs code.
-- npm init
-- package name: just enter or you can give a preferred name.
-- version: simply enter(we can make changes later.)
-- description: simply enter
-- main: simply enter
-- test command: simply enter
-- github repo: simply enter
-- keyword: simply enter
-- author: simply enter
-- license: simply enter
-- then press enter
-- We have now package.json which is basically a file which describes our project. like about what project, author of project, name of project etc.
-
-
-
-- Make a app.js file which is the main file in nodejs.(making app.js is convention, we can give any other name).
-
-- NPM is a container from where we install various packages needed in our project. It is very big container from where we can install various packages needed.
-
-- Express.js is a fast, minimal, and flexible web application framework for Node.js. It simplifies building web applications and APIs by providing robust features for handling HTTP requests, routing, and middleware. So, we first need express. we can install it from the npm container by: npm install express.
-
-#  NPM ko package ko versioning kasto hunxa??
-- It is a semantic versoning like::( in this project we use express 2.21.1)(major.minor.patch).
-
-# Express:
-- After installing express:: Inside app.js, we have to require it:
-::::::const express = require('express')
-::::::const app = express()
-
-
-# Port Number::
-- Port numbers are ranges from 0-65535 inside our computers. The default port number of mysql is 3306. Think like a hotel where there is different rooms. One room is for one person and other people cannot access that room at that same time. Allocate vaisakeko room leave na hudaa samma aru ley use garna paudaina. same like that: we initialize port 3000 in nodejs. To do this: inside app.js we write :
-        app.listen(3000,()=>{
-            console.log("Nodejs server has started at port 3000")
-        })
-- localhost:3000 === 127.0.0.1:3000
-- Here we get cannot get / in browser. 
-
-# using / ::
-- By writing this, now we get hello world in browser.
-        app.get('/',(request,response) => {
-            response.send("Hello World");
-        })
 
 # Initializing Node.js / Setup:::
 (npm, yarn, pnpm etc are some methods but we use npm (node package manager.))::
@@ -148,7 +101,25 @@ We now have `package.json` which is basically a file that describes our project.
 - By writing this, now we get "Hello World" in the browser:
     ```javascript
     app.get('/', (request, response) => {
+        //console.log(request);
         response.send("Hello World");
     })
     ```
+
+
+# Request Response Cycle:::
+- From browser we make request, and server gives us response.
+- Inside app.get, the order matters. first is always request and second is always response. like here:
+```javascript
+    app.get('/', (request, response) => {
+        //console.log(request);
+        response.send("Hello World");
+    })
+```
+
+- Browser can handle get request but we have different api like put, patch and delete. Browser cannot handle this solo. so, we need postman.
+
+- We can use extension like thunder client from vs code as a alternative of postman.
+
+- Now we can test it  in postman by entering http://localhost:3000/ through get method. Make sure to select body raw and json in postman.
 
