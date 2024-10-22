@@ -298,3 +298,28 @@ We now have `package.json` which is basically a file that describes our project.
 
 - The data is stored in BSON format, not JSON. While MongoDB accepts and returns data in JSON-like format, it actually stores that data in BSON, which stands for Binary JSON.
 
+# CRUD in NODE AND MONGODB USING MONGOOSE:
+- create :: Book.create()
+- Read :: Book.find()
+- single Read :: Book.findById()
+- Update :: findbyIdaAndUpdate()
+- Delete :: findByIdAndDelete()
+
+# Question: I open a chrome browser and open two tabs. I login in facebook in first and in second tab, i open any other app. Can a first tab can access the cookie and data of second tab or vice versa?
+- No, cannot access because of the feature of sandboxing.
+
+# After CRUD::CRUD code lekhi sake paxi continue aba:::
+# REST API and RESTFUL API:::
+- Standards to make api.
+> Restapi :: (following the different path of each api)
+ - Get book : /getAllBooks > get
+ - Delete Book : /delete/:id > delete
+ - update book : /update/:id > patch
+ - single book : /single/:id > get
+
+> RESTFUL API :(following the same path for each api):(Recommended)
+ - Get book : /book (POST)/Create
+ - Get book : /book (GET)/All read
+ - Delete Book : /book/:id > delete
+ - update book : /book/:id > patch
+ - single book : /book/:id > get

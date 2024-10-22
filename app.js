@@ -13,6 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
 
+
+
+
 app.get('/',(request,response) => {
     // response.send("Hello World"); //res.send garnu vanda res.json garnu better hunxa kinaki json is valid in all languages, which is benefecial.(more on notes.)
 
@@ -25,6 +28,8 @@ app.get('/',(request,response) => {
         "message": "success"
     })
 })
+
+
 
 
 
@@ -53,6 +58,8 @@ app.post('/book',async (req,res) => {
 
 
 
+
+
 //All READ API:::
 app.get("/book",async(req,res) => {
     const books = await Book.find() //return array maa garxa
@@ -61,6 +68,8 @@ app.get("/book",async(req,res) => {
         data : books
     })
 })
+
+
 
 
 
@@ -77,11 +86,54 @@ app.get("/book/:id",async (req,res) => { // here :id is dynamic but only id is s
     })
     } catch (error) {
         res.status(500).json({
-            message : "Something went wrong"
+            "message" : "Something went wrong"
         })
     }
 })
 
+
+
+
+
+//Delete API::: 
+// app.get("/book", async (req,res) => {
+//     const id = req.params.id
+//     await Book.findByIdAndDelete(id) //teturn null because it is delted.
+//     res.status(200).json({
+//         "message" : "Book Deleted successfully"
+//     })
+// })
+// here the api of delete and all read api is same. and the get method can be done in browser. which is dangerous like it can have a loophole of csrf attack.
+//So, the developers intorduce delete method again.
+app.delete("/book/:id", async (req,res) => {
+    const id = req.params.id
+    await Book.findByIdAndDelete(id) //teturn null because it is delted.
+    res.status(200).json({
+        "message" : "Book Deleted successfully"
+    })
+})
+
+
+
+//Update API::PATCH AND PUT but PATCH is optimized
+//update garda kun id ko book update garni ho tesko id ni params bata pathauna paryo ra tyo id ko book maa k update garni ho tyo chai body maa pathauna paryo
+
+app.patch("/book/:id",async (req,res)=>{
+    const id = req.params.id //kun book update garni ko id ho yo
+    const{bookName, bookPrice, authorName, publication, publishedAt,isbnNumber} = req.body
+    await Book.findByIdAndUpdate(id, { //findbyId ley 3 ota parameter linxa,first kun id ko update garni ra, second chai k update garni. (second param chai object maa linxa), third is validator
+        //key and value same vayo vani aauta matra lekhdaa hunxa.
+        bookName : bookName, //bookName vanni key/column maa frontend bata aako bookName lagera haleday vaneko.
+        bookPrice : bookPrice,
+        authorName: authorName,
+        publishedAt :publishedAt,
+        publication : publication,
+        isbnNumber : isbnNumber
+    })
+    res.status(200).json({
+        "message" : "Book Updated Successfully"
+    })
+})
 
 
 
