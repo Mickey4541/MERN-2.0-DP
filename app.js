@@ -7,6 +7,18 @@ const connectToDatabase = require('./database')
 const Book = require('./model/bookmodel')
 connectToDatabase()
 
+
+
+//multerConfig imports
+// const multer = require("./Middleware/multerConfig").multer
+// const storage = require("./Middleware/multerConfig").storage
+//Destructuring:
+const {multer,storage} = require("./Middleware/multerConfig")
+const upload = multer({storage : storage})
+
+
+
+
 //this line is important that express itself cannot handle json so we have to tell express to understand it.
 app.use(express.json())
 //if we are using ejs in nodejs , we have to write this urlencoded line and neglect the express.json() line.
@@ -34,7 +46,7 @@ app.get('/',(request,response) => {
 
 
 //CREATE API::
-app.post('/book',async (req,res) => {
+app.post('/book',upload.single("image"), async (req,res) => {
     // console.log(req);
     // console.log(req.body);
     // const bookPrice = req.body.bookPrice;

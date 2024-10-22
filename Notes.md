@@ -323,3 +323,26 @@ We now have `package.json` which is basically a file that describes our project.
  - Delete Book : /book/:id > delete
  - update book : /book/:id > patch
  - single book : /book/:id > get
+
+ # File handeling using multer:
+ - Multer is a third party package. It is a middleware. nodejs didn't understand the file . It only understand the textual content only in json format. To install it : 
+ - npm i multer.
+ - make a middleware folder and make a multerConfig.js file.
+ - copy the whole code of multerconfig from multerconfig.js and paste in multerconfig.js
+ - then, in the create api , inside app.js, write upload.single("image) wala line like:
+ ```javascript
+ app.post('/book',upload.single("image"), async (req,res) => {
+
+- In upload.single, if we have to post a lot of images, we can do upload.array.
+
+- Inside app.js requiring multer like this::
+```javascript
+//multerConfig imports
+// const multer = require("./Middleware/multerConfig").multer
+// const storage = require("./Middleware/multerConfig").storage
+//Destructuring:
+const {multer,storage} = require("./Middleware/multerConfig")
+const upload = multer({storage : storage})
+```
+
+-
