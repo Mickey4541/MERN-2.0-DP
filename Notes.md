@@ -177,7 +177,7 @@ We now have `package.json` which is basically a file that describes our project.
 
 - Log in into mongodb.com. Using a mongodb atlas for database, make a project, create a cluster and there you see a connect button, click on connect, click on driver button and you can see a connection string there like this:
   ```bash
-  mongodb+srv://rajan:<db_password>@cluster0.4c60z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  mongodb+srv://<username>:<db_password>@cluster0.4c60z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
   ```
 - The tag you are seeing `<db_password>` should be replaced by the actual password you have created while creating a project.
 
@@ -264,3 +264,37 @@ We now have `package.json` which is basically a file that describes our project.
 - 'module.exports' for exporting file and 'require' to importing file is a common js system/convention. like we do in nodejs here.
 
 - But  ' import from ' to import file and 'export default' to export file like in react is es(ecma script) system.
+
+
+
+# Project Details::
+- Book management system:
+- CRUD, file/image handeling.
+- In sql, there is column but in nosql there is field.
+- In sql, there is table but in no-sql there is collection.
+
+> make a model folder and make a bookModel.js folder.
+- Inside bookModel.js, require mongoose.
+- Create a schema called bookSchema.
+- Now inside app.js, make a /book post request and try it by postman.
+- From postman, inside body>raw>json bata hamile data pathauna paryo because hamile frontend banako xainam. tei body lai frontend/form samjhera data pathauna paryo.
+> IMPORTANT: hamile pathako data(text format)sadhai req.body maa aako hunxa. ra file xa vani req.file maa aako hunxa.
+
+- Making book Model done, making model/table of book also done, and inside app.js, writing this below /book code and sending a json data from body of postman also done:
+```javascript
+  app.post('/book',(req,res) => {
+    console.log(req);
+    console.log(req.body);
+    console.log(req.body.bookPrice);
+})
+```
+- Now, inside the vs code console, we got undefined instead of getting a data send through postman. this is because express didn't understand that data. So, we have to tell express to understand and parse the json by::::
+```bash
+  # this line is important that express itself cannot handle json so we have to tell express to understand it.
+  app.use(express.json())
+  # if we are using ejs in nodejs , we have to write this urlencoded line and neglect the express.json() line.
+  app.use(express.urlencoded({extended : true}))
+```
+
+- The data is stored in BSON format, not JSON. While MongoDB accepts and returns data in JSON-like format, it actually stores that data in BSON, which stands for Binary JSON.
+
