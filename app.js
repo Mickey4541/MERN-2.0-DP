@@ -46,12 +46,19 @@ app.get('/',(request,response) => {
 
 
 //CREATE API::
-app.post('/book',upload.single("image"), async (req,res) => {
+app.post('/book',upload.single("imageUrl"), async (req,res) => {
+    console.log(req.file);
+    
     // console.log(req);
     // console.log(req.body);
     // const bookPrice = req.body.bookPrice;
     // const bookName = req.body.bookName;
-
+    let fileName;
+    if(!req.file){
+        fileName = "https://media.istockphoto.com/id/529239795/vector/no-image-signs-for-web-page.jpg?s=612x612&w=0&k=20&c=U3FvupU1VFGiIx5A2K8i79bm-L6bZyeSVUAt8THf_xs="
+    }else{
+        fileName = "http://localhost:3000/" + req.file.filename
+    }
     //Destructuring:
     const {bookName, bookPrice, isbnNumber, authorName, publishedAt, publication} = req.body;
     await Book.create({
@@ -61,7 +68,8 @@ app.post('/book',upload.single("image"), async (req,res) => {
         isbnNumber : isbnNumber,
         authorName : authorName,
         publishedAt : publishedAt,
-        publication : publication
+        publication : publication,
+        imageUrl : fileName
     })
     res.status(201).json({
         "message" : "book created successfully"
@@ -151,6 +159,14 @@ app.patch("/book/:id",async (req,res)=>{
 
 
 
+
+
+
+
+
+//By default nodejs didn't give access to see the files of its codebase. tara hamile database maa rakheko image files haru frontend maa dekhauna parni xa ra koi user ley request garyo vani dekhauna parni xa. frontend developer ley pani ta frontend develop garda access magxa. so hamile nodejs lai yo sabai access dey hai vanna ko lagi yo code. simply:
+// app.use(express.static("./storage/")) serves static files (like images, CSS, or JavaScript) from the ./storage/ folder, making them accessible via URLs. This allows users to access files stored in that directory directly through the browser.
+app.use(express.static("./storage/")) //./storage folder bhitra ko file ko access matra diyeko.
 
 
 app.listen(3000,()=>{

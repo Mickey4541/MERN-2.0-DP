@@ -329,9 +329,9 @@ We now have `package.json` which is basically a file that describes our project.
  - npm i multer.
  - make a middleware folder and make a multerConfig.js file.
  - copy the whole code of multerconfig from multerconfig.js and paste in multerconfig.js
- - then, in the create api , inside app.js, write upload.single("image) wala line like:
+ - then, in the create api , inside app.js, write upload.single("imageUrl) wala line like:
  ```javascript
- app.post('/book',upload.single("image"), async (req,res) => {
+ app.post('/book',upload.single("imageUrl"), async (req,res) => {
 
 - In upload.single, if we have to post a lot of images, we can do upload.array.
 
@@ -345,4 +345,28 @@ const {multer,storage} = require("./Middleware/multerConfig")
 const upload = multer({storage : storage})
 ```
 
--
+- Multer intercept the request of files coming from client between the client and server and stores it in own storage. and then it forward the file toward server.
+
+- Inside bookmodel.js, make a column like this:
+ imageUrl : {
+        type : String
+    }
+- And inside app.js: In create api write this::
+          imageUrl : req.file.filename
+
+# Important:::::::
+> //By default nodejs didn't give access to see the files of its codebase. tara hamile database maa rakheko image files haru frontend maa dekhauna parni xa ra koi user ley request garyo vani dekhauna parni xa. frontend developer ley pani ta frontend develop garda access magxa. so hamile nodejs lai yo sabai access dey hai vanna ko lagi yo code. simply:
+// app.use(express.static("./storage/")) serves static files (like images, CSS, or JavaScript) from the ./storage/ folder, making them accessible via URLs. This allows users to access files stored in that directory directly through the browser. code is::
+```javascript
+app.use(express.static("./storage/"))
+```
+
+- we can manually check in browser.
+- http://localhost:3000/storage/filename(not showing image)
+
+
+- http://localhost:3000/filename  (shows image only after adding above express.static code). yo line maa storage kina hatako vani tyo hamile code maa vanisakeko xam ki storage folder bhitra ko file ko access dey vanera.
+
+
+> yaha ::app.use(express.static("./storage/")) :::yo code maa ./storage/ vaneko storage folder bhitra ko file haru matra access dini vaneko. if mistake ley hamile ./ lekhera xodim vani tyo aauta loophole vayo jaha bata hacker ley access pauna sakyo. try garda vayo browser maa.
+
