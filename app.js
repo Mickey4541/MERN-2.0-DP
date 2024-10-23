@@ -31,6 +31,10 @@ app.use(express.urlencoded({extended : true}))
 
 
 
+
+
+
+
 app.get('/',(request,response) => {
     // response.send("Hello World"); //res.send garnu vanda res.json garnu better hunxa kinaki json is valid in all languages, which is benefecial.(more on notes.)
 
@@ -48,6 +52,12 @@ app.get('/',(request,response) => {
 
 
 
+
+
+
+
+
+
 //CREATE API::
 app.post('/book',upload.single("image"), async (req,res) => {
     console.log(req.file);
@@ -59,7 +69,8 @@ app.post('/book',upload.single("image"), async (req,res) => {
     let fileName;
     if(!req.file){
         fileName = "https://media.istockphoto.com/id/529239795/vector/no-image-signs-for-web-page.jpg?s=612x612&w=0&k=20&c=U3FvupU1VFGiIx5A2K8i79bm-L6bZyeSVUAt8THf_xs="
-    }else{
+    }
+        else{
         fileName = "http://localhost:3000/" + req.file.filename
     }
 
@@ -84,6 +95,12 @@ app.post('/book',upload.single("image"), async (req,res) => {
 
 
 
+
+
+
+
+
+
 //All READ API:::
 app.get("/book",async(req,res) => {
     const books = await Book.find() //return array maa garxa
@@ -92,6 +109,12 @@ app.get("/book",async(req,res) => {
         data : books
     })
 })
+
+
+
+
+
+
 
 
 
@@ -119,6 +142,12 @@ app.get("/book/:id",async (req,res) => { // here :id is dynamic but only id is s
 
 
 
+
+
+
+
+
+
 //Delete API::: 
 // app.get("/book", async (req,res) => {
 //     const id = req.params.id
@@ -129,13 +158,70 @@ app.get("/book/:id",async (req,res) => { // here :id is dynamic but only id is s
 // })
 // here the api of delete and all read api is same. and the get method can be done in browser. which is dangerous like it can have a loophole of csrf attack.
 //So, the developers intorduce delete method again.
-app.delete("/book/:id",upload.single("image"), async (req,res) => {
+app.delete("/book/:id", async (req,res) => {
     const id = req.params.id
     await Book.findByIdAndDelete(id) //teturn null because it is delted.
     res.status(200).json({
         "message" : "Book Deleted successfully"
     })
 })
+
+// >>>>>>>>>>>>>>>>>>>>>>>> code with image deletion also >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// app.delete("/book/:id", async (req, res) => {
+//     try {
+//         const id = req.params.id;
+
+//         // Find the book by its ID
+//         const book = await Book.findById(id);
+
+//         // Check if the book exists
+//         if (!book) {
+//             return res.status(404).json({
+//                 "message": "Book not found"
+//             });
+//         }
+
+//         // Retrieve the image URL from the book
+//         const oldImageUrl = book.imageUrl;
+
+//         // Check if the image is stored locally and delete the image file
+//         if (oldImageUrl.startsWith("http://localhost:3000/")) {
+//             const localHostUrlLength = "http://localhost:3000/".length;
+//             const imagePath = oldImageUrl.slice(localHostUrlLength); // Strip the localhost part
+//             fs.unlink(`storage/${imagePath}`, (err) => {
+//                 if (err) {
+//                     console.log("Error deleting file: ", err);
+//                 } else {
+//                     console.log("File deleted successfully.");
+//                 }
+//             });
+//         }
+
+//         // Delete the book from the database
+//         await Book.findByIdAndDelete(id);
+
+//         // Respond with success message
+//         res.status(200).json({
+//             "message": "Book and associated image deleted successfully"
+//         });
+
+//     } catch (error) {
+//         res.status(500).json({
+//             "message": "Something went wrong",
+//             "error": error.message
+//         });
+//     }
+// });
+
+// >>>>>>>>>>>>>>>>>>>>>>>> code with image deletion also >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
 
 
 
@@ -181,9 +267,6 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
         "message" : "Book Updated Successfully"
     })
 })
-
-
-
 
 
 
