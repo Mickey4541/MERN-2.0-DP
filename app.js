@@ -1,6 +1,9 @@
 //requiring express
 const express = require('express')
 const app = express()
+const fs = require('fs')
+
+
 
 //requiring mongoose
 const connectToDatabase = require('./database')
@@ -46,7 +49,7 @@ app.get('/',(request,response) => {
 
 
 //CREATE API::
-app.post('/book',upload.single("imageUrl"), async (req,res) => {
+app.post('/book',upload.single("image"), async (req,res) => {
     console.log(req.file);
     
     // console.log(req);
@@ -59,6 +62,7 @@ app.post('/book',upload.single("imageUrl"), async (req,res) => {
     }else{
         fileName = "http://localhost:3000/" + req.file.filename
     }
+
     //Destructuring:
     const {bookName, bookPrice, isbnNumber, authorName, publishedAt, publication} = req.body;
     await Book.create({
@@ -125,7 +129,7 @@ app.get("/book/:id",async (req,res) => { // here :id is dynamic but only id is s
 // })
 // here the api of delete and all read api is same. and the get method can be done in browser. which is dangerous like it can have a loophole of csrf attack.
 //So, the developers intorduce delete method again.
-app.delete("/book/:id", async (req,res) => {
+app.delete("/book/:id",upload.single("image"), async (req,res) => {
     const id = req.params.id
     await Book.findByIdAndDelete(id) //teturn null because it is delted.
     res.status(200).json({
@@ -138,9 +142,31 @@ app.delete("/book/:id", async (req,res) => {
 //Update API::PATCH AND PUT but PATCH is optimized
 //update garda kun id ko book update garni ho tesko id ni params bata pathauna paryo ra tyo id ko book maa k update garni ho tyo chai body maa pathauna paryo
 
-app.patch("/book/:id",async (req,res)=>{
+app.patch("/book/:id",upload.single("image"), async (req,res)=>{
     const id = req.params.id //kun book update garni ko id ho yo
     const{bookName, bookPrice, authorName, publication, publishedAt,isbnNumber} = req.body
+    //Aba image pani update garna milni banauna ko lagi upload.single("imageUrl") ta grana parihalyo. Tespaxi image update gardaa pahile upload vaisakeko image lai track garera delete ni garnu parxa. tesko lagi image ko id find garera oldDatas vanni variable maa rakheko ho:
+    const oldDatas = await Book.findById(id)
+    //hamisanga old image utl maa localhost ko link pani xa. teslai slice garera feri new oldimage path access garim. aba yo if(req.file) lekhisakepaxi nodejs ko filesystem fs require garni. filesystem require garisakepaxi aba hamile filesystem(storage folder in our case) bata kei kura delete garna paryo vani filesystem use garnu paryo.We have fs.unlink() to delete
+    let fileName;//yo line chai file delete vaisakepaxi ko ho database maa naya update vako image halna ko lagi.
+    if(req.file){
+    console.log(req.file);
+    console.log(oldDatas);
+    const oldImagePath = oldDatas.imageUrl
+    console.log(oldImagePath);
+    const localHostUrlLength = "http://localhost:3000/".length
+    const newOldImagePath = oldImagePath.slice(localHostUrlLength)
+    console.log(newOldImagePath);
+    fs.unlink(`storage/${newOldImagePath}`,(err) => {
+        if(err){
+            console.log(err);
+        }else{
+            console.log("File Deleted Successfully");
+        }
+    })
+    fileName = "http://localhost:3000/" + req.file.filename;//aba localhost url append garera naya updated image aako lai filename maa store garim.
+
+}
     await Book.findByIdAndUpdate(id, { //findbyId ley 3 ota parameter linxa,first kun id ko update garni ra, second chai k update garni. (second param chai object maa linxa), third is validator
         //key and value same vayo vani aauta matra lekhdaa hunxa.
         bookName : bookName, //bookName vanni key/column maa frontend bata aako bookName lagera haleday vaneko.
@@ -148,7 +174,8 @@ app.patch("/book/:id",async (req,res)=>{
         authorName: authorName,
         publishedAt :publishedAt,
         publication : publication,
-        isbnNumber : isbnNumber
+        isbnNumber : isbnNumber,
+        imageUrl : fileName //yo chai update vayera aako image mathi filename variable maa baseko xa, teslai imageUrl vanni column maa haldeko jasle database maa image update garxa naya aako image.
     })
     res.status(200).json({
         "message" : "Book Updated Successfully"
