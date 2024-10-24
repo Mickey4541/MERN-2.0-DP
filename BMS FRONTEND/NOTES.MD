@@ -9,9 +9,13 @@
  - There is a concept of virtual dom in react. First time maa developer ley code lekhera browser maa heryo vani directly dekhinxa. Aba second time code maa change garera feri browser maa herna khojyo vani first virtual dom banxa.
 # Working of React::::
 ```text
- - For example first maa <h1>Rajan</h1> lekhim tyo code browser maa herna lagim vani tyo directly browser maa dekhinxa. first time content browser maa directly dekhyo tei bela aauta VDOM banxa. tyo VDOM first empty hunxa. aba tyo empty VDOM maa <h1>Rajan</h1> lagera halxa. aba next time <h2>Bhandari</h2> code lekhim ra tyo update vako code herna khojim vani tyo code directly browser maa dekhidaina. tes bela feri new virtual dom create hunxa. lets say VDOM1 banyo. Aba tyo VDOM1 maa <h1>Rajan</h1>,<h2>Bhandari<h2> dui otai basxa. Aba VDOM ra VDOM1 vayo . Aba yaha VDOM1 ra VDOM maa subtraction hunxa. VDOM1-VDOM1 = ? yesari. Aba subtraction maa VDOM maa <h1> xa ra VDOM1 maa <h1> ra <h2> xa. subtraction hudaa dubai maa vako <h1> subtract hunxa ra <h2> bachxa. Tyo remaining <h2> balla gayera browser maa dekhinxa. 
+ - For example first maa <h1>Rajan</h1> lekhim tyo code browser maa herna lagim vani tyo directly browser maa dekhinxa. first time content browser maa directly dekhyo tei bela aauta VDOM banxa. tyo VDOM first empty hunxa. 
+ - aba tyo empty VDOM maa <h1>Rajan</h1> lagera halxa. aba next time <h2>Bhandari</h2> code lekhim ra tyo update vako code herna khojim vani tyo code directly browser maa dekhidaina. tes bela feri new virtual dom create hunxa.
+ -  lets say VDOM1 banyo. Aba tyo VDOM1 maa <h1>Rajan</h1>,<h2>Bhandari<h2> dui otai basxa. Aba VDOM ra VDOM1 vayo . Aba yaha VDOM1 ra VDOM maa subtraction hunxa. 
+ - VDOM1-VDOM1 = ? yesari. Aba subtraction maa VDOM maa <h1> xa ra VDOM1 maa <h1> ra <h2> xa. subtraction hudaa dubai maa vako <h1> subtract hunxa ra <h2> bachxa. Tyo remaining <h2> balla gayera browser maa dekhinxa. 
 
- - Same like that if a person create <h3>Age</h3> again, one new VDOM2 created. Inside VDOM2, there is <h1>, <h2>, <h3> . But inside VDOM1, there is <h1>,<h2>. So, VDOM3-VDOM2 = <h3>. Then this final h3 is shows up in a browser. Yo process ley gardaa pahile browser maa dekhi sakeko chij kei pani movement/refresh/reinject jastaa kuraharu vako xaina sirf j change gareko ho tyo matra change/reflect/inject/load vai rako xa.
+ - Same like that if a person create <h3>Age</h3> again, one new VDOM2 created. Inside VDOM2, there is <h1>, <h2>, <h3> . But inside VDOM1, there is <h1>,<h2>. So, VDOM3-VDOM2 = <h3>. 
+ - Then this final h3 is shows up in a browser. Yo process ley gardaa pahile browser maa dekhi sakeko chij kei pani movement/refresh/reinject jastaa kuraharu vako xaina sirf j change gareko ho tyo matra change/reflect/inject/load vai rako xa.
 
 > Diffing and Reconcilation::::
  - Aba important kura ::: jaha jaha yo subtraction vai rako xa virtual dom bich, tyo kura lai nai DIFFING vaninxa. Ani tyo subtraction bata j result aako xa teslai browser maa dekhauni/inject garni process lai reconcilation vaninxa.
@@ -74,7 +78,7 @@ React.createElement(
 
 > IMPORTANT::: we should write jsx inside the return and all other js codes inside the function and out of the return. Jsx return bhitra lekhni ani js ko code chai function bhitra ra return bahira hannu paryo.
 
-# IMPORTANT:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# IMPORTANT::::
 - We should name every file in a pascal case or the first letter of a word should be capital.
 - Like Button.jsx. First letter of a word capital letter maa hunai paryo.
 
@@ -97,16 +101,17 @@ const Button = (props) => {
 };
 export default Button;
 
-//OR BY DESTRUCTURING::: 
-// const Button = ({content}) => {
-//   return (
-//     <>
-//       <button>{content}</button>
-//     </>
-//   )
-// }
+//OR BY DESTRUCTURING:::::::::
 
-// export default Button
+ const Button = ({content}) => {
+   return (
+     <>
+       <button>{content}</button>
+     </>
+   )
+ }
+
+export default Button
 ```
 
 
@@ -128,7 +133,7 @@ export default App
 ```
 
 
-# passing multiple props:::::::::::::::::::::::::::::::;
+# passing multiple props::::::
 - This is Button.jsx::::
 ```javascript
 import PropTypes from "prop-types"
@@ -213,4 +218,118 @@ const App = () => {
 }
 
 export default App
+```
+
+
+# Routing New Method::
+> This is the new method of routing using browser router.
+
+- This is App.jsx::::
+ ```javascript
+import React from 'react'
+import {RouterProvider } from 'react-router-dom'
+import router from './routes'
+
+const App = () => {
+  return (
+    <>
+      <RouterProvider router={router}/>
+    </>
+  )
+}
+
+export default App
+ ```
+- This is routes.jsx:::
+```javascript
+import {createBrowserRouter} from 'react-router-dom'
+import Home from '../Home'
+import About from './About'
+
+const router = createBrowserRouter([
+    {
+        path : '/',
+        element : <Home/>
+    },
+    {
+        path : '/about',
+        element : <About/>
+    }
+])
+export default router
+```
+
+# HOOKS IN REACT:::::
+- Hooks is basically a function which are already made by the react developer.
+
+# USESTATE HOOK:::
+```javascript
+  // import React from 'react'
+// const App = () => {
+//   let count = 0;
+//   const increaseCount = () => {
+//     count++;
+//   }
+//   return (
+//     <>
+//       <h1>{count}</h1>
+//       <button onClick={increaseCount}>+</button>
+//     </>
+//   )
+// }
+// export default App
+// this above works but result is shown in console only. This code didn't render the result in the site because the variable used here didn't re-render the result and didn't inject the result in the site. Whenever any changes happen and the changes should be shown in the display is the process of re-rendering. SO, there is a problem and to remove the problem, react made a usestate variable. Now, the usestate variable can re-render and solve this problem.
+
+// import React, { useState } from 'react'
+// const App = () => {
+//   //  yo code ley just aauta count name ko bhada banaidiyo jasma initial value 0 xa. aba malai 0 ko thau maa kei kura update garera 1 banauna paryo vani setCount use garxam. Aba setCount(1) vanera tyo bhado lai dinxam ra tya value update vayera 1 hunxa.
+//   const [first, setfirst] = useState()
+//   console.log(useState());
+//   return (
+//     <>
+//       <h1>Hello</h1>
+//       <button>+</button>
+//     </>
+//   )
+//   }
+// export default App
+// //Now we can see this code in console, it returns one array and inside that it gives 2 items, first is undefined and second is a function. If we put 0 in usestate, it returns 0 and one function.
+
+// import React, { useState } from 'react'
+
+// const App = () => {
+//   var resultReturnedfromUsestate = useState(0)
+//   var firstIndexValue = resultReturnedfromUsestate[0] //accessing 0th index
+//   var secondIndexFunction = resultReturnedfromUsestate[1]//accessing 1st index
+//   return (
+//     <>
+//       <h1>{firstIndexValue}</h1>
+//       <button onClick={()=>secondIndexFunction(firstIndexValue + 1)}>+</button>  {/* Second index aauta function ho, tes bhitra firstIndexValue maa 1 add gareko. */}
+//     </>
+//   )
+// }
+
+// export default App
+
+//So, we can descructure it to make a code efficient::
+import React, { useState } from 'react'
+
+const App = () => {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <h1>{count}</h1>  {/* count ko value 0 xa. */}
+      <button onClick={()=>{
+          setCount(count + 1)
+        }}>+</button>  {/* setcount aauta function ho tes maa count + 1 gareko means 0+1 = 1 */}
+      <button onClick={()=>{
+          setCount(count - 1)
+        }}>-</button>  {/* setcount aauta function ho tes maa count + 1 gareko means 0+1 = 1 */}
+    </>
+  )
+}
+
+export default App
+
 ```
