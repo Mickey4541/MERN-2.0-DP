@@ -333,3 +333,107 @@ const App = () => {
 export default App
 
 ```
+
+# USEEFFECT HOOK::::
+- Mainly three type of use effect.
+> First Type of useeffect.:::::::::::
+```javascript
+  // first type of use effect:::
+
+import React, { useEffect } from 'react'
+
+const App = () => {
+  useEffect(() => {
+    console.log("Useeffect was Called"); // this specific code is called when the user first visit the site. Means:: yo app.jsx page jaba first time browser maa inject vayo teti bela nai call vayo.
+  }, []) //this empty array [] is called dependency array.
+  return (
+    <>
+    <h1>Learning USE EFFECT</h1>
+    </>
+  )
+}
+export default App
+
+//this type of use effect is mostly used. Aba yo type ko kaam vaneko jaba koi user first time site maa visit garxa, website ko domain hamera enter garxa ra first time website maa enter garxa, taba hamile useeffect use garera backend bata data fetch garera loop lagayera tyo data lai site maa first enter maa render garni/ show garna use hunxa.This is because you have passed an empty dependency array ([]). When the dependency array is empty, it signals React to execute the effect only on the initial render.
+```
+> Second Type of useeffect::::::::::
+```javascript
+
+  // second type of use effect:::
+//yo type of code chai if maile site maa kei kura click gare yaa kei kura trigger gare ani kunai state change vayo, tyo trigger garda yaa click gardaa aru kei kura call garnu paryo vani use hunxa.
+
+//Means dependency array empty vako bela first time matra call huni vayo,tara dependency array maa kei value xa ra user ley site maa click gardaa tyo dependency array bhitra ko value trigger/change vayo vani useeffect maa kk lekhako xa, kk kaam garni vaneko xa tyo sabai execute huni vayo.
+import React, { useEffect, useState } from 'react'
+
+const App = () => {
+
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+  document.title = "Learning UseEffect" + count
+  }, [count]) //[count] dependency array with value.
+
+
+  return (
+    <>
+    <h1>{count}</h1>
+    <button onClick={()=>setCount(count +1)}>+</button>
+    </>
+  )
+}
+export default App
+
+/*
+- With Dependency Array: When a user clicks the "like" button, the useEffect would respond to the change in the "like" count. For example, it might:
+Update the UI to show the new "like" count.
+Send an API request to the server to store the updated "like" count.
+Notify other parts of the app (e.g., update notifications, change the post's appearance).
+
+##### Process of Ecectuion::: ####
+- Initial Render::::
+When the App component is first rendered, the useState(0) initializes the count variable to 0.
+The useEffect hook runs after the initial render because the count state is set to 0 by default. The dependency array [count] causes the useEffect to run anytime count changes.
+During this first execution, document.title = "Learning UseEffect" + count is called, setting the document's title to "Learning UseEffect0" (since count is 0).
+
+- Clicking the Button::::::
+When the user clicks the + button, the setCount(count + 1) function is executed.
+This updates the count state by incrementing it by 1 (from 0 to 1), causing the component to re-render.
+
+
+- Re-render and useEffect Execution:::::
+After the re-render, the useEffect hook checks the [count] dependency array and notices that count has changed from 0 to 1.
+Since the value in the dependency array has changed, useEffect is triggered again, updating the document's title to "Learning UseEffect1".
+ */
+
+```
+> Third Type of useeffect:
+```javascript
+  // Third type of use effect:::
+
+import React, { useEffect, useState } from 'react'
+
+const App = () => {
+
+  const [count, setCount] = useState(0)
+  const [nextCount, setnextCount] = useState(0)
+
+  useEffect(() => {
+  console.log("Third type of use Effect called.");
+  
+  }) //[count] dependency array with value.
+
+
+  return (
+    <>
+    <h1>{count}</h1>
+    <button onClick={()=>setCount(count +1)}>+</button>
+    <h2>{nextCount}</h2>
+    <button onClick={()=>setnextCount(nextCount + 1)}>+</button>
+    </>
+  )
+}
+export default App
+
+// page maa jati bela click/render/trigger hunxa taba taba call hunxa. means jati bela site trigger hunxa in any way , this useeffect is called.
+//This code uses useEffect without a dependency array, so it runs after every render of the component. Each button increments its count, triggering a re-render and logging a message to the console.
+```
