@@ -32,3 +32,183 @@
  - While choosing we can see various options like javascript, typescript like this . There is another option like: javascript + SWC. The SWC is a Rust compiler.
 
  - React maa kei kura change garera teslai browser maa herna ko lagi baar baar refresh garnu pardaina. Automatically update hunxa, this type of feature is provided by HRM(Hot Module Replacement.)
+
+ > Understanding JSX::
+ - JSX is a advance varsion of javascript(javascript and XML).Browser doesn't understand JSX. So, there is a use of transpiler called BABEL.(babeljs.io). Goto babeljs.io and show the example:
+ ```javascript
+ //creating a tag through js like this::We write <p>in jsx but behind the scene babel do this to create p.
+    const div = document.createElement("div")
+        const para = document.createElement("p")
+        para.innerText = "Hello World"
+        div.appendChild(para);
+        document.body.appendChild(div);
+```
+-Babel does like this:::
+```javascript
+React.createElement(
+  "div", 
+  { className: "this is div" }, 
+  React.createElement("p", null, "Hello World") // type, props, children
+);
+```
+
+> Compilation and Transpilation:
+- Compilation: Like transforming a boy to a girl, it represents a fundamental change—high-level code is converted into a completely different form, such as machine code, making it executable by a computer. one environment to another like converting nepali language to english in a way that maintains its meaning and context is compilation.
+
+- Transpilation: Like water turning to ice, it is still the same substance but in a different form—code is transformed from one high-level language to another, preserving much of its original structure and function, just like water and ice are both H₂O.Transpilation, like converting JSX to JavaScript, is the process of transforming code into a version or language that can be understood by a target environment. Since browsers don't understand JSX, a transpiler like Babel converts it to plain JavaScript, which browsers can execute.
+
+> Argument and Parameter:
+- Argument: An argument is the actual value or variable passed to a function when it is called.
+
+- Parameter: A parameter is the variable defined in a function's declaration that receives the argument during the function call.
+
+> Webpack:
+- Webpack takes your HTML, CSS, and JavaScript files and bundles them into a single file (or multiple files). It then hands this bundled file to the browser, which injects it into the DOM to display the content on the web page. This process optimizes loading and manages dependencies efficiently. CRA is whole bundle by webpack but vite is server in demand/ serve on demand.
+
+> Component:
+- the function which returns jsx is called component. The reusable piece of code is also called component. We cannot call it a function.
+- <></>:: These are fragments.
+- We can write one child inside return but if we want to write many code inside return then, we should use fragments.
+
+> IMPORTANT::: we should write jsx inside the return and all other js codes inside the function and out of the return. Jsx return bhitra lekhni ani js ko code chai function bhitra ra return bahira hannu paryo.
+
+# IMPORTANT:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+- We should name every file in a pascal case or the first letter of a word should be capital.
+- Like Button.jsx. First letter of a word capital letter maa hunai paryo.
+
+
+# PROPS:::EXAMPLE:::
+- Same component xa tara different content xa vani tyo component maa props pass garni paryo.
+
+- For example:: Hamilai site maa 3 ota button banauna parni xa, First button component banayera teslai app.jsx maa inport garera tyaa button show garxam. Aba 3 otaa button maa content different xa like login, logout and register. Tei vayera props pass garnu paryo. Aba app.jsx maa content = "login" etc. banauni ani teslai uta button component maa props bata inport garni vanau na. Ani tyo button bhitra function maa aako props lai button maa gayera {props.content} vanera lekhni.
+
+- Let's say Button.jsx:
+``` javascript
+import React from "react";
+
+const Button = (props) => {
+  return (
+    <>
+      <button>{props.content}</button>
+    </>
+  );
+};
+export default Button;
+
+//OR BY DESTRUCTURING::: 
+// const Button = ({content}) => {
+//   return (
+//     <>
+//       <button>{content}</button>
+//     </>
+//   )
+// }
+
+// export default Button
+```
+
+
+
+- This is App.jsx:::
+``` javascript
+import React from 'react'
+import Button from './Button'
+const App = () => {
+  return (
+    <>
+    <Button content = "Login"/>
+    <Button content = "Register"/>
+    <Button content = "Logout"/>
+    </>
+  )
+}
+export default App
+```
+
+
+# passing multiple props:::::::::::::::::::::::::::::::;
+- This is Button.jsx::::
+```javascript
+import PropTypes from "prop-types"
+
+// if the prop is passed, it use that prop and if the prop is not passed it use that default. hamile tala ko defaultprop pani use garna sakim tara react ley future maa hamile yo default prop lai hatauna sakxam vanera warning dinxa.
+const Button = ({content = "default", arkoContent= "123"}) => {
+    return (
+      <>
+        <button>{content}</button>
+        <button>{arkoContent}</button>
+      </>
+    )
+  }
+//   Button.defaultProps = { //if app.jsx bata kei props aayena vani default props pani rakhna milyo like:
+//     content : "default",
+//     arkoContent : 123
+//   }
+  //this is from npm i prop-types(natra mildaina garna)
+  Button.propTypes = { //if mero PropTypes maa arkoContent vanni kunai prop aako xa vani tesko datatype chai string hunu parxa vaneko.yesle sidai error ta didaina tara console maa warning dinxa.
+    arkoContent : PropTypes.string.isRequired
+  }
+  export default Button
+
+```
+
+- This is App.jsx::::
+```javascript
+import React from 'react'
+import Button from './Button'
+const App = () => {
+  return (
+    <>
+    <Button content = "Login" arkoContent = "123Login"/>
+    <Button content = "Register" arkoContent = {123}/>
+    <Button content = "Logout" arkoContent = "logout123"/>
+    </>
+  )
+}
+
+export default App
+
+```
+
+# Props drilling:
+- Example: Jastai hamile before example maa app.jsx(parent) bata button(child) maa content pass gareko thiyau. tesai gari app bata button maa, feri button bata aarko file maa, feri tyo file bata aarko file maa like that. Simply:: 5th floor bata 1st floor maa data pathauda 5th bata 4th , 4th bata 3rd, 3rd bata 2nd, 2nd bata first maa pathako jasto vayo. Yeso garda props dherai nesting hunxa. Yo kura lai hatauna ko lagi hami state management use garxau.
+
+
+# Prop-types package:
+- npm i prop-types
+- prop-types is a package for runtime type checking in React components. It helps ensure that components receive the correct types of props.
+
+```jsx
+import PropTypes from 'prop-types';
+
+Button.propTypes = { contents: PropTypes.array.isRequired };
+//This enforces that the contents prop passed to the Button component must be an array. See in above example.
+
+```
+
+
+# Routing::::::
+- By default, it didn't give a routing, we need react-router-dom which is third party library.
+- npm i react-router-dom.
+```javascript
+// This is older version of Routing.
+//Inside app.jsx:
+import React from 'react'
+import {BrowserRouter, Routes, Route } from 'react-router-dom'
+
+const App = () => {
+  return (
+    <>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/about' element={<h1>Hello About Page</h1>}/>
+        <Route path='/contact' element={<h1>Hello contact Page</h1>}/>
+      </Routes>
+      </BrowserRouter>
+    </>
+  )
+}
+
+export default App
+```
