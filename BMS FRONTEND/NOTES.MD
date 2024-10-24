@@ -8,16 +8,18 @@
  - In react, there is a html looks like code but this is not html, it is jsx.
  - There is a concept of virtual dom in react. First time maa developer ley code lekhera browser maa heryo vani directly dekhinxa. Aba second time code maa change garera feri browser maa herna khojyo vani first virtual dom banxa.
 # Working of React::::
- <!-- - For example first maa <h1>Rajan</h1> lekhim tyo code browser maa herna lagim vani tyo directly browser maa dekhinxa. first time content browser maa directly dekhyo tei bela aauta VDOM banxa. tyo VDOM first empty hunxa. aba tyo empty VDOM maa <h1>Rajan</h1> lagera halxa. aba next time <h2>Bhandari</h2> code lekhim ra tyo update vako code herna khojim vani tyo code directly browser maa dekhidaina. tes bela feri new virtual dom create hunxa. lets say VDOM1 banyo. Aba tyo VDOM1 maa <h1>Rajan</h1>,<h2>Bhandari<h2> dui otai basxa. Aba VDOM ra VDOM1 vayo . Aba yaha VDOM1 ra VDOM maa subtraction hunxa. VDOM1-VDOM1 = ? yesari. Aba subtraction maa VDOM maa <h1> xa ra VDOM1 maa <h1> ra <h2> xa. subtraction hudaa dubai maa vako <h1> subtract hunxa ra <h2> bachxa. Tyo remaining <h2> balla gayera browser maa dekhinxa.  -->
+```text
+ - For example first maa <h1>Rajan</h1> lekhim tyo code browser maa herna lagim vani tyo directly browser maa dekhinxa. first time content browser maa directly dekhyo tei bela aauta VDOM banxa. tyo VDOM first empty hunxa. aba tyo empty VDOM maa <h1>Rajan</h1> lagera halxa. aba next time <h2>Bhandari</h2> code lekhim ra tyo update vako code herna khojim vani tyo code directly browser maa dekhidaina. tes bela feri new virtual dom create hunxa. lets say VDOM1 banyo. Aba tyo VDOM1 maa <h1>Rajan</h1>,<h2>Bhandari<h2> dui otai basxa. Aba VDOM ra VDOM1 vayo . Aba yaha VDOM1 ra VDOM maa subtraction hunxa. VDOM1-VDOM1 = ? yesari. Aba subtraction maa VDOM maa <h1> xa ra VDOM1 maa <h1> ra <h2> xa. subtraction hudaa dubai maa vako <h1> subtract hunxa ra <h2> bachxa. Tyo remaining <h2> balla gayera browser maa dekhinxa. 
 
- <!-- - Same like that if a person create <h3>Age</h3> again, one new VDOM2 created. Inside VDOM2, there is <h1>, <h2>, <h3> . But inside VDOM1, there is <h1>,<h2>. So, VDOM3-VDOM2 = <h3>. Then this final h3 is shows up in a browser. Yo process ley gardaa pahile browser maa dekhi sakeko chij kei pani movement/refresh/reinject jastaa kuraharu vako xaina sirf j change gareko ho tyo matra change/reflect/inject/load vai rako xa. -->
+ - Same like that if a person create <h3>Age</h3> again, one new VDOM2 created. Inside VDOM2, there is <h1>, <h2>, <h3> . But inside VDOM1, there is <h1>,<h2>. So, VDOM3-VDOM2 = <h3>. Then this final h3 is shows up in a browser. Yo process ley gardaa pahile browser maa dekhi sakeko chij kei pani movement/refresh/reinject jastaa kuraharu vako xaina sirf j change gareko ho tyo matra change/reflect/inject/load vai rako xa.
 
 > Diffing and Reconcilation::::
  - Aba important kura ::: jaha jaha yo subtraction vai rako xa virtual dom bich, tyo kura lai nai DIFFING vaninxa. Ani tyo subtraction bata j result aako xa teslai browser maa dekhauni/inject garni process lai reconcilation vaninxa.
 
- <!-- > Aba question k vandaa jaba <h1> ko kaam vai sakyo ra tyo browser maa pani show vai sakyo, tespaxi <h2> ra <h3> ko palo aayo haina !! jaba VDOM ko kaam sakiyo ra VDOM1 ra VDOM2 ko kaam aayo, tyo agadi ko VDOM chai k hunxa??? -->
- - Tyo VDOM chai garbage collector bata clean hunxa, yo kaam chai browser ley garxa. just like GIGO of Java. Simply, Garbaage collector ley dustbin maa haldinxa.
+ > Aba question k vandaa jaba <h1> ko kaam vai sakyo ra tyo browser maa pani show vai sakyo, tespaxi <h2> ra <h3> ko palo aayo haina !! jaba VDOM ko kaam sakiyo ra VDOM1 ra VDOM2 ko kaam aayo, tyo agadi ko VDOM chai k hunxa???
 
+ - Tyo VDOM chai garbage collector bata clean hunxa, yo kaam chai browser ley garxa. just like GIGO of Java. Simply, Garbaage collector ley dustbin maa haldinxa.
+```
  # Serverside and Clientside rendering:::
  - Nodejs and ejs makes serverside rendering both are rendered through server.It helps in SEO. Severside rendering technology is very much fast in initial request but got slow in subsequent request. CSR is better in subsequent request.
 
