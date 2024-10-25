@@ -470,3 +470,67 @@ export default App
 > Connecting frontend and backend through express and hitting api through axios:::
 - npm i axios. 
 
+> Homepage code of api and calling backend:::
+```javascript
+  import React, { useEffect, useState } from 'react'
+import Navbar from '../components/Navbar'
+import Card from '../components/Card'
+import axios from 'axios'
+
+
+const Home = () => {
+
+
+  //Aba hamilai homepage maa database maa vako book show garna parni xa. So, aba homepage bata backend ko /book api hit hannu paryo.
+  const [books, setBooks] = useState([])//backend bata data array maa aauxa so initial maa empty array garnu paryo.
+
+const fetchBooks = async () => {//this function hits the api and store the fetched data.
+  const response = await axios.get('http://localhost:3000/book')
+  console.log(response);
+  
+
+}
+  //aba yo useeffect chai jaba koi user site maa first time aauxa, taba initial trigger hunxa, hamilai chhiyako pani yei ho, koi ley site kholyo vani site kholdaa bitikai useeffect call huni vayo ra vako jati book fetch huni vayo.
+  useEffect(()=>{ 
+    fetchBooks()
+  },[])
+
+
+  return (
+    <>
+        <Navbar/>
+        <div className='flex flex-wrap justify-evenly gap-1 mt-20'>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        </div>
+       
+    </>
+  )
+}
+
+export default Home
+
+```
+
+# SOP (Same Origin Policy) and CORS (cross origin resource sharing)::
+> Before going to SOP and CORS::
+- In past, there is no such good security. There is no good prevention of even a simple attack. In past one tab of browser can access the token of another tab. Any transaction made by customer can be intercepted by hacker in between and he can modify that api request by putting own account number, Then, the hacker send the link to to customer and if the customer opens the link in one tab, and while he was making a first transaction, he is doing this already in one tab. so, the initial tab and the tab opened by clicking a hacker's link can access and data from each other. so, the backend validate the request made after clicking a hacker's link if the request is valid or not. Due to the issue of tabs can access the information with each other, the transaction got success and the account money is transferred to the hacker's account directly.
+
+- So, to handle the issue, sandbox cames where now tabs cannot access the data of one another. In one tab, if we do console.log(document.cookie), it now only give the cookie of recent tab.
+
+- So, the hacker made his/her own site and the same process goes. When user click hacker's link, the user redirected to the hacker's browser. Inside the site, there is a trap like "Click here to win Iphone" type of ad. When user click on that ad, it hit's the bank's api. This way, now hacker's site is requesting the access to the bank's server. CSRF (Cross-Site Request Forgery) is an attack that tricks the user into unknowingly submitting requests to a web application in which they're authenticated,(in our case, requesting to the bank application which is opened in another tab.) potentially compromising their data. In this way they got hacked.
+
+- SOP(Same origin policy) cames, it tells that the protocol, port and hostname should be same to hit a api like the user's bank ko protocol, port and hostname should match with hacker's site. In our case, they are not same and the hacker's site cannot hit the api of bank server. HTTPS port number is ::443 and http is :::80.
+
+- Site of hacker's protocol is same(https), port number is same(443) and the hostname like domain name is different.
+
+- like in our project, our frontend project: http://localhost:5173 and backend project http://localhost:3000 are different in port number. So, when we request for the data to our backend, the difference of port doesn't allow us to request.
+
+- Then, CORS(Cross origin resource) comes. The difference wala problem was solved by CORS. But we have to tell our server that which url/port/hostname can access the server. If url/port/hostname problem still today, we cannot use the features like the fontfamily, CDN etc.
