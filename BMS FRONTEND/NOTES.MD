@@ -437,3 +437,36 @@ export default App
 // page maa jati bela click/render/trigger hunxa taba taba call hunxa. means jati bela site trigger hunxa in any way , this useeffect is called.
 //This code uses useEffect without a dependency array, so it runs after every render of the component. Each button increments its count, triggering a re-render and logging a message to the console.
 ```
+
+# Tailwind CSS Intro:
+- tailwind is a utility class.(Play.tailwind.com). Tailwind CSS is a utility-first CSS framework that allows developers to style their websites or applications by using predefined CSS classes directly in their HTML.
+- 1rem = 16px by default(if we make a font-size 20px in our whole document, the 1rem = 20px)
+- 0.25rem = 4px
+- (See in asset folder image..)
+- installation guide in tailwind website.
+- We can directly take a components like navbar from the website like flowbite and can change according to our need. 
+- But important point to note that the class should be changed to class name and the img tag and input tag is self closing.
+- PostCss => tailwind is not understand by browser, so, to convert css in browser understandable, we need postcss.
+- Autoprefixer => browser specific css hunxa, like webkit, mozilla, we have to focus on that, so, to do so, we need autoprefixer.
+
+# GraphQL:::
+- First there is a SOAP API(Simple object Access Protocol). 
+- then there is REST API. (different api path)
+- then there is RESTFUL API. (having same api path)
+- then there is GRAPHQL.
+- GraphQL is a query language for APIs and a runtime for executing those queries. Developed by Facebook in 2012, it provides a more efficient, powerful, and flexible alternative to REST APIs by allowing clients to request exactly the data they need. 
+
+- This minimizes over-fetching or under-fetching data, common issues with traditional REST approaches.IT has only one endpoint.But it has different query system. Like endpoint /graphql huni vayo ra tei single endpoint maa.
+>grophql has 3 things:::
+- Queries: Use the query keyword (optional) to fetch data with a specified structure.
+- Subscriptions: Use the subscription keyword to listen for real-time updates with the specified data fields.
+- Mutation : kei kura update garnu parni xa mutate garnu parni xa.
+
+
+# Project Start:::::
+- Inside src, make a folder structure of CRUD.
+-Make frontend.
+ 
+> Connecting frontend and backend through express and hitting api through axios:::
+- npm i axios. 
+
