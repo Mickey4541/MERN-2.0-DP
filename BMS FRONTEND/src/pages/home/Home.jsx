@@ -35,6 +35,7 @@ const fetchBooks = async () => {//this function hits the api and store the fetch
               <Card key={index} book = {book}/> //yahabata maile book maa vako data as a props pass gare, aba yeslai card.jsx maa access garna sakxu
             )
           })
+          
         }
        
         </div>

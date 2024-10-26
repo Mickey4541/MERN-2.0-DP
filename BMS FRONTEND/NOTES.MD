@@ -534,3 +534,73 @@ export default Home
 - like in our project, our frontend project: http://localhost:5173 and backend project http://localhost:3000 are different in port number. So, when we request for the data to our backend, the difference of port doesn't allow us to request.
 
 - Then, CORS(Cross origin resource) comes. The difference wala problem was solved by CORS. But we have to tell our server that which url/port/hostname can access the server. If url/port/hostname problem still today, we cannot use the features like the fontfamily, CDN etc.
+
+# Making a single book page"
+-when user click book card on homepage it should open single read. we have api for that and we can use useparams hook. jastai hamile card.jsx maa link tag maa {`/book/${book._id}`} yo lekhako xam yesle specific book id url maa dekhauxa means jun book click garyo tei book ko id dekhauxa, aba tyo id lai code maa liyera hamile sigle read api hit garnu parni hunxa. tesko lagi hami huni react maa useparams hook xa. nodejs maa req.params.id greko jastai react maa useparams use garnu paryo.
+like::: this is code of singlebook.jsx
+```javascript
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+const SingleBook = () => {
+  const{id} = useParams() //book ko id id.id maa aako xa yaha destructure gareko
+  //console.log(id);
+  const [book, setBook] = useState({})//useState initializes book as an empty object {}, which will later hold the book's details like bookName, bookDescription, etc. setBook is the function used to update book after data is fetched.
+
+  const fetchBook = async () => {
+    // const response = await axios.get('http://localhost:3000/' + id)
+    const response = await axios.get(`http://localhost:3000/book/${id}`)
+    //console.log(response);
+    if(response.status === 200){
+      setBook(response.data.data)
+    }
+  }
+  useEffect(()=>{ //this useeffect is triggered when user first visit the singlebook page.
+    fetchBook()
+  },[])
+  //console.log(book);
+  
+
+  return (
+    <>
+      <Navbar />
+      {/* Wrapper for full height on small screens */}
+      <div className="border border-white p-4 w-full max-w-screen-md mx-auto rounded overflow-hidden shadow-lg mt-20 h-full sm:h-auto">
+        
+        {/* Book Image */}
+        <img 
+          className="w-full h-64 sm:h-80 md:h-96 object-cover rounded mb-4" 
+          src="../1.jpg" 
+          alt="Book cover" 
+        />
+        
+        {/* Book Information */}
+        <div className="px-4 py-2 flex flex-col items-center text-center space-y-3">
+          <h1 className="font-bold text-lg md:text-2xl text-white">{book.bookName}</h1>
+          <p className="text-sm md:text-base text-white leading-relaxed">
+            {book.bookDescription}
+          </p>
+        </div>
+        
+        {/* Book Details */}
+        <div className="px-4 py-4 flex flex-wrap justify-center gap-3">
+          <span className="bg-gray-200 rounded-full py-1 px-4 text-sm font-semibold text-gray-700">
+            RS.{book.bookPrice}
+          </span>
+          <span className="bg-gray-200 rounded-full py-1 px-4 text-sm font-semibold text-gray-700">
+            ISBN:{book.isbnNumber}
+          </span>
+          <span className="bg-gray-200 rounded-full py-1 px-4 text-sm font-semibold text-gray-700">
+            Author:{book.authorName}
+          </span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default SingleBook;
+
+```
