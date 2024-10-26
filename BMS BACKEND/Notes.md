@@ -370,3 +370,7 @@ app.use(express.static("./storage/"))
 
 > yaha ::app.use(express.static("./storage/")) :::yo code maa ./storage/ vaneko storage folder bhitra ko file haru matra access dini vaneko. if mistake ley hamile ./ lekhera xodim vani tyo aauta loophole vayo jaha bata hacker ley access pauna sakyo. try garda vayo browser maa.
 
+# installing CORS:::
+- npm i cors
+- 
+

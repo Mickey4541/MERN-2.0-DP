@@ -19,7 +19,11 @@ connectToDatabase()
 const {multer,storage} = require("./Middleware/multerConfig")
 const upload = multer({storage : storage})
 
-
+// CORS PACKAGE REQUIRING::
+const cors = require('cors')
+app.use(cors({
+    origin : 'http://localhost:5173' //* means all can accept all the incoming request.
+}))
 
 
 //this line is important that express itself cannot handle json so we have to tell express to understand it.
@@ -75,7 +79,7 @@ app.post('/book',upload.single("image"), async (req,res) => {
     }
 
     //Destructuring:
-    const {bookName, bookPrice, isbnNumber, authorName, publishedAt, publication} = req.body;
+    const {bookName, bookPrice, isbnNumber, authorName, publishedAt, publication, bookDescription} = req.body;
     await Book.create({
         //in js, if key and value name is same, we can write only one.
         bookName : bookName,
@@ -84,7 +88,8 @@ app.post('/book',upload.single("image"), async (req,res) => {
         authorName : authorName,
         publishedAt : publishedAt,
         publication : publication,
-        imageUrl : fileName
+        imageUrl : fileName,
+        bookDescription : bookDescription
     })
     res.status(201).json({
         "message" : "book created successfully"
@@ -106,7 +111,7 @@ app.get("/book",async(req,res) => {
     const books = await Book.find() //return array maa garxa
     res.status(200).json({
         "message" : "books fetched successfully",
-        data : books
+        data : books //frontend bata access gardaa response.data.data garnu paryo.
     })
 })
 
@@ -261,7 +266,8 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
         publishedAt :publishedAt,
         publication : publication,
         isbnNumber : isbnNumber,
-        imageUrl : fileName //yo chai update vayera aako image mathi filename variable maa baseko xa, teslai imageUrl vanni column maa haldeko jasle database maa image update garxa naya aako image.
+        imageUrl : fileName, //yo chai update vayera aako image mathi filename variable maa baseko xa, teslai imageUrl vanni column maa haldeko jasle database maa image update garxa naya aako image.
+        bookDescription : bookDescription
     })
     res.status(200).json({
         "message" : "Book Updated Successfully"

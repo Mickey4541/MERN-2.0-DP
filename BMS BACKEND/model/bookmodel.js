@@ -24,6 +24,9 @@ const bookSchema = new mongoose.Schema({
     },
     imageUrl : {
         type : String
+    },
+    bookDescription : {
+        type :  String
     }
 })
 
