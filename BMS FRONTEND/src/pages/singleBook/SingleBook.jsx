@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const SingleBook = () => {
@@ -20,6 +20,22 @@ const SingleBook = () => {
   },[])
   console.log(book);
 
+
+
+  //delete blog on clicking delete button.
+  const navigate = useNavigate()
+const handleDelete = async () => {
+  console.log(id);
+  const response = await axios.delete(`http://localhost:3000/book/${id}`)
+  if(response.status === 200){
+    navigate('/');
+  }else{
+    alert("Failed to delete the book.")
+  }
+  
+}
+
+
   return (
     <>
       <Navbar />
@@ -28,7 +44,7 @@ const SingleBook = () => {
         
         {/* Book Image */}
         <img 
-          className="w-full h-64 sm:h-80 md:h-96 object-cover rounded mb-4" 
+          className="w-full h-64 sm:h-80 md:h-96 object-contain rounded mb-4" 
           src={book.imageUrl ? book.imageUrl : "#"} 
           alt="Book cover" 
         />
@@ -53,6 +69,7 @@ const SingleBook = () => {
             Author:{book.authorName}
           </span>
         </div>
+        <button onClick={handleDelete} className='bg-red-500 p-2 rounded-2xl'>Delete</button>
       </div>
     </>
   );
