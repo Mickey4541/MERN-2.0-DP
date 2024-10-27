@@ -11,7 +11,7 @@ const Home = () => {
   const [books, setBooks] = useState([])//backend bata data array maa aauxa so initial maa empty array garnu paryo.
 
 const fetchBooks = async () => {//this function hits the api and store the fetched data.
-  const response = await axios.get('http://localhost:3000/book')
+  const response = await axios.get('https://bms-backend-lp6t.onrender.com/book')
   //console.log(response.data.data);
   if(response.status == 200){
     setBooks(response.data.data)

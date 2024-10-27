@@ -48,7 +48,7 @@ const EditBook = () => {
       formData.append(key,value) //form data maa aako array lai append agreko. like bookName maa user ley helako book ko name append/inject gareko palipilo.
     })
     formData.append('image', image)
-    const response = await axios.patch('http://localhost:3000/book/' + id, formData)
+    const response = await axios.patch('https://bms-backend-lp6t.onrender.com/book/' + id, formData)
     if(response.status === 200){
       navigate('/book/' +id) //using usenavigate hook
     }else[
@@ -58,7 +58,7 @@ const EditBook = () => {
 
 //form edit garni bela form pahile nai fill vayera aauni banauna ko lagi hami sanga id ta pahile nai xa, aba id xa vani tyo id ko book fetch garna milyo
 const fetchBook = async() => {
-  const response = await axios.get("http://localhost:3000/book/" + id)
+  const response = await axios.get("https://bms-backend-lp6t.onrender.com/book/" + id)
   if(response.status === 200){
     setData(response.data.data)  //yahasamma data aayo aba yo data lai kunai state maa set garni ani 
     setupdateImage(response.data.imageUrl)// Set the initial image URL for preview
