@@ -94,7 +94,7 @@ const handleSubmit = async (e) => {
     formData.append(key,value) //form data maa aako array lai append agreko. like bookName maa user ley helako book ko name append/inject gareko palipilo.
   })
   formData.append('image', image)
-  const response = await axios.post('https://bms-backend-lp6t.onrender.com/book', formData)
+  const response = await axios.post('https://bms-backend-lp6t.onrender.com/book/', formData)
   if(response.status === 201){
     navigate('/') //using usenavigate hook
   }else[
