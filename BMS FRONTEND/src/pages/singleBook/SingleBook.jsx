@@ -9,7 +9,7 @@ const SingleBook = () => {
   const [book, setBook] = useState({})
   const fetchBook = async () => {
     // const response = await axios.get('http://localhost:3000/' + id)
-    const response = await axios.get(`http://localhost:3000/book/${id}`)
+    const response = await axios.get(`https://bms-backend-lp6t.onrender.com/book/${id}`)
     //console.log(response);
     if(response.status === 200){
       setBook(response.data.data)

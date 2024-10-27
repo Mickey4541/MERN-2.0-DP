@@ -22,7 +22,7 @@ const upload = multer({storage : storage})
 // CORS PACKAGE REQUIRING::
 const cors = require('cors')
 app.use(cors({
-    origin : 'https://bms-backend-lp6t.onrender.com' //* means all can accept all the incoming request.
+    origin : '*' //* means all can accept all the incoming request.
 }))
 
 
