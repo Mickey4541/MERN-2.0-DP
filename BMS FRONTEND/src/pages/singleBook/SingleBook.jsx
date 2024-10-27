@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const SingleBook = () => {
@@ -18,7 +18,7 @@ const SingleBook = () => {
   useEffect(()=>{
     fetchBook()
   },[])
-  console.log(book);
+  //console.log(book);
 
 
 
@@ -26,7 +26,7 @@ const SingleBook = () => {
   const navigate = useNavigate()
 const handleDelete = async () => {
   console.log(id);
-  const response = await axios.delete(`http://localhost:3000/book/${id}`)
+  const response = await axios.delete(`http://localhost:3000/book/${id}`) //specific book ko id chai url maa aako xa, tya bata useparams use garera id maa store vako thiyo, tei id lai access garera delete gareko.
   if(response.status === 200){
     navigate('/');
   }else{
@@ -34,6 +34,8 @@ const handleDelete = async () => {
   }
   
 }
+
+//edit book//////////////
 
 
   return (
@@ -69,7 +71,10 @@ const handleDelete = async () => {
             Author:{book.authorName}
           </span>
         </div>
-        <button onClick={handleDelete} className='bg-red-500 p-2 rounded-2xl'>Delete</button>
+        <button onClick={handleDelete} className='bg-red-500 p-2 rounded-2xl'>Delete Book</button>
+        <Link to={`/editBook/${book._id}`}>
+        <button className='bg-blue-600 p-2 rounded-2xl ml-2 pl-2 pr-2'>Edit book</button>
+        </Link>
       </div>
     </>
   );
