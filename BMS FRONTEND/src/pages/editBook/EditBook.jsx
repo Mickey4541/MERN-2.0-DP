@@ -20,6 +20,10 @@ const EditBook = () => {
   
   const [image, setImage] = useState(null) //making different usestate to handle image because object of data,setdata usestate cannot handle the image, it can only handle the url
   
+  //for updating image::
+  const [updateImage, setupdateImage] = useState(null) //for image preview
+  const [currentImageUrl, setCurrentImageUrl] = useState(''); // To store the old image URL
+
   
   
   const handleChange = (e) => {
@@ -57,11 +61,18 @@ const fetchBook = async() => {
   const response = await axios.get("http://localhost:3000/book/" + id)
   if(response.status === 200){
     setData(response.data.data)  //yahasamma data aayo aba yo data lai kunai state maa set garni ani 
+    setupdateImage(response.data.imageUrl)// Set the initial image URL for preview
+    setCurrentImageUrl(response.data.imageUrl)// Store the old image URL
   }
 }
 useEffect(() => {
   fetchBook()
 }, [])
+
+const handleImageChange = (e) => {
+  setImage(e.target.files[0]);
+  setupdateImage(URL.createObjectURL(e.target.files[0])); // Preview the new image
+};
 
 
 
@@ -107,7 +118,18 @@ useEffect(() => {
               </div>
               <div>
                 <label htmlFor="bookImage" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">image</label>
-                <input type="file"onChange={(e)=>setImage(e.target.files[0])} name="image"   id="bookImage" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                <input 
+                  type="file"
+                  // onChange={(e) => {
+                  //   setImage(e.target.files[0]), 
+                  //   setupdateImage(URL.createObjectURL(e.target.files[0]));
+                  // }} 
+                  onChange={handleImageChange} 
+                  name="image"   
+                  id="bookImage" 
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                {updateImage && (<img src={updateImage} alt="Preview" className="mt-4 w-32 h-32 object-cover rounded" />)}
               </div>
               <button type='submit' className='p-2 m-2 bg-green-700 rounded items-center hover:bg-blue-600'>Edit Book</button>
             </form>

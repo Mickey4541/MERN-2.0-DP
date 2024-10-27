@@ -241,13 +241,13 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
     //hamisanga old image utl maa localhost ko link pani xa. teslai slice garera feri new oldimage path access garim. aba yo if(req.file) lekhisakepaxi nodejs ko filesystem fs require garni. filesystem require garisakepaxi aba hamile filesystem(storage folder in our case) bata kei kura delete garna paryo vani filesystem use garnu paryo.We have fs.unlink() to delete
     let fileName;//yo line chai file delete vaisakepaxi ko ho database maa naya update vako image halna ko lagi.
     if(req.file){
-    console.log(req.file);
-    console.log(oldDatas);
+    //console.log(req.file);
+    //console.log(oldDatas);
     const oldImagePath = oldDatas.imageUrl
-    console.log(oldImagePath);
+    //console.log(oldImagePath);
     const localHostUrlLength = "http://localhost:3000/".length
     const newOldImagePath = oldImagePath.slice(localHostUrlLength)
-    console.log(newOldImagePath);
+    //console.log(newOldImagePath);
     fs.unlink(`storage/${newOldImagePath}`,(err) => {
         if(err){
             console.log(err);
@@ -257,6 +257,8 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
     })
     fileName = "http://localhost:3000/" + req.file.filename;//aba localhost url append garera naya updated image aako lai filename maa store garim.
 
+}else{
+    fileName = oldDatas.imageUrl;
 }
     await Book.findByIdAndUpdate(id, { //findbyId ley 3 ota parameter linxa,first kun id ko update garni ra, second chai k update garni. (second param chai object maa linxa), third is validator
         //key and value same vayo vani aauta matra lekhdaa hunxa.

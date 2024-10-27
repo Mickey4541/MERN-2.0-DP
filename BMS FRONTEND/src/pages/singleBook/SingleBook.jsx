@@ -18,7 +18,7 @@ const SingleBook = () => {
   useEffect(()=>{
     fetchBook()
   },[])
-  //console.log(book);
+  //console.log(book.imageUrl);
 
 
 
@@ -35,7 +35,7 @@ const handleDelete = async () => {
   
 }
 
-//edit book//////////////
+
 
 
   return (
