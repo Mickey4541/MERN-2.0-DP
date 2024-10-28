@@ -75,7 +75,7 @@ app.post('/book',upload.single("image"), async (req,res) => {
         fileName = "https://media.istockphoto.com/id/529239795/vector/no-image-signs-for-web-page.jpg?s=612x612&w=0&k=20&c=U3FvupU1VFGiIx5A2K8i79bm-L6bZyeSVUAt8THf_xs="
     }
         else{
-        fileName = "http://localhost:3000/" + req.file.filename
+        fileName = "https://bms-backend-lp6t.onrender.com/" + req.file.filename
     }
 
     //Destructuring:
@@ -190,8 +190,8 @@ app.delete("/book/:id", async (req, res) => {
         const oldImageUrl = book.imageUrl;
 
         // Check if the image is stored locally and delete the image file
-        if (oldImageUrl.startsWith("http://localhost:3000/")) {
-            const localHostUrlLength = "http://localhost:3000/".length;
+        if (oldImageUrl.startsWith("https://bms-backend-lp6t.onrender.com/")) {
+            const localHostUrlLength = "https://bms-backend-lp6t.onrender.com/".length;
             const imagePath = oldImageUrl.slice(localHostUrlLength); // Strip the localhost part
             fs.unlink(`storage/${imagePath}`, (err) => {
                 if (err) {
@@ -245,7 +245,7 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
     //console.log(oldDatas);
     const oldImagePath = oldDatas.imageUrl
     //console.log(oldImagePath);
-    const localHostUrlLength = "http://localhost:3000/".length
+    const localHostUrlLength = "https://bms-backend-lp6t.onrender.com/".length
     const newOldImagePath = oldImagePath.slice(localHostUrlLength)
     //console.log(newOldImagePath);
     fs.unlink(`storage/${newOldImagePath}`,(err) => {
@@ -255,7 +255,7 @@ app.patch("/book/:id",upload.single("image"), async (req,res)=>{
             console.log("File Deleted Successfully");
         }
     })
-    fileName = "http://localhost:3000/" + req.file.filename;//aba localhost url append garera naya updated image aako lai filename maa store garim.
+    fileName = "https://bms-backend-lp6t.onrender.com/" + req.file.filename;//aba localhost url append garera naya updated image aako lai filename maa store garim.
 
 }else{
     fileName = oldDatas.imageUrl;
