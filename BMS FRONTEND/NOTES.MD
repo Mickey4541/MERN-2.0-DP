@@ -621,3 +621,4 @@ export default SingleBook;
 ```
 
 # Hosting and production::
+- https://bms-frontend-livid.vercel.app/
