@@ -233,8 +233,91 @@ dotenv.config()
 - Routes => Routes to switch between pages.
 
 
+# Encryption Decryption and hashing::
+- Encryption turns readable data into an unreadable format to protect it, which can be reversed with a key.
+
+- Decryption converts encrypted data back into readable form using the correct key.
+
+- Hashing creates a fixed-length output from data for verification, commonly used for secure password storage. It’s one-way, so the original data can't be recovered from the hash.
+
+- For hashing in nodejs, we can use bcryptjs
+- npm install bcrypt || npm i @types/bcrypt --save-dev
+- Then, we can use it by:: password : bcrypt.hashSync(password, 8)
+
+# Login implementation:::::
+> Process:::
+- email and password body maa req.body maa aauxa.
+- Aayena vani please provide email and password vandinu paryo.
+- aayo vani::
+- does any user exist with above email?
+if no: error=> user doesn't exist.
+if yes: check password:
+if no password: error : password didn't match.
+if yes: generate token and send token in response(using jwtwebtoken)
 
 
+# Mongoose v/s Sequelize::::
+> Mongoose::
+- .create()
+- .find() => return array
+- .findById() => return object
+- findByIdAndDelete()
+- findByIdAndupdate()
+>Sequelize::
+- .create()
+- .findAll() => return array
+- .findByPk()/findOne() => return object
+- destroy({
+    where:{
+        id : id
+    }
+})
+- update()
+
+# token::
+- token is simply an identifier. jastai facebook maa maile mero photo hale vani tyo photo merai profile maa kasari janxa. This is done by token. Token maa usually token id store vako hunxa. token server ley frontend lai dinxa ra localstorage or cookie vanni bhaado maa lagera rakhdinxa. 
+> Example Scenerio:
+- when a user click on login button on facebook, it hits the backend through api. like /profile. When user hit server from /profile, he also sends a token with that api like:( /profile + token ) like this through GET method. When server gets request of /profile and also gets token, server starts to search the profile of that specific user through the help of token, When server find the profile data of that token, then it sends response to the frontend. here, token plays as an identifier. Token can be hijacked like we can copy cookie of netflix and can watch movies.
+- jwt is start from ey and it has 3 part. first part is header, second part is content and third part is signature. we can see it in jwt.io website.
+- npm i @types/jsonwebtoken --save-dev
+- npm i jsonwebtoken(incase @types wala ley kaam garena vani)
+- jwt code inside userController look like:
+```js
+ const token = jwt.sign({ id: data.id }, "haha", {
+            expiresIn: "20d",
+        });
+```
+
+# Error Handeling : 
+- make a services folder first.
+- make a catchAsyncError.ts file inside services;
+-Write code inside catchAsyncError.ts file:
+```ts
+import { NextFunction, Request, Response } from "express";
+
+
+const errorHandler = (fn:Function) => {
+    return (req:Request, res:Response, next:NextFunction)=>{
+        fn(req,res,next).catch((err:Error)=>{
+            return res.status(500).json({
+                message : "Internal Error",
+                errorMessage : err.message
+            })
+        })
+    }
+}
+
+export default errorHandler
+```
+- Then inside userRoute.ts file, handle error like this::
+```ts
+import errorHandler from "../services/CatchAsyncError"
+
+
+router.route('/register').post(errorHandler(AuthController.registerUser))
+
+```
+- 
 
 
 

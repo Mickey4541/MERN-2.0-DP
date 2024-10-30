@@ -21,8 +21,6 @@ app.use("", userRoute)//This means::http://localhost:3000/register
 //app.use("/hello", userRoute)//This means::http://localhost:3000/hello/register
 
 
-
-
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);
     

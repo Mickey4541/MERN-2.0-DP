@@ -7,14 +7,14 @@ import {
 } from 'sequelize-typescript'
 
 @Table({
-    tableName : 'users', //tablename(always plural)
-    modelName : 'User', //modelname is that name which we can use to access that table throughout the project. like we can use this name to create, find, update, delete.(singular and in pascal case)
+    tableName : 'products', //tablename(always plural)
+    modelName : 'Product', //modelname is that name which we can use to access that table throughout the project. like we can use this name to create, find, update, delete.(singular and in pascal case)
     timestamps : true //createdAt, updatedAt
 })
 
 
 //inheritance
-class User extends Model{
+class Product extends Model{
     @Column({
         primaryKey : true,
         type : DataType.UUID, //universally unique identifier.
@@ -25,29 +25,27 @@ class User extends Model{
     @Column({
         type : DataType.STRING
     })
-    declare username : string
-
-
-    @Column({
-        type : DataType.ENUM('customer', 'admin'),
-        defaultValue : 'customer'
-    })
-    declare role : string
-
-
-    
-    @Column({
-        type : DataType.STRING
-    })
-    declare email : string
+    declare productName : string
 
 
     @Column({
         type : DataType.STRING
     })
-    declare password: string
+    declare productDescription : string
+
+
+    @Column({
+        type : DataType.STRING
+    })
+    declare productPrice: string
+
+
+    @Column({
+        type : DataType.STRING
+    })
+    declare productImage: string
 }
- export default User
+ export default Product
 
 
  //if i have to make another table, i can use this code to make the table.
