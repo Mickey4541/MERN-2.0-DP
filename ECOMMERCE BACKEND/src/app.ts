@@ -8,23 +8,18 @@ const PORT:number = 3000
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+//app.use(express.json()) lets your Express app read JSON data sent in requests. It makes the JSON data accessible as req.body in your routes.
+app.use(express.json())
+
+
 //importing connection.ts
 import './database/connection'
 
+//importing userRoutes
+import userRoute from './routes/userRoute'
+app.use("", userRoute)//This means::http://localhost:3000/register
+//app.use("/hello", userRoute)//This means::http://localhost:3000/hello/register
 
-
-
-
-
-
-
-app.get('/',(req:Request,res:Response) => {
-    res.send("Hello World")
-})
-
-app.get('/about',(req:Request,res:Response) => {
-    res.send("Hello World from about page.")
-})
 
 
 
@@ -32,3 +27,8 @@ app.listen(PORT, () => {
     console.log("Server has started at port", PORT);
     
 })
+
+//table product /product product controller
+//create
+//multer
+//name, desc, price , image and store in table.

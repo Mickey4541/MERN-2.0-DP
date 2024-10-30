@@ -7,10 +7,10 @@ const sequelize = new Sequelize({
     password : process.env.DB_PASSWORD,
     host : process.env.DB_HOST,
     port : Number(process.env.DB_PORT),
-    models : [__dirname + "/models"] //models for table. ani database ko tables ko code kaa hunxa vanera vannu paryo. models ko code current directory(connection.ts)/__dirname and models folder bhitra tables ko code hunxa vaneko.
+    models : [__dirname + "/models"] //models for table. ani database ko tables ko code kaa hunxa vanera vannu paryo. models ko code current directory(connection.ts vaneko ho __dirname vanya) and models folder bhitra tables ko code hunxa vaneko.
 })
 sequelize.authenticate().then(() => {
-    console.log("connected");
+    console.log("Database connected successfully");
 })
 .catch((err)=>{
     console.log(err);
