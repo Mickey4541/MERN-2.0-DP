@@ -67,7 +67,7 @@ class AuthController {
         // res.status(200).json({
         //     message : "Logged in success"
         // })
-        const token = jwt.sign({ id: data.id }, "haha", {
+        const token = jwt.sign({ id: data.id }, process.env.SECRET_KEY as string, {
             expiresIn: "20d",
         });
         res.status(200).json({

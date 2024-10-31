@@ -4,6 +4,7 @@ import {
     Column,
     Model,
     DataType,
+    AllowNull,
 } from 'sequelize-typescript'
 
 @Table({
@@ -23,27 +24,35 @@ class Product extends Model{
     declare id:string //id vanni column maa primarykey, type, default value declare gareko
 
     @Column({
-        type : DataType.STRING
+        type : DataType.STRING,
+        allowNull : false
+
     })
     declare productName : string
 
 
     @Column({
-        type : DataType.STRING
+        type : DataType.TEXT
     })
     declare productDescription : string
 
 
     @Column({
-        type : DataType.STRING
+        type : DataType.INTEGER
     })
-    declare productPrice: string
+    declare productPrice: number
+
+
+    @Column({
+        type : DataType.INTEGER
+    })
+    declare productTotalStockQty: number
 
 
     @Column({
         type : DataType.STRING
     })
-    declare productImage: string
+    declare productImageUrl: string
 }
  export default Product
 

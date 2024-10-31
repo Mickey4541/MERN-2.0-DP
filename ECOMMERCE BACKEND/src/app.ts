@@ -12,6 +12,9 @@ dotenv.config()
 app.use(express.json())
 
 
+
+
+
 //importing connection.ts
 import './database/connection'
 
@@ -21,12 +24,17 @@ app.use("", userRoute)//This means::http://localhost:3000/register
 //app.use("/hello", userRoute)//This means::http://localhost:3000/hello/register
 
 
+//
+import productRoute from './routes/productRoute'
+app.use("/admin/product", productRoute)
+
+
+//admin seeder
+import adminSeeder from './adminSeeder'
+adminSeeder()
+
+
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);
     
 })
-
-//table product /product product controller
-//create
-//multer
-//name, desc, price , image and store in table.

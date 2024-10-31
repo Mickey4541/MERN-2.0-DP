@@ -275,7 +275,11 @@ if yes: generate token and send token in response(using jwtwebtoken)
 - update()
 
 # token::
-- token is simply an identifier. jastai facebook maa maile mero photo hale vani tyo photo merai profile maa kasari janxa. This is done by token. Token maa usually token id store vako hunxa. token server ley frontend lai dinxa ra localstorage or cookie vanni bhaado maa lagera rakhdinxa. 
+- token is simply an identifier. jastai facebook maa maile mero photo hale vani tyo photo merai profile maa kasari janxa. This is done by token. Token maa usually token id store vako hunxa. token server ley frontend lai dinxa ra localstorage or cookie vanni bhaado maa lagera rakhdinxa. localstorage is not much secure like cookie. cookie is much secure.
+
+- Token: It’s an identifier (like a pass or key) usually issued by the backend to authenticate or identify a user in subsequent requests. Common types are JWTs (JSON Web Tokens).
+
+- Cookie and localStorage: These are storage mechanisms where the frontend can save the token:
 > Example Scenerio:
 - when a user click on login button on facebook, it hits the backend through api. like /profile. When user hit server from /profile, he also sends a token with that api like:( /profile + token ) like this through GET method. When server gets request of /profile and also gets token, server starts to search the profile of that specific user through the help of token, When server find the profile data of that token, then it sends response to the frontend. here, token plays as an identifier. Token can be hijacked like we can copy cookie of netflix and can watch movies.
 - jwt is start from ey and it has 3 part. first part is header, second part is content and third part is signature. we can see it in jwt.io website.
@@ -317,10 +321,33 @@ import errorHandler from "../services/CatchAsyncError"
 router.route('/register').post(errorHandler(AuthController.registerUser))
 
 ```
-- 
+# Admin Seeder:
+- An admin seeder typically inserts a default admin user into the users table, which lets you immediately have an account with admin permissions. This is useful for apps with role-based access where an admin account is necessary from the start.(Simply start garda bitikai admin ko credentials automatic database table maa lagera halni ho)
+
+- By running the seeder, you can quickly set up this admin user whenever you reset the database, ensuring consistent initial data.
+
+# Add product by admin Middleware:::
+When admin is adding the product to the site, we have to check the authentication by making a middleware. Let's say admin is adding the product through http://localhost:300/addProduct through post method, he can easily do this. but if any third user find this api and try to add product, he also can easily do it. so, we have to authenticate the user.
+- first, make a middleware to check the user is authenticated or not.(login xa ki nai vanera)
+- then, make a middlewate to check the role of the user.
+- So, make a authMiddleware.ts file and write code.
+
+
+# ProductTableModel, Multerconfig, productController product Route start done:
+> Do this codes.(watch these files). go in each file and see the code.
+- for multer, npm i multer
+- npm i @types/multer --save-dev
+
 
 
 
 
 //to start Xampp on MAc:
 sudo /Applications/XAMPP/xamppfiles/xampp start
+
+
+
+
+# Problem to ask:::
+- Problem in admin seeder like when i migrate database, admin seeder gives error.
+- problem in multer.(productroute.ts)

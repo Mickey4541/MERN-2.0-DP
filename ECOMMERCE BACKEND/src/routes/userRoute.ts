@@ -7,7 +7,6 @@ import errorHandler from "../services/CatchAsyncError"
 const router:Router = express.Router()
 
 router.route('/register').post(errorHandler(AuthController.registerUser))
-// router.route('/product').post(ProductController.registerProduct)
 router.route("/login").post(errorHandler(AuthController.loginUSer))
 
 
