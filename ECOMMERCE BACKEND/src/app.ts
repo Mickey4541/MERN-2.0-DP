@@ -31,8 +31,11 @@ app.use("/admin/product", productRoute)
 
 //admin seeder
 import adminSeeder from './adminSeeder'
+import categoryController from './controllers/categoryController'
 adminSeeder()
 
+//category Seeder
+categoryController.seedCategory()
 
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);

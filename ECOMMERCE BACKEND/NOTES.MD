@@ -339,6 +339,102 @@ When admin is adding the product to the site, we have to check the authenticatio
 - npm i @types/multer --save-dev
 
 
+# Relationship in sequelize:
+> connecting usertable and producttable(Relationship):
+- this help us to identify which product is posted by which admin/user.
+- Inside connection.ts file::
+```js
+//Relationship to connect tables
+// This makes userId column in product table.
+User.hasMany(Product, {foreignKey : "userId"})
+Product.belongsTo(User, {foreignKey : "userId"})
+```
+- Then inside productController.ts, 
+
+//AuthMiddleware bata AuthRequest export garera yaha import gareko:
+```ts
+//authmiddleware
+export interface AuthRequest extends Request{...}
+```
+
+```ts
+//productController.ts
+import { AuthRequest } from "../Middleware/authmiddleware";
+//this changes:
+ const userId = req.user?.id //Authrequest import gareko xam, req:AuthRequest pani use vako xa mathi ani tala product.create maa balla userId maa use gareko xam userId lai.
+//this changes::
+ await Product.create({
+                productName : productName,
+                productPrice : productPrice,
+                productDescription : productDescription,
+                productTotalStockQty : productTotalStockQty,
+                productImageUrl : fileName,
+                userId : userId//authmiddleware.ts file maa req.user maa user ko id ra aru details aai rako xa. 
+            })
+```
+# making category table:
+ - follow the same method to make a table. Make a Category.ts file and make category table.
+- Now, there is a relationship between product and categories. Like iphone product belong to electornics category.
+```js
+//Relationship between categories and product.
+Product.belongsTo(Category, {foreignKey : 'categoryId'})
+Category.hasOne(Product, {foreignKey : 'categoryId'})
+
+```
+//category Seeder
+categoryController.seedCategory()
+>CATEGORY SEEDER:::
+- categoryController.ts file banauni ani code tei file maa xa.
+- then inside productController.ts file, changes made to seed category like:
+```ts
+ await Product.create({
+                productName : productName,
+                productPrice : productPrice,
+                productDescription : productDescription,
+                productTotalStockQty : productTotalStockQty,
+                productImageUrl : fileName,
+                userId : userId,//authmiddleware.ts file maa req.user maa user ko id ra aru details aai rako xa. 
+                categoryId : categoryId //categoryid banako for category seeding
+            })
+```
+- import this file in app.ts:::
+```ts
+//category Seeder
+categoryController.seedCategory()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -349,5 +445,5 @@ sudo /Applications/XAMPP/xamppfiles/xampp start
 
 
 # Problem to ask:::
-- Problem in admin seeder like when i migrate database, admin seeder gives error.
+- Problem in admin seeder like when i migrate database, admin seeder gives error. sabai database delete garepaxi feri banaudaa admin seeder maa galti aauxa.
 - problem in multer.(productroute.ts)

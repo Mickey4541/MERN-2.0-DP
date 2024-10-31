@@ -8,7 +8,7 @@ import User from "../database/models/userModel";
 
 
 //Hamile tala user lai authenticate garera userData nikalim pahile, userData vaneko findById garera nikaleko object ho, ani req vanni object maa user vanni key banayim ra tyo userData pass garim. tyo user vanni key req vanni object maa hamile banako ho. req ko type ta Request vanni express ley deyako xa tara hamile banako user ko type ta xaina. Tei vayera user lai pani type dina ko lagi req:Request lai inherit garera user ko lagi type banauna lako. Inherit garepaxi Request ko types haru user ley use garna pauni vayo
-interface AuthRequest extends Request{
+export interface AuthRequest extends Request{
     user?:{ //? means optional. user jatibela pani hunxa vanni hunna
         username : string,
         email : string,
