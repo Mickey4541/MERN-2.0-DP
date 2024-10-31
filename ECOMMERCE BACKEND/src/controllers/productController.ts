@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 
 import Product from "../database/models/productTableModel";
 import { AuthRequest } from "../Middleware/authmiddleware";
+import User from "../database/models/userModel";
+import Category from "../database/models/Category";
 
 
 class ProductController{
@@ -36,5 +38,28 @@ class ProductController{
                 message : "Product registered Successfully"
             })
     } 
+
+
+
+    //getAllProduct:::::::::;
+    async getAllProducts(req:Request, res:Response):Promise<void>{
+        const data = await Product.findAll({
+            include : [
+                {//yesle user ra product lai join garxa...
+                    model : User, //yo code ley k garyo vandaa product vanni maa sabai kuraa find garyo ra tyo find gareko data maa kunai kura user table sanga relation maa xa vane product table lai user table sanga join garidiyo. yesto gardaa kun product ko user ley create gareko ho sabai nikalna sakni vayim hamile.
+                    attributes : ['id', 'email', 'username'] //model : User ley sabai kura dini vayo tara if hamilai tyo product create gareko user ko email matra chhiyo yaa kei specific kuraharu chhiyo vani attribute use garna sakxau.
+                },
+                {//yesle product ra category lai join garxa...
+                    model : Category,
+                    attributes : ['id', 'categoryName']
+                }
+            ]
+        }) //return array
+        res.status(200).json({
+            message : "Products fetched Successfylly",
+            data : data
+        })
+
+    }
 }
 export default new ProductController()

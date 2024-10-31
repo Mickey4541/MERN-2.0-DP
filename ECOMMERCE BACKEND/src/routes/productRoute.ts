@@ -13,7 +13,11 @@ const router:Router = express.Router()
 
 
 router.route('/').post(authmiddleware.isAuthenticated,authmiddleware.restrictTo(Role.Admin),
-upload.single('image'), productController.registerProduct) //here Role.Admin is from authmiddleware.ts enum Role.
+upload.single('image'), productController.registerProduct).get(productController.getAllProducts) //here Role.Admin is from authmiddleware.ts enum Role.
+
+
 
 
 export default router
+
+//router.route ko faidaa vaneko aautai route maa different work garna sakinxa like getproduct, postproduct etc.

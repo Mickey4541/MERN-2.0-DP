@@ -397,15 +397,38 @@ categoryController.seedCategory()
                 categoryId : categoryId //categoryid banako for category seeding
             })
 ```
-- import this file in app.ts:::
+- import this categoryController file in app.ts:::
 ```ts
 //category Seeder
 categoryController.seedCategory()
 
 ```
 
+# Relation maa vaako tables lai join garni tarikaa::
+```ts
+  //getAllProduct:::::::::;
+    async getAllProducts(req:Request, res:Response):Promise<void>{
+        const data = await Product.findAll({
+            include : [
+                {//yesle user ra product lai join garxa...
+                    model : User, //yo code ley k garyo vandaa product vanni maa sabai kuraa find garyo ra tyo find gareko data maa kunai kura user table sanga relation maa xa vane product table lai user table sanga join garidiyo. yesto gardaa kun product ko user ley create gareko ho sabai nikalna sakni vayim hamile.
+                    attributes : ['email', 'username'] //model : User ley sabai kura dini vayo tara if hamilai tyo product create gareko user ko email matra chhiyo yaa kei specific kuraharu chhiyo vani attribute use garna sakxau.
+                },
+                {//yesle product ra category lai join garxa...
+                    model : Category,
+                    attributes : ['categoryName']
+                }
+            ]
+        }) //return array
+        res.status(200).json({
+            message : "Products fetched Successfylly",
+            data : data
+        })
 
-
+    }
+}
+```
+- 
 
 
 
