@@ -5,6 +5,7 @@ import Product from "../database/models/productTableModel";
 import { AuthRequest } from "../Middleware/authmiddleware";
 import User from "../database/models/userModel";
 import Category from "../database/models/Category";
+import { Model } from "sequelize";
 
 
 class ProductController{
@@ -62,13 +63,23 @@ class ProductController{
 
     }
 
-
+    //getSingleProduct
     async getSingleProduct(req:Request, res:Response):Promise<void>{
         const id = req.params.id
         const data = await Product.findAll({
             where : {
                 id : id
+            },
+            include : [ //joining the user table and category table.
+                {
+                model : User,
+                attributes : ['id', 'email', 'username']
+            },
+            {
+                model : Category,
+                attributes : ['id', 'categoryName']
             }
+        ]
         })
         if(data.length == 0){
             res.status(404).json({
@@ -83,7 +94,7 @@ class ProductController{
     }
 
 
-
+    //DeleteProduct
     async deleteProduct(req:Request, res:Response):Promise<void>{
         const {id} = req.params
         const data = await Product.findAll({
@@ -106,6 +117,39 @@ class ProductController{
             })
         }
 
+    }
+
+
+    //UpdateProduct
+    async updateProduct(req:Request, res:Response):Promise<void>{
+        const id  = req.params.id
+        console.log(id);
+        
+        const {productName, productDescription, productTotalStockQty, productPrice} = req.body
+        const data = await Product.findAll({
+            where : {
+                id :id
+            }
+        })
+        if(data.length > 0){
+            await Product.update({
+                productName : productName,
+                productDescription : productDescription,
+                productTotalStockQty : productTotalStockQty,
+                productPrice : productPrice
+            },{
+                where : {
+                    id : id
+                }
+            })
+            res.status(200).json({
+                message : "Product updated successfully"
+            })
+        }else{
+            res.status(404).json({
+                message : "No product with that id to update."
+            })
+        }
     }
 }
 export default new ProductController()

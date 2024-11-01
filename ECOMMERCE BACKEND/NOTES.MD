@@ -428,7 +428,9 @@ categoryController.seedCategory()
     }
 }
 ```
-- 
+- Now, CRUD of Products and CRUD of Category garni.
+- CRUD of products in side productcontroller.ts and
+- CRUD of category in side categorycontroller.ts
 
 
 
