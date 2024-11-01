@@ -1,10 +1,11 @@
 
-import { Sequelize } from "sequelize-typescript";
+import { ForeignKey, Sequelize } from "sequelize-typescript";
 import productController from "../controllers/productController";
 
 import User from "./models/userModel";
 import Product from "./models/productTableModel";
 import Category from "./models/Category";
+import Cart from "./models/Cart";
 
 
 const sequelize = new Sequelize({
@@ -38,8 +39,22 @@ Product.belongsTo(User, {foreignKey : "userId"})
 
 
 //Relationship between categories and product.
-Product.belongsTo(Category, {foreignKey : 'categoryId'})
 Category.hasOne(Product, {foreignKey : 'categoryId'})
+Product.belongsTo(Category, {foreignKey : 'categoryId'})
+
+
+
+//For cart:::::::::::::::::::::::::::
+//product-cart relation
+User.hasMany(Cart, {foreignKey : 'userId'})
+Cart.belongsTo(User,{foreignKey : 'userId'})
+
+//user-cart relation
+Product.hasMany(Cart, {foreignKey : 'productId'})
+Cart.belongsTo(Product, {foreignKey : 'productId'})
+
+
+
 
 
 export default sequelize

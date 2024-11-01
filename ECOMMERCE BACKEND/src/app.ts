@@ -24,7 +24,7 @@ app.use("", userRoute)//This means::http://localhost:3000/register
 //app.use("/hello", userRoute)//This means::http://localhost:3000/hello/register
 
 
-//
+
 import productRoute from './routes/productRoute'
 app.use("/admin/product", productRoute)
 
@@ -36,11 +36,17 @@ app.use("/admin/category", categoryRoute)
 
 //admin seeder
 import adminSeeder from './adminSeeder'
-import categoryController from './controllers/categoryController'
 adminSeeder()
 
 //category Seeder
+import categoryController from './controllers/categoryController'
 categoryController.seedCategory()
+
+//cartcontorller
+import cartRoute from './routes/cartRoute'
+app.use("/customer/cart", cartRoute)
+
+
 
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);

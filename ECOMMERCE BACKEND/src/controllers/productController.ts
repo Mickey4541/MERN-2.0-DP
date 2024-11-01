@@ -126,6 +126,7 @@ class ProductController{
         console.log(id);
         
         const {productName, productDescription, productTotalStockQty, productPrice} = req.body
+        
         const data = await Product.findAll({
             where : {
                 id :id

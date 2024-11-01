@@ -432,9 +432,24 @@ categoryController.seedCategory()
 - CRUD of products in side productcontroller.ts and
 - CRUD of category in side categorycontroller.ts and making a route in categroyRoute.ts and importing it in app.ts.
 
+# Add to cart: 
+- first make cart.ts file and write code.
+- then make relationship between product,cart and user in connection.ts like  :::
+```ts
+//For cart:::::::::::::::::::::::::::
+//product-cart relation
+User.hasMany(Cart, {foreignKey : 'userId'})
+Cart.belongsTo(User,{foreignKey : 'userId'})
 
+//user-cart relation
+Product.hasMany(Cart, {foreignKey : 'productId'})
+Cart.belongsTo(Product, {foreignKey : 'productId'})
+```
+-now, make a controller to take data from the frontend and insert into the cart table.
 
-
+- make a cartController.ts and write code.
+- make a cartRoute.ts and make a route of cart.
+- finally import it on app.ts file.
 
 
 
