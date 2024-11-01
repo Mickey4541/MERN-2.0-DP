@@ -430,7 +430,7 @@ categoryController.seedCategory()
 ```
 - Now, CRUD of Products and CRUD of Category garni.
 - CRUD of products in side productcontroller.ts and
-- CRUD of category in side categorycontroller.ts
+- CRUD of category in side categorycontroller.ts and making a route in categroyRoute.ts and importing it in app.ts.
 
 
 

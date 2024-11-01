@@ -28,6 +28,11 @@ app.use("", userRoute)//This means::http://localhost:3000/register
 import productRoute from './routes/productRoute'
 app.use("/admin/product", productRoute)
 
+import categoryRoute from './routes/categoryRoute'
+app.use("/admin/category", categoryRoute)
+
+
+
 
 //admin seeder
 import adminSeeder from './adminSeeder'
