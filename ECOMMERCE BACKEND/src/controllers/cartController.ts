@@ -2,7 +2,20 @@ import { Request,Response } from "express";
 import { AuthRequest } from "../Middleware/authmiddleware";
 import Cart from "../database/models/Cart";
 import Product from "../database/models/productTableModel";
+import Category from "../database/models/Category";
+import { RecordWithTtl } from "dns";
 
+
+
+// interface CartData{
+    
+//         id : string,
+//         quantity :  Number,
+//         createdAt : string,
+//         updatedAt : string,
+//         userId : string,
+//         productId : string
+// }
 
 class CartController{
     async addToCart(req:AuthRequest,res:Response):Promise<void>{
@@ -39,7 +52,7 @@ class CartController{
     }
 
 
-
+//get all products from cart::
     async getMyCarts(req:AuthRequest, res:Response):Promise<void>{
         const userId = req.user?.id
         const cartItems = await Cart.findAll({
@@ -48,7 +61,13 @@ class CartController{
             },
             include : [
                 {
-                    model : Product //caerItems maa product ko data pani join vayera aauxa. just yaha join gareko
+                    model : Product, //caerItems maa product ko data pani join vayera aauxa. just yaha join gareko
+                    include : [
+                        {
+                            model : Category,
+                            attributes : ['id', 'categoryName']
+                        }
+                    ]
                 }
             ]
         })
@@ -60,6 +79,61 @@ class CartController{
             res.status(200).json({
                 message : "Cart items fetched successfully",
                 data : cartItems
+            })
+        }
+    }
+
+
+    async deleteMyCartItem(req:AuthRequest, res:Response):Promise<void>{
+        const userId = req.user?.id
+        const {productId} = req.params
+        //check whether above productId product exist or not
+        const product = await Product.findByPk(productId)
+        if(!product){
+            res.status(404).json({
+                message : "no product with that Id"
+            })
+            return
+        }
+        //delete the product from cart
+        await Cart.destroy({
+            where : {
+                userId :userId,
+                productId : productId
+            }
+        })
+        res.status(200).json({
+            message : "Product of cart Deleted Successfully"
+        })
+    }
+
+
+
+    async updateCartItem(req:AuthRequest, res:Response):Promise<void> {
+        const {productId} = req.params
+        const userId = req.user?.id
+        const {quantity} = req.body
+        if(!quantity){
+            res.status(400).json({
+                message : 'Please provide quantity'
+            })
+        }
+        const cartData = await Cart.findOne({
+            where : {
+                userId : userId,
+                productId : productId
+            }
+        })
+        if(cartData){
+            cartData.quantity = quantity
+        await cartData?.save()
+        res.status(200).json({
+            message : 'Product of cart updated Successfully',
+            data : cartData
+        })
+        }else{
+            res.status(404).json({
+                message : "No product of that userId"
             })
         }
     }
