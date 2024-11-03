@@ -46,7 +46,9 @@ categoryController.seedCategory()
 import cartRoute from './routes/cartRoute'
 app.use("/customer/cart", cartRoute)
 
-
+//order Route
+import orderRoute from './routes/orderRoute'
+app.use("/customer/order", orderRoute)
 
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);

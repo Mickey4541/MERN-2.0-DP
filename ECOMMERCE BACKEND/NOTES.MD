@@ -484,6 +484,18 @@ Order.belongsTo(User,{foreignKey : 'userId'})
 Then,
 # Order Controller:
 - make a ordercontroller.ts file and write a controller code.
+- make a orderTypes.ts file and make a interface of orders. this interface is used in ordercontroller.ts file in this file:
+```ts
+        const {phoneNumber, shippingAddress, totalAmount, paymentDetails, items}:OrderData = req.body// paymentDetails maa paymentTable ko sabai details object maa aauxxa. ani items maa products haru array maa aauxa.(kati xa quantity)
+
+```
+# Khalti integration : 
+- using axios package: npm i axios
+- https://test-admin.khalti.com/
+- khalti integration code.
+- make a orderroute.ts
+- import orderRoute in app.ts
+- make a interface of khalti in same orderTypes.ts.
 - 
 
 
