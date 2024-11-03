@@ -455,7 +455,7 @@ Cart.belongsTo(Product, {foreignKey : 'productId'})
 # Checkout feature :
 -There is proceed to checkout button, when clicking on checkout button some operation is performed, so to do this, we have to make a 3 table like:
 
-- Order table => id, phone number, shippingAddress, total amount and orderStatus and paymentid(come from relation)
+- Order table => id, phone number, shippingAddress, total amount and orderStatus and paymentid and userId(paymentID and userId come from relation)
 
 - payment table => id, paymentMethod, paymentStatus, pidx
 
@@ -474,9 +474,17 @@ OrderDetail.belongsTo(Product,  {foreignKey : 'productId'})
 //orders-payment relation
 payment.hasOne(Order, {foreignKey : 'paymentId'})
 Order.belongsTo(payment, {foreignKey : 'paymentId'} )
+
+//order-user relation
+User.hasMany(Order, {foreignKey : 'userId'})
+Order.belongsTo(User,{foreignKey : 'userId'})
 ```
 - Then ckeck the table.
 
+Then,
+# Order Controller:
+- make a ordercontroller.ts file and write a controller code.
+- 
 
 
 
