@@ -3,7 +3,6 @@ import { AuthRequest } from "../Middleware/authmiddleware";
 import Cart from "../database/models/Cart";
 import Product from "../database/models/productTableModel";
 import Category from "../database/models/Category";
-import { RecordWithTtl } from "dns";
 
 
 
@@ -62,6 +61,7 @@ class CartController{
             include : [
                 {
                     model : Product, //caerItems maa product ko data pani join vayera aauxa. just yaha join gareko
+                    attributes : ['productPrice', 'productName', 'productDescription', 'productImageUrl'],
                     include : [
                         {
                             model : Category,
@@ -69,7 +69,8 @@ class CartController{
                         }
                     ]
                 }
-            ]
+            ],
+            attributes : ['productId','quantity'] //getting product specific data in cart.
         })
         if(cartItems.length === 0){
             res.status(404).json({

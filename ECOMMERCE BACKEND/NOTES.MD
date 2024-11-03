@@ -447,15 +447,35 @@ Cart.belongsTo(Product, {foreignKey : 'productId'})
 ```
 -now, make a controller to take data from the frontend and insert into the cart table.
 
-- make a cartController.ts and write code.
+- make a cartController.ts and write code of cartCrud.
 - make a cartRoute.ts and make a route of cart.
 - finally import it on app.ts file.
 
 
+# Checkout feature :
+-There is proceed to checkout button, when clicking on checkout button some operation is performed, so to do this, we have to make a 3 table like:
 
+- Order table => id, phone number, shippingAddress, total amount and orderStatus and paymentid(come from relation)
 
+- payment table => id, paymentMethod, paymentStatus, pidx
 
+- order details table => id, quantity, orderId, productId(orderid and productid come from relation)
 
+- make payment.ts, order.ts and orderDetails.ts file inside model and write a code to make table. then, make a relation inside connection.ts file like::::
+```ts
+//orderDetail-order relation
+Order.hasMany(OrderDetail, {foreignKey : 'orderId'})
+OrderDetail.belongsTo(Order, {foreignKey : 'orderId'})
+
+//orderdetails-product relation
+Product.hasMany(OrderDetail, {foreignKey : 'productId'})
+OrderDetail.belongsTo(Product,  {foreignKey : 'productId'})
+
+//orders-payment relation
+payment.hasOne(Order, {foreignKey : 'paymentId'})
+Order.belongsTo(payment, {foreignKey : 'paymentId'} )
+```
+- Then ckeck the table.
 
 
 
