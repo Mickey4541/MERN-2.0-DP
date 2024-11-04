@@ -1,6 +1,6 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { AuthRequest } from "../Middleware/authmiddleware";
-import { khaltiResponse, OrderData, OrderStatus, PaymentMethod, TransactionStatus, TransactionVerificationResponse } from "../types/orderTypes";
+import { khaltiResponse, OrderData, OrderStatus, PaymentMethod, PaymentStatus, TransactionStatus, TransactionVerificationResponse } from "../types/orderTypes";
 import payment from "../database/models/payment";
 import Order from "../database/models/Order";
 import OrderDetail from "../database/models/orderDetails";
@@ -8,6 +8,11 @@ import axios from "axios";
 import Product from "../database/models/productTableModel";
 
 
+
+
+class ExtendedOrder extends Order{ //this class is used in talako changePaymentStatus controller maa
+    declare paymentId : string | null
+}
 
 
 class OrderController{
@@ -219,9 +224,78 @@ class OrderController{
         })
     }
         /////////////////Customer side code End /////////////////////////////////////
+    ///////////////////////////////// Admin Side code starts here ///////////////////////////////////////////
+        //Admin side like admin do the changing ofOrder status :
+        async changeOrderStatus(req:Request, res:Response):Promise<void>{
+            const orderStatus:OrderStatus = req.body //here :orderStatus is from ordertypes.ts enum code.
+            const orderId = req.params.id
+            await Order.update({
+                orderStatus : orderStatus
+            },{
+                where : {
+                    id : orderId
+                }
+            })
+            res.status(400).json({
+                message : 'Please provide orderStatus'
+            })
+        }
 
-        //Admin side like admin do the changing ofOrder status like:
-        
+
+
+        async changePaymentStatus(req:Request, res:Response):Promise<void>{
+            //hamilai paymentStatus update garna parni xa. paymentStatus vanni chai payments table bhitra xa. Frontend vata paymentId pathauna mildaina. Frontend bata order ko orderId aairako hunxa params maa. Tyo orderId order table ko id ho. yo id bata hamile aauta row ko sabai data nikalna sakxau. Tyo row maa paymentId pani xa. Aba tei paymentId lai catch garera tyo paymentId bata Payment table bhitra ko payment status change garna/update garna milxa.
+            const orderId = req.params.id
+            const paymentStatus:PaymentStatus = req.body.paymentStatus
+            const order = await Order.findByPk(orderId) //orderId nikaleko
+            const extendedOrder : ExtendedOrder = order as ExtendedOrder //treating order as extended order. This is called typeassertion in typescript.
+            await payment.update({
+                paymentStatus : paymentStatus //ani paymentid bata payment status update gareko
+            },{
+                where : {
+                    id : extendedOrder.paymentId //orderid bata paymentid nikaleko
+                }
+            })
+            res.status(200).json({
+                message : `Payment status of orderId ${orderId} updated successfully to ${paymentStatus}`
+            })
+        }
+
+
+
+
+
+        async deleteOrder(req:Request, res:Response):Promise<void>{
+            const orderId = req.params.id
+            //order delete gardaa order ko ta delete hunxa sathai tes order sanga associated order pani delete hunu paryo like from the payment table and orderdetails table.
+            const order = await Order.findByPk(orderId)
+            const extendedOrder : ExtendedOrder = order as ExtendedOrder //treating order as extended order. This is called typeassertion in typescript.
+            if(order){
+                await Order.destroy({
+                    where : {
+                        id : orderId
+                    }
+                })
+                await OrderDetail.destroy({
+                    where : {
+                        orderId : orderId
+                    }
+                })
+                await payment.destroy({
+                    where : {
+                        id : extendedOrder.paymentId
+                    }
+                })
+                res.status(200).json({
+                    message : "Order deleted Successfully"
+                })
+            }else{
+                res.status(404).json({
+                    message : "No order with that orderId"
+                })
+            }
+        }
+    ///////////////////////////////// Admin Side conde end here ///////////////////////////////////////////
 
 }
 export default new OrderController()

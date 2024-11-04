@@ -15,4 +15,8 @@ router.route('/customer/').post(authmiddleware.isAuthenticated, errorHandler(ord
 
 router.route('/customer/:id').patch(authmiddleware.isAuthenticated, authmiddleware.restrictTo(Role.Customer), errorHandler(orderController.cancelMyOrder)).get(authmiddleware.isAuthenticated, errorHandler(orderController.fetchOrderDetails))
 
+
+router.route("/admin/payment/:id").patch(authmiddleware.isAuthenticated,authmiddleware.restrictTo(Role.Admin),errorHandler(orderController.changePaymentStatus))
+
+router.route("/admin/:id").patch(authmiddleware.isAuthenticated, authmiddleware.restrictTo(Role.Admin), errorHandler(orderController.changeOrderStatus)).delete(authmiddleware.isAuthenticated,authmiddleware.restrictTo(Role.Admin), errorHandler(orderController.deleteOrder))
 //router.route ko faidaa vaneko aautai route maa different work garna sakinxa like getproduct, postproduct etc. 

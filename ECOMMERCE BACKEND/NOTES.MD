@@ -500,10 +500,13 @@ Then,
 - Verify the transaction:: inside ordercontroller.ts
 - make a interface of transactionverificationresponse in orderTypes.ts.And enum of Transaction status.
 - make a verify transactionRoute in orderroute.ts
+>user side
 - fetchmyorder, fetchorderDetails, cancelMyorder controllers in ordercontroller.ts
 - for cancelmyorder, we make a enum of orderstatus in ordertypes.ts
 - make a route of fetchmyorder, cancelmyorder, fetch order detail in orderroute.ts 
-
+>admin side::
+- write a admin side code in orderController.ts.
+- made a changepaymentStatus controller and deleteorder controller in orderController.ts file and then made a route of deleteOrder and changepaymentstatus in orderRoute.ts file.
 
 
 
