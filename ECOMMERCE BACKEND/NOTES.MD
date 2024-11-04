@@ -496,6 +496,10 @@ Then,
 - make a orderroute.ts
 - import orderRoute in app.ts
 - make a interface of khalti in same orderTypes.ts.
+
+- Verify the transaction:: inside ordercontroller.ts
+- make a interface of transactionverificationresponse in orderTypes.ts.And enum of Transaction status.
+- make a verify transactionRoute in orderroute.ts
 - 
 
 
