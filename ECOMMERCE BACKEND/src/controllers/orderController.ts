@@ -200,6 +200,8 @@ class OrderController{
     async cancelMyOrder(req:AuthRequest, res:Response):Promise<void>{
         const userId = req.user?.id
         const orderId = req.params.id
+        console.log(orderId);
+        
         const order:any = await Order.findOne({
             where : {
                 userId : userId,
@@ -213,12 +215,15 @@ class OrderController{
             return
         }
         const updateResult = await Order.update({
-            orderStatus : OrderStatus.Cancelled
+            // orderStatus : OrderStatus.Cancelled
+            orderStatus : "cancelled"
         },{
             where : {
                 id : orderId
             }
         });
+        console.log(OrderStatus.Cancelled);
+        
         if (updateResult[0] === 0) {
             res.status(400).json({ message: "Order could not be cancelled. Please try again." });
             return;
