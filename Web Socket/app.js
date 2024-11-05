@@ -61,7 +61,7 @@
 // //............................................
 // // on = > client/frontend ley data pathayo teslai lina ko lagi (data receive gardaa)
 
-// // emit => sending dat from server to client
+// // emit => sending data from server to client
 
 
 // //aba server bata kei msg dina ko lagi kunai specific user lai msg dina ko lagi socket.emit use garni and if jati pani connected user xan sabailai ekpatak msg dina man xa vani io.emit garni.
