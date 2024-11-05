@@ -51,12 +51,12 @@ class Order extends Model{
 
 
     @Column({
-        type : DataType.ENUM('pending', 'cancel', 'delivered', 'ontheway', 'preparation'),
+        type : DataType.ENUM('pending', 'cancelled', 'delivered', 'ontheway', 'preparation'),
         allowNull : false,
         defaultValue : 'pending'
 
     })
-    declare orderStatus : number
+    declare orderStatus : string
 
 }
  export default Order

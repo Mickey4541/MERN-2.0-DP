@@ -48,7 +48,7 @@ app.use("/customer/cart", cartRoute)
 
 //order Route
 import orderRoute from './routes/orderRoute'
-app.use("/customer/order", orderRoute)
+app.use("/order", orderRoute)
 
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);

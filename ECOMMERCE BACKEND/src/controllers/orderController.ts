@@ -200,35 +200,39 @@ class OrderController{
     async cancelMyOrder(req:AuthRequest, res:Response):Promise<void>{
         const userId = req.user?.id
         const orderId = req.params.id
-        const order:any = await Order.findAll({
+        const order:any = await Order.findOne({
             where : {
                 userId : userId,
                 id : orderId
             }
         })
-        if(order?.orderStatus === OrderStatus.Ontheway || order?.OrderStatus === OrderStatus.Preparation){
+        if(order?.orderStatus === OrderStatus.Ontheway || order?.orderStatus === OrderStatus.Preparation){
                 res.status(200).json({
                 message : "You cannot cancel order when it is in Ontheway or prepared."
             })
             return
         }
-        await Order.update({
-            OrderStatus : OrderStatus.Cancelled,
+        const updateResult = await Order.update({
+            orderStatus : OrderStatus.Cancelled
         },{
             where : {
                 id : orderId
             }
-        })
+        });
+        if (updateResult[0] === 0) {
+            res.status(400).json({ message: "Order could not be cancelled. Please try again." });
+            return;
+        }
         res.status(200).json({
-            message : "Order has been cancelled."
+            message : "Order has been cancelled successfully.."
         })
     }
         /////////////////Customer side code End /////////////////////////////////////
     ///////////////////////////////// Admin Side code starts here ///////////////////////////////////////////
         //Admin side like admin do the changing ofOrder status :
         async changeOrderStatus(req:Request, res:Response):Promise<void>{
-            const orderStatus:OrderStatus = req.body //here :orderStatus is from ordertypes.ts enum code.
             const orderId = req.params.id
+            const orderStatus:OrderStatus = req.body.orderStatus //here :orderStatus is from ordertypes.ts enum code.
             await Order.update({
                 orderStatus : orderStatus
             },{
@@ -237,7 +241,7 @@ class OrderController{
                 }
             })
             res.status(400).json({
-                message : 'Please provide orderStatus'
+                message : 'Order Status updated successfully'
             })
         }
 
@@ -247,7 +251,7 @@ class OrderController{
             //hamilai paymentStatus update garna parni xa. paymentStatus vanni chai payments table bhitra xa. Frontend vata paymentId pathauna mildaina. Frontend bata order ko orderId aairako hunxa params maa. Tyo orderId order table ko id ho. yo id bata hamile aauta row ko sabai data nikalna sakxau. Tyo row maa paymentId pani xa. Aba tei paymentId lai catch garera tyo paymentId bata Payment table bhitra ko payment status change garna/update garna milxa.
             const orderId = req.params.id
             const paymentStatus:PaymentStatus = req.body.paymentStatus
-            const order = await Order.findByPk(orderId) //orderId nikaleko
+            const order:any = await Order.findByPk(orderId) //orderId nikaleko
             const extendedOrder : ExtendedOrder = order as ExtendedOrder //treating order as extended order. This is called typeassertion in typescript.
             await payment.update({
                 paymentStatus : paymentStatus //ani paymentid bata payment status update gareko
@@ -271,11 +275,6 @@ class OrderController{
             const order = await Order.findByPk(orderId)
             const extendedOrder : ExtendedOrder = order as ExtendedOrder //treating order as extended order. This is called typeassertion in typescript.
             if(order){
-                await Order.destroy({
-                    where : {
-                        id : orderId
-                    }
-                })
                 await OrderDetail.destroy({
                     where : {
                         orderId : orderId
@@ -286,6 +285,12 @@ class OrderController{
                         id : extendedOrder.paymentId
                     }
                 })
+                await Order.destroy({
+                    where : {
+                        id : orderId
+                    }
+                })
+                
                 res.status(200).json({
                     message : "Order deleted Successfully"
                 })
