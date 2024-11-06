@@ -2,6 +2,9 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store/store'
+import Login from './pages/auth/login/Login'
+import Register from './pages/auth/register/Register'
+import Home from './pages/home/Home'
 
 function App() {
 
@@ -13,9 +16,9 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<h1>Hello World Homepage</h1>} />
-          <Route path='/register' element={<h1>Register</h1>} />
-          <Route path='/login' element={<h1>Login</h1>} />
+          <Route path='/' element={<Home/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/register' element={<Register/>} />
         </Routes>
       </BrowserRouter>
     </Provider>

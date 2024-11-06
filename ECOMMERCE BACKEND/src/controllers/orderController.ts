@@ -215,14 +215,16 @@ class OrderController{
             return
         }
         const updateResult = await Order.update({
-            // orderStatus : OrderStatus.Cancelled
-            orderStatus : "cancelled"
+            orderStatus : OrderStatus.Cancelled
+            // orderStatus : "cancelled"
         },{
             where : {
                 id : orderId
             }
         });
-        console.log(OrderStatus.Cancelled);
+        // console.log(OrderStatus.Cancelled);
+        console.log(updateResult);
+        
         
         if (updateResult[0] === 0) {
             res.status(400).json({ message: "Order could not be cancelled. Please try again." });

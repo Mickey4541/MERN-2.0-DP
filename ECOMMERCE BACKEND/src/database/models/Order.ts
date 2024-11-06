@@ -52,7 +52,8 @@ class Order extends Model{
 
     @Column({
         type : DataType.ENUM('pending', 'cancelled', 'delivered', 'ontheway', 'preparation'),
-        allowNull : false,
+        // type : DataType.STRING,
+        // allowNull : false,
         defaultValue : 'pending'
 
     })

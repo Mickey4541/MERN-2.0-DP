@@ -27,7 +27,7 @@ sequelize.authenticate().then(() => {
     console.log(err);
 })
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: false, alter : true }).then(() => {
     console.log("Synced");
 }).catch((error) => {
     console.error("Error syncing models:", error);
