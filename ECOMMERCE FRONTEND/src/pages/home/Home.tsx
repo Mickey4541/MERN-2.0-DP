@@ -4,7 +4,7 @@
 
 import Card from '../../globals/components/card/Card'
 import Navbar from '../../globals/components/navbar/Navbar'
-import Divider from '../../globals/components/divider/divider'
+import Divider from '../../globals/components/divider/Divider'
 import Footer from '../../globals/components/footer/Footer'
 
 const Home = () => {
