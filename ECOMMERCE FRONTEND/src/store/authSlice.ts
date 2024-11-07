@@ -1,6 +1,7 @@
 //requiring redux-toolkit createSlice function to configure slices.
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import API from '../http'
+import { Status } from '../globals/components/types/types'
 
 
 interface User{
@@ -12,12 +13,12 @@ interface User{
 
 interface AuthState{
     user : User,
-    status : string
+    status : Status
 }
 
 const initialState:AuthState = {
     user : {} as User,
-    status : "" //initial status empty. status vaneko pahile network call gardaa k vairako xa:: success vayo ki, failure vayo ki, loading vayo ki tei decide garna ko lagi.
+    status : Status.LOADING //initial status empty. status vaneko pahile network call gardaa k vairako xa:: success vayo ki, failure vayo ki, loading vayo ki tei decide garna ko lagi.
 }
 
 
@@ -40,14 +41,20 @@ const authSlice = createSlice({
         setUser(state:AuthState, action: PayloadAction<User>){
             state.user = action.payload//jun data user ley pathauxa tyo action.payload maa aauxa. ani tyo data lai user ko {} empty object xa initially, tei maa lagera set gardinxa.
         },
-        setStatus(state:AuthState, action:PayloadAction<string>){
+        setStatus(state:AuthState, action:PayloadAction<Status>){
             state.status = action.payload
+        },
+        resetStatus(state:AuthState){
+            state.status = Status.LOADING
+        },
+        setToken(state:AuthState, action:PayloadAction<string>){
+            state.user.token = action.payload
         }
     }
 })
 //yaha createSlice lai const authSlice maa store ta garim, yaha createSlice ley aauta object return garirako hunxa. Tyo object bhitra aauta action vanni key hunxa, ani tyo action vanni key bhitra pani feri reducers ko key haru hunxan jastai setUSer, setStatus haru.
 
-export const {setUser, setStatus} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
+export const {setUser, setStatus, resetStatus, setToken} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
 export default authSlice.reducer
 
 
@@ -61,16 +68,16 @@ export default authSlice.reducer
 export function register(data:RegisterData){
     return async function registerThunk(dispatch:any){
         // dispatch means calling. Here, we are calling setstatus by sending a initial payload loading state.
-        dispatch(setStatus('loading'))
+        dispatch(setStatus(Status.LOADING))
         try {
             const response = await API.post('/register', data)
         if(response.status === 201){
-            dispatch(setStatus('success'))
+            dispatch(setStatus(Status.SUCCESS))
         }else{
-            dispatch(setStatus('error'))
+            dispatch(setStatus(Status.ERROR))
         }
         } catch (error) {
-            dispatch(setStatus('error'))
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }
@@ -81,16 +88,19 @@ export function register(data:RegisterData){
 
 export function login(data:LoginData){
     return async function loginThunk(dispatch:any){
-        dispatch(setStatus('loading'))
+        dispatch(setStatus(Status.LOADING))
         try {
             const response = await API.post('/login',data)
             if(response.status ===  200){
-                dispatch(setStatus('success'))
+                const {data} = response.data
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setToken(data))
+                localStorage.setItem('token', data)
             }else{
-                dispatch(setStatus('error'))
+                dispatch(setStatus(Status.ERROR))
             }
         } catch (error) {
-            dispatch(setStatus('error'))
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }

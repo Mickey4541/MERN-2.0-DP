@@ -19,3 +19,8 @@ const store = configureStore({
 
 
 export default store
+
+//type of dispatch
+export type AppDispatch = typeof store.dispatch//this type will be used on register.tsx
+//type of useselector
+export type RootState = ReturnType<typeof store.getState>
