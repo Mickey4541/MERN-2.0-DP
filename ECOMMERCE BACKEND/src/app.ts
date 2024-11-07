@@ -11,6 +11,12 @@ dotenv.config()
 //app.use(express.json()) lets your Express app read JSON data sent in requests. It makes the JSON data accessible as req.body in your routes.
 app.use(express.json())
 
+//cors
+import cors from 'cors'
+app.use(cors({
+    origin : '*'
+}))
+// app.options('*', cors());  // Enable preflight for all routes
 
 
 
@@ -49,6 +55,9 @@ app.use("/customer/cart", cartRoute)
 //order Route
 import orderRoute from './routes/orderRoute'
 app.use("/order", orderRoute)
+
+
+
 
 app.listen(PORT, () => {
     console.log("Server has started at port", PORT);

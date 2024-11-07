@@ -1,10 +1,37 @@
-    import { Link } from 'react-router-dom';
 
-    interface FormProps {
-    type: string;
-    }
 
-    const Form = ({ type }: FormProps) => {
+
+import { ChangeEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FormProps, UserDataType } from './types';
+
+    
+
+    const Form:React.FC<FormProps> = ({ type, onSubmit }) => {
+
+        //for register::;
+        const [userData, setUserData] = useState<UserDataType>({
+            email : "",
+            username : "",
+            password : ""
+        })
+
+        const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+            // console.log(e.target.value);
+            
+            const {name, value} = e.target
+            setUserData({
+                ...userData,
+                [name] : value
+            })
+        }
+
+
+        const handleSubmit = (e:ChangeEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            onSubmit(userData)
+        }
+
     return (
         <div className="font-[sans-serif] bg-white max-w-4xl flex items-center mx-auto md:h-screen p-4">
         <div className="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
@@ -23,7 +50,7 @@
             </div>
             </div>
 
-            <form className="md:col-span-2 w-full py-6 px-6 sm:px-16">
+            <form className="md:col-span-2 w-full py-6 px-6 sm:px-16" onSubmit={handleSubmit}>
             <div className="mb-6">
                 <h3 className="text-gray-800 text-2xl font-bold">
 
@@ -43,7 +70,7 @@
                         type="text"
                         required
                         className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
-                        placeholder="Enter username"
+                        placeholder="Enter username" onChange={handleChange}
                     />
                     </div>
                 </div>
@@ -57,7 +84,7 @@
                     type="email"
                     required
                     className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
-                    placeholder="Enter email"
+                    placeholder="Enter email" onChange={handleChange}
                     />
                 </div>
                 </div>
@@ -70,7 +97,7 @@
                     type="password"
                     required
                     className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
-                    placeholder="Enter password"
+                    placeholder="Enter password" onChange={handleChange}
                     />
                 </div>
                 </div>
@@ -79,7 +106,7 @@
             {/* The button text displays "Register Account" if type is "register", otherwise it shows "Login". */}
             <div className="!mt-12">
                 <button
-                type="button"
+                type="submit"
                 className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-gray-700 hover:bg-gray-800 focus:outline-none"
                 >
                 {type === "register" ? "Register Account" : "Login"}

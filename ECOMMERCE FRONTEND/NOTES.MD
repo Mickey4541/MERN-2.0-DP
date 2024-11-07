@@ -151,3 +151,7 @@ function App() {
 export default App
 
 ```
+# day49::42 minutes: mern2:
+- login register form and homepage banayera ani redux ko authslice panayera logic lekhisakepaxi, aba frontend ko form ko data backend maa table maa store garnu paryo. like /register api hit handaa forntend ta backend maa communicate hudaa cors ko error aauna sakxa. teskaa lagi::
+- npm i cors
+- npm i -D @types/cors
