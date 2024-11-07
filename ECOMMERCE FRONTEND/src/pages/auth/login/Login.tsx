@@ -3,7 +3,7 @@ import Form from "../Form"
 const Login = () => {
   return (
     <>
-        <Form/>
+        <Form type = "login" />
     </>
   )
 }
