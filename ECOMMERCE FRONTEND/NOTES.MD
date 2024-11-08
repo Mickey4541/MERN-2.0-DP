@@ -160,6 +160,4 @@ export default App
 redux ko ::
 - data react bata redux store maa send garna paryo vani usedispatch ani data store bata react maa tanera herna paryo vani useSelector use garnu parxa.
 
-- 
-
-makes a dynamic navbar and logout implementation. token implementation in authslice and localstoage.
+- makes a dynamic navbar and logout implementation. token implementation in authslice and localstoage.
