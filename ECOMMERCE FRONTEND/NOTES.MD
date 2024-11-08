@@ -155,3 +155,11 @@ export default App
 - login register form and homepage banayera ani redux ko authslice panayera logic lekhisakepaxi, aba frontend ko form ko data backend maa table maa store garnu paryo. like /register api hit handaa forntend ta backend maa communicate hudaa cors ko error aauna sakxa. teskaa lagi::
 - npm i cors
 - npm i -D @types/cors
+
+>Day 50 ::
+redux ko ::
+- data react bata redux store maa send garna paryo vani usedispatch ani data store bata react maa tanera herna paryo vani useSelector use garnu parxa.
+
+- 
+
+makes a dynamic navbar and logout implementation. token implementation in authslice and localstoage.

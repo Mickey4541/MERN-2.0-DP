@@ -8,7 +8,7 @@ interface User{
     username : string,
     email : string,
     password : string,
-    token : string
+    token : string | null;
 }
 
 interface AuthState{
@@ -49,12 +49,15 @@ const authSlice = createSlice({
         },
         setToken(state:AuthState, action:PayloadAction<string>){
             state.user.token = action.payload
+        },
+        clearToken(state:AuthState){
+            state.user.token = null;
         }
     }
 })
 //yaha createSlice lai const authSlice maa store ta garim, yaha createSlice ley aauta object return garirako hunxa. Tyo object bhitra aauta action vanni key hunxa, ani tyo action vanni key bhitra pani feri reducers ko key haru hunxan jastai setUSer, setStatus haru.
 
-export const {setUser, setStatus, resetStatus, setToken} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
+export const {setUser, setStatus, resetStatus, setToken, clearToken} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
 export default authSlice.reducer
 
 
@@ -92,7 +95,8 @@ export function login(data:LoginData){
         try {
             const response = await API.post('/login',data)
             if(response.status ===  200){
-                const {data} = response.data
+                const {data} = response.data //data is token
+                //console.log(data);
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setToken(data))
                 localStorage.setItem('token', data)

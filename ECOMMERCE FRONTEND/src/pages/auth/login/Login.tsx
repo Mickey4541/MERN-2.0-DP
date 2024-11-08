@@ -12,7 +12,9 @@ const Login = () => {
   const navigate = useNavigate()
   const { status} = useAppSelector((state)=>state.auth) //state vanni ghar aairako hunxa, tyo gharbata auth vanni room nikaleko.
   // console.log(status);
-  
+
+
+    //yaha hooks.ts file maa type diyera banako hook lai call garko ho.usedispatch lai dispatch maa hold gareko.
   const dispatch = useAppDispatch()
   const handleLogin = async (data:UserLoginType) => {
     // console.log(data);
@@ -27,8 +29,6 @@ const Login = () => {
     if(status === Status.SUCCESS){
       dispatch(resetStatus()) //setting the status to loading again. login page maa janu vanda pahile status loading banako
       navigate('/')
-    }else{
-      alert("something went wrong.")
     }
   },[status, navigate, dispatch])
 
