@@ -61,4 +61,5 @@ export default tseslint.config({
 Then, the code of register and login inside authslice.ts which is a redux-toolkit code, we have to connect that redux-toolkit code with our login and register form so that whenever user submit a form, code inside authslice.ts got triggered. For that we have react-redux package. We can use different hooks given by the react-redux package like usedispatch, useselector to connect the react with redux.
 
 
-- 
+- app.ts 7 to 9
+- card.tsx line 17

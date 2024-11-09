@@ -5,6 +5,7 @@ import store from './store/store'
 import Login from './pages/auth/login/Login'
 import Register from './pages/auth/register/Register'
 import Home from './pages/home/Home'
+import SingleProduct from './pages/singleProduct/SingleProduct'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path='/' element={<Home/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/register' element={<Register/>} />
+          <Route path='/product/:id' element={<SingleProduct/>} />
         </Routes>
       </BrowserRouter>
     </Provider>

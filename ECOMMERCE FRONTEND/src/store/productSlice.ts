@@ -2,7 +2,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { Product, ProductState } from '../globals/components/types/productTypes'
 import { Status } from '../globals/components/types/types'
-import { AppDispatch } from './store'
+import { AppDispatch, RootState } from './store'
 import API from '../http'
 
 
@@ -11,7 +11,8 @@ import API from '../http'
 
 const initialState:ProductState = {
     product : [],
-    status : Status.LOADING
+    status : Status.LOADING,
+    singleProduct : null
 }
 
 //This code is from productSlice.ts
@@ -25,12 +26,15 @@ export const productSlice = createSlice({
         setStatus(state:ProductState, action:PayloadAction<Status>){
             state.status = action.payload
         },
+        setSingleProduct(state:ProductState, action:PayloadAction<Product>){
+            state.singleProduct = action.payload
+        },
         
     }
 })
 
 
-export const {setProduct, setStatus} = productSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
+export const {setProduct, setStatus, setSingleProduct} = productSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
 export default productSlice.reducer 
 
 
@@ -53,4 +57,29 @@ export function fetchProduct(){
     }
 }
 
+
+export function fetchByProductId(productId : string){
+    return async function fetchByProductIdThunk(dispatch:AppDispatch, getState : ()=> RootState){// GetState is a function and when we call it, it returns a initialState of productSlice. We need it to check if the data of specific id is there or not. And TootState help to access store.tsx
+    const state = getState()
+    const existingProduct = state.products.product.find((product:Product)=>product.id === productId)
+    if(existingProduct){
+        dispatch(setSingleProduct(existingProduct))
+        dispatch(setStatus(Status.SUCCESS))
+    }else{
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await API.get(`/admin/product/${productId}`)
+            if(response.status === 200){
+                const {data} = response.data
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setSingleProduct(data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+}
 

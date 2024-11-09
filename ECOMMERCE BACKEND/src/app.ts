@@ -4,8 +4,11 @@ const app:Application = express()
 //port number
 const PORT:number = 3000
 
-app.use('./uploads', express.static('uploads'));
+import path from 'path';
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// app.use(express.static("./storage/"))
 
 //inporting dotenv file
 import * as dotenv from 'dotenv'

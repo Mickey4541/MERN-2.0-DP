@@ -14,6 +14,7 @@ const Navbar = () => {
     // console.log(user.token);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
       const token =  localStorage.getItem('token')
@@ -38,7 +39,6 @@ const Navbar = () => {
 
         localStorage.removeItem('token')
         setIsLoggedIn(false)
-        const dispatch = useAppDispatch()
         dispatch(clearToken())
         
     //     console.log('After logout, token in localStorage:', localStorage.getItem('token'));
