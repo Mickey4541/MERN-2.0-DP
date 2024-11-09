@@ -1,6 +1,6 @@
 //requiring redux-toolkit createSlice function to configure slices.
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import API from '../http'
+import {API} from '../http'
 import { Status } from '../globals/components/types/types'
 
 

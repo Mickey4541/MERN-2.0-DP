@@ -1,3 +1,5 @@
+commonjs(CJS): maa require(), module.export haru hunxa.
+ES(ecma Script) : import export default haru aauxa.
 
 # STATE MANAGEMENT ::::
 - prop drilling.(Example 10 story building). State management concept is like makinga central codebase/place to store data, so that every component can use that data . It helps to remove the problem of prop driling.
@@ -91,6 +93,19 @@ const store = configureStore({
 
 export default store
 ```
+- Redux Toolkit is synchronous in nature. So, we cannot do asynchronous task inside redux toolkit. Like calling a api, settimeout functions, setinterval functions etc. Like in simple we, cannot do the asynchronous tasks inside redux. 
+
+- But what if we have to do a asynchronous tasks inside redux toolkit. Redux toolkit has a function called createAsyncThunk to do a asynchronous task inside the redux toolkit.
+
+- npm i axios to do async tasks inside redux using createAsyncThunk.
+
+- Inside authslice.ts make a function of register and login which is returning a thunk function.
+
+- make a http folder and inside that, make a index.ts file and make a instance of axios. Then we can use it like this::  const response = await API.post('/register', data).
+
+Then, the code of register and login inside authslice.ts which is a redux-toolkit code, we have to connect that redux-toolkit code with our login and register form so that whenever user submit a form, code inside authslice.ts got triggered. For that we have react-redux package. We can use different hooks given by the react-redux package like usedispatch, useselector to connect the react with redux.
+
+
 
 # Connecting the redux and react : 
 - We already installed react-redux package for this connection of redux and react. If we have to send data to redux store and receiving the data from redux store , we need to connect our react project with the redux.
@@ -161,3 +176,20 @@ redux ko ::
 - data react bata redux store maa send garna paryo vani usedispatch ani data store bata react maa tanera herna paryo vani useSelector use garnu parxa.
 
 - makes a dynamic navbar and logout implementation. token implementation in authslice and localstoage.
+
+
+# 53:
+>Add to Cart::
+- first make a cartSlice.ts file in store.
+- 
+
+
+
+
+
+
+
+
+# ask::
+- app.ts 7 to 9
+- card.tsx line 17

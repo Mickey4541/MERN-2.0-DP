@@ -3,6 +3,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useEffect, useState } from 'react';
 import { clearToken } from '../../../store/authSlice';
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+
+
 const Navbar = () => {
     const navigate = useNavigate()
 
@@ -69,9 +74,16 @@ const Navbar = () => {
             </Link>
                     </>
                 ) : (
+                    <>
                     <Link to='#' onClick={(e)=>{e.preventDefault(); handleLogout();}} className="py-2 px-6 flex">
                 LOGOUT
             </Link>
+            <Link to="/cart" className="py-2 px-6 flex bg-red-600 rounded-xl items-center space-x-2">
+      <FontAwesomeIcon icon={faCartShopping} className="text-white" />
+      <span className="text-white">CART</span>
+    </Link>
+
+            </>
                 )
             }
             

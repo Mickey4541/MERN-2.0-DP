@@ -4,6 +4,7 @@ import Navbar from "../../globals/components/navbar/Navbar"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchByProductId } from "../../store/productSlice"
+import { addToCart } from "../../store/cartSlice"
 
 
 
@@ -20,9 +21,12 @@ const SingleProduct = () => {
         }
     }, [id, dispatch]);
 
-    if (!singleProduct) {
-        return <div>Loading...</div>; // Optionally add a loading indicator
-    }
+        const handleAddToCart = () => {
+            if(id && singleProduct){
+                dispatch(addToCart(id))
+            }
+            
+        }
     // console.log(singleProduct);
     
   return (
@@ -38,7 +42,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">
-                        <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
+                        <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700" onClick={handleAddToCart}>Add to Cart</button>
                     </div>
                     <div className="w-1/2 px-2">
                         <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to Wishlist</button>

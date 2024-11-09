@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { Product, ProductState } from '../globals/components/types/productTypes'
 import { Status } from '../globals/components/types/types'
 import { AppDispatch, RootState } from './store'
-import API from '../http'
+import {API} from '../http'
 
 
 

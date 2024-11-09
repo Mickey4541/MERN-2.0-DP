@@ -6,6 +6,7 @@ import {configureStore} from '@reduxjs/toolkit' //store configure gardaa redux l
 import authSlice from './authSlice'
 // import { productSlice } from './productSlice'
 import productSlice from './productSlice'
+import cartSlice from './cartSlice'
 
 
 
@@ -15,7 +16,8 @@ import productSlice from './productSlice'
 const store = configureStore({
     reducer : {
         auth : authSlice,
-        products : productSlice
+        products : productSlice,
+        carts : cartSlice
         
     }
 })

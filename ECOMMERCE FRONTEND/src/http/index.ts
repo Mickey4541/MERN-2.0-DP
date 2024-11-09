@@ -10,4 +10,18 @@ const API = axios.create({
     }
 })
 
-export default API
+const APIAuthenticated = axios.create({
+    baseURL : 'http://localhost:3000',
+    headers : {
+        'Content-Type' : 'application/json', //data server maa pathaudaa kun format maa pathauni vaneko.
+        'Accept' : 'application/json', // data server bata leudaa kun format maa leuni vaneko.
+        'Authorization' : `${localStorage.getItem('token')}`
+    }
+})
+
+
+
+export {
+    API,
+    APIAuthenticated
+}
