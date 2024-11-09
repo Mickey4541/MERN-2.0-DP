@@ -9,7 +9,7 @@ interface User{
 }
 
 interface Category{
-    id:string,
+    id : string,
     categoryName: string,
 
 }
@@ -21,7 +21,7 @@ export interface Product{
     productDescription: string,
     productPrice: number,
     productTotalQty: number,
-    productImage:string,
+    productImageUrl:string,
     createdAt: string,
     updatedAt: string,
     userId: string,
@@ -34,4 +34,5 @@ export interface Product{
 export interface ProductState{
     product : Product[],
     status : Status //status vanni maa Status type ko
+    // singleProduct : Product | null
 }

@@ -31,7 +31,7 @@ export const productSlice = createSlice({
 
 
 export const {setProduct, setStatus} = productSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
-export default productSlice.reducer
+export default productSlice.reducer 
 
 
 //hamile manually function banauna lageko. Catchasyncthunk use gareko xainam. first aauta function banako ra tes function ley aarko asynchronous function return garxa.

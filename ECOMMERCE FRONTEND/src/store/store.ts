@@ -4,7 +4,8 @@
 
 import {configureStore} from '@reduxjs/toolkit' //store configure gardaa redux ley configureStore vanni function diraako hunxa tri import gareko
 import authSlice from './authSlice'
-import { productSlice } from './productSlice'
+// import { productSlice } from './productSlice'
+import productSlice from './productSlice'
 
 
 
@@ -14,7 +15,7 @@ import { productSlice } from './productSlice'
 const store = configureStore({
     reducer : {
         auth : authSlice,
-        products : productSlice.reducer
+        products : productSlice
         
     }
 })

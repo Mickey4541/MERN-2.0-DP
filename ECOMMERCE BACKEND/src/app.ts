@@ -4,6 +4,9 @@ const app:Application = express()
 //port number
 const PORT:number = 3000
 
+app.use('./uploads', express.static('uploads'));
+
+
 //inporting dotenv file
 import * as dotenv from 'dotenv'
 dotenv.config()
