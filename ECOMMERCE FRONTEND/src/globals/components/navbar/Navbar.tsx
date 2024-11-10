@@ -6,6 +6,7 @@ import { clearToken } from '../../../store/authSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { fetchCartItems } from '../../../store/cartSlice';
 
 
 const Navbar = () => {
@@ -21,6 +22,11 @@ const Navbar = () => {
 
     const dispatch = useAppDispatch()
 
+    //for items counter in cart in navbar
+    const {items} = useAppSelector((state)=>state.carts)
+    console.log(items);
+    
+
     useEffect(() => {
       const token =  localStorage.getItem('token')
       setIsLoggedIn(!!token || !!user.token)//The setIsLoggedIn(!!token || !!user.token); code uses a logical expression to determine
@@ -34,6 +40,7 @@ const Navbar = () => {
     //isLoggedIn(!false || !true)
     //isloggedIn(true || false)
     //isloggedIn(true)
+    dispatch(fetchCartItems())
     }, [user.token])
     
 
@@ -80,7 +87,7 @@ const Navbar = () => {
             </Link>
             <Link to="/cart" className="py-2 px-6 flex bg-red-600 rounded-xl items-center space-x-2">
       <FontAwesomeIcon icon={faCartShopping} className="text-white" />
-      <span className="text-white">CART</span>
+      <span className="text-white">CART <sup className='font-bold text-xl'>{items.length}</sup></span>
     </Link>
 
             </>

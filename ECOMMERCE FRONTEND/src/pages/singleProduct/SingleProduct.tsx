@@ -16,7 +16,7 @@ const SingleProduct = () => {
 
 
     useEffect(() => {//This useEffect runs when the component first loads and whenever id or dispatch changes.
-        if (id) {
+        if (id && !singleProduct) {
             dispatch(fetchByProductId(id));
         }
     }, [id, dispatch]);

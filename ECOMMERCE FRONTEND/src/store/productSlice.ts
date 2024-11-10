@@ -58,6 +58,7 @@ export function fetchProduct(){
 }
 
 
+//for single product page
 export function fetchByProductId(productId : string){
     return async function fetchByProductIdThunk(dispatch:AppDispatch, getState : ()=> RootState){// GetState is a function and when we call it, it returns a initialState of productSlice. We need it to check if the data of specific id is there or not. And TootState help to access store.tsx
     const state = getState()

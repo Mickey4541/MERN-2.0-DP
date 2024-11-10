@@ -44,13 +44,16 @@ class CartController{
                 productId : productId
             })
         }
-        const product = await Product.findByPk(productId)
+
+        //day53 49minutes:::
+        const data = await Cart.findAll({
+            where : {
+                userId : userId
+            }
+        })
         res.status(200).json({
             message : "Product added to cart",
-            data : {
-                ...cartItem.toJSON,
-                product : product?.toJSON()
-            }
+            data
         })
     }
 

@@ -39,14 +39,32 @@ export function addToCart(productId:string){
                 productId : productId,
                 quantity : 1,
              })
-             if(response.status === 201){
+             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setItems(response.data.data))
              }else{
                 dispatch(setStatus(Status.ERROR))
              }
         } catch (error) {
-            
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+//for showing counter in add to cart button
+export function fetchCartItems(){
+    return async function fetchCartItemsThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+             const response = await APIAuthenticated.get('/customer/cart') //token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
+             if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setItems(response.data.data))
+             }else{
+                dispatch(setStatus(Status.ERROR))
+             }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }
