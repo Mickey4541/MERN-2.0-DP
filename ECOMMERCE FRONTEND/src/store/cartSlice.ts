@@ -12,6 +12,10 @@ const intitalState:Cartstate = {
 }
 
 
+interface DeleteAction{
+    productId : string
+}
+
 const cartSlice = createSlice({
     name : 'cart',
     initialState : intitalState,
@@ -21,11 +25,15 @@ const cartSlice = createSlice({
         },
         setStatus(state:Cartstate, action:PayloadAction<Status>){
             state.status = action.payload
-        }
+        },
+        setDeleteItem(state:Cartstate, action:PayloadAction<DeleteAction>){
+            const index = state.items.findIndex((item)=>item.Product.id === action.payload.productId)
+            state.items.splice(index,1)
+        }//item.Product.id === action.payload.productId checks if the Product.id of the current item matches the productId from the payload.splice(index, 1): Once the item is found, splice is used to remove it from the array.
     }
 })
 
-export const {setItems, setStatus} = cartSlice.actions
+export const {setItems, setStatus, setDeleteItem} = cartSlice.actions
 export default cartSlice.reducer
 
 
@@ -60,6 +68,23 @@ export function fetchCartItems(){
              if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setItems(response.data.data))
+             }else{
+                dispatch(setStatus(Status.ERROR))
+             }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+//function to delete the product from the cart table in database.
+export function deleteCartItem(productId:string){    
+    return async function deleteCartItemThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+             const response = await APIAuthenticated.delete("/customer/cart/" + productId) //token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
+             if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setDeleteItem({productId}))
              }else{
                 dispatch(setStatus(Status.ERROR))
              }

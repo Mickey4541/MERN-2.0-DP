@@ -24,7 +24,7 @@ const Navbar = () => {
 
     //for items counter in cart in navbar
     const {items} = useAppSelector((state)=>state.carts)
-    console.log(items);
+    // console.log(items);
     
 
     useEffect(() => {
@@ -61,9 +61,11 @@ const Navbar = () => {
   return (
     <header className="h-24 sm:h-32 flex items-center z-30 w-full">
     <div className="container mx-auto px-6 flex items-center justify-between">
+        <Link to= '/'>
         <div className="uppercase text-gray-800 dark:text-white font-black text-3xl">
-            Rajan
+            <span className='text-red-600'>R</span>azan
         </div>
+        </Link>
         <div className="flex items-center">
         <nav className="font-sen text-gray-800 dark:text-white uppercase text-lg lg:flex items-center hidden">
             <Link to="/" className="py-2 px-6 flex">
@@ -87,7 +89,7 @@ const Navbar = () => {
             </Link>
             <Link to="/cart" className="py-2 px-6 flex bg-red-600 rounded-xl items-center space-x-2">
       <FontAwesomeIcon icon={faCartShopping} className="text-white" />
-      <span className="text-white">CART <sup className='font-bold text-xl'>{items.length}</sup></span>
+      <span className="text-white">CART <sup className='font-bold text-xs bg-green-800 pr-2 pl-2 pt-1 pb-1 rounded-full'>{items.length}</sup></span>
     </Link>
 
             </>

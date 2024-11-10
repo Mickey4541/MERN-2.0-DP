@@ -27,7 +27,7 @@ export interface Product{
     userId: string,
     categoryId: string
     User: User,
-    Category : Category
+    category : Category
 }
 
 
