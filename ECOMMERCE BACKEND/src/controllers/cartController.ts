@@ -106,8 +106,8 @@ class CartController{
         //delete the product from cart
         await Cart.destroy({
             where : {
-                userId :userId,
-                productId : productId
+                userId,
+                productId
             }
         })
         res.status(200).json({

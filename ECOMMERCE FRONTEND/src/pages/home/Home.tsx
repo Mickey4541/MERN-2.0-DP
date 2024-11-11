@@ -14,11 +14,12 @@ import { Card } from '../../globals/components/card/Card'
 const Home = () => {
   const dispatch = useAppDispatch()
   const {status, product} = useAppSelector((state)=>state.products)
+  
   useEffect(() => {
     dispatch(fetchProduct())
   
   }, [])
-  console.log(product);
+  // console.log(product);
   
   
   return (

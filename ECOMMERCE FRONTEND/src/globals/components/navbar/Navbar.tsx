@@ -89,7 +89,7 @@ const Navbar = () => {
             </Link>
             <Link to="/cart" className="py-2 px-6 flex bg-red-600 rounded-xl items-center space-x-2">
       <FontAwesomeIcon icon={faCartShopping} className="text-white" />
-      <span className="text-white">CART <sup className='font-bold text-xs bg-green-800 pr-2 pl-2 pt-1 pb-1 rounded-full'>{items.length}</sup></span>
+      <span className="text-white">CART <sup className='font-bold text-xs bg-green-800 pr-2 pl-2 pt-1 pb-1 rounded-full'>{items?.length}</sup></span>
     </Link>
 
             </>

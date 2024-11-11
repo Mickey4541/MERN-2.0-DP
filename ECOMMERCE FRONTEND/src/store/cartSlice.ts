@@ -16,6 +16,11 @@ interface DeleteAction{
     productId : string
 }
 
+interface UpdateAction extends DeleteAction{
+    quantity : number,
+
+}
+
 const cartSlice = createSlice({
     name : 'cart',
     initialState : intitalState,
@@ -26,14 +31,23 @@ const cartSlice = createSlice({
         setStatus(state:Cartstate, action:PayloadAction<Status>){
             state.status = action.payload
         },
-        setDeleteItem(state:Cartstate, action:PayloadAction<DeleteAction>){
-            const index = state.items.findIndex((item)=>item.Product.id === action.payload.productId)
-            state.items.splice(index,1)
-        }//item.Product.id === action.payload.productId checks if the Product.id of the current item matches the productId from the payload.splice(index, 1): Once the item is found, splice is used to remove it from the array.
+        setDeleteItem(state: Cartstate, action: PayloadAction<DeleteAction>) {
+            
+            const index = state.items.findIndex((item) => item.Product.id === action.payload.productId);        //item.Product.id === action.payload.productId checks if the Product.id of the current item matches the productId from the payload.splice(index, 1): Once the item is found, splice is used to remove it from the array.
+            state.items.splice(index, 1); 
+            
+        },
+        setUpdateItem(state:Cartstate, action:PayloadAction<UpdateAction>){
+            const index = state.items.findIndex(item => item.Product.id = action.payload.productId)
+            if(index !== -1){
+                state.items[index].quantity = action.payload.quantity
+            }
+        }
+        
     }
 })
 
-export const {setItems, setStatus, setDeleteItem} = cartSlice.actions
+export const {setItems, setStatus, setDeleteItem, setUpdateItem} = cartSlice.actions
 export default cartSlice.reducer
 
 
@@ -65,6 +79,8 @@ export function fetchCartItems(){
         dispatch(setStatus(Status.LOADING))
         try {
              const response = await APIAuthenticated.get('/customer/cart') //token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
+             console.log("Fetched Cart Items: ", response.data.data); // Log the response
+
              if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setItems(response.data.data))
@@ -77,17 +93,37 @@ export function fetchCartItems(){
     }
 }
 //function to delete the product from the cart table in database.
-export function deleteCartItem(productId:string){    
+//token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
+export function deleteCartItem(productId:string){
     return async function deleteCartItemThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-             const response = await APIAuthenticated.delete("/customer/cart/" + productId) //token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
-             if(response.status === 200){
+            const response = await APIAuthenticated.delete('/customer/cart/' + productId)
+            if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setDeleteItem({productId}))
-             }else{
+            }else{
                 dispatch(setStatus(Status.ERROR))
-             }
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+export function updateCartItem(productId:string, quantity:number){
+    return async function deleteCartItemThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.patch('/customer/cart/' + productId,{
+                quantity : quantity
+            })
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setUpdateItem({productId, quantity}))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
         } catch (error) {
             dispatch(setStatus(Status.ERROR))
         }

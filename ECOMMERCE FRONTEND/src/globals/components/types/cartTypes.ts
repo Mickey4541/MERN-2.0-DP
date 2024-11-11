@@ -5,7 +5,7 @@ import { Status } from "./types";
 
 export interface CartItem{
     Product : Product,
-    Quantity : number
+    quantity : number
 }
 
 
