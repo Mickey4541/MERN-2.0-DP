@@ -32,10 +32,8 @@ const cartSlice = createSlice({
             state.status = action.payload
         },
         setDeleteItem(state: Cartstate, action: PayloadAction<DeleteAction>) {
-            
-            const index = state.items.findIndex((item) => item.Product.id === action.payload.productId);        //item.Product.id === action.payload.productId checks if the Product.id of the current item matches the productId from the payload.splice(index, 1): Once the item is found, splice is used to remove it from the array.
-            state.items.splice(index, 1); 
-            
+            const index = state.items.findIndex((item) => item.Product.id === action.payload.productId);//item.Product.id === action.payload.productId checks if the Product.id of the current item matches the productId from the payload.splice(index, 1): Once the item is found, splice is used to remove it from the array.
+            state.items.splice(index, 1);  
         },
         setUpdateItem(state:Cartstate, action:PayloadAction<UpdateAction>){
             const index = state.items.findIndex(item => item.Product.id = action.payload.productId)
@@ -79,7 +77,7 @@ export function fetchCartItems(){
         dispatch(setStatus(Status.LOADING))
         try {
              const response = await APIAuthenticated.get('/customer/cart') //token pathauna paryo for this, token chai APIAuthenticated bata gai raako xa.
-             console.log("Fetched Cart Items: ", response.data.data); // Log the response
+             //console.log("Fetched Cart Items: ", response.data.data); // Log the response
 
              if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
@@ -98,7 +96,9 @@ export function deleteCartItem(productId:string){
     return async function deleteCartItemThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.delete('/customer/cart/' + productId)
+            const response = await APIAuthenticated.delete(`/customer/cart/${productId}`)
+            console.log("DELETE CART", response);
+            
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setDeleteItem({productId}))

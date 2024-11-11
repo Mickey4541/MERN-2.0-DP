@@ -13,7 +13,7 @@ import { Product } from "../types/productTypes";
 
     return (
         <>
-      
+     
         <div className="flex flex-col p-1 py-1 bg-purple-50 text-center transform duration-500 hover:-translate-y-2  rounded-xl sm:w-1/2 md:w-1/4 lg:w-1/5 xl:w-1/5 gap-1 mx-2 sm:mx-4 mt-10">
         {/* Use the image URL from the data prop */}
         <img
@@ -21,7 +21,7 @@ import { Product } from "../types/productTypes";
             // src={data.productImageUrl}
             // src={data.productImageUrl ? data.productImageUrl : "#"}
             alt={data?.productName}
-            className="mx-auto mb-2 w-full object-cover max-h-48"  // Ensures the image height doesn't grow beyond 48px
+            className="mx-auto mb-2 w-full object-cover max-h-48 rounded-xl"  // Ensures the image height doesn't grow beyond 48px
         />
 
         <div className="space-x-1 flex justify-center mt-4">
@@ -38,14 +38,14 @@ import { Product } from "../types/productTypes";
             ))}
         </div>
 
-        <h1 className="text-xl my-2 text-black">{data?.productName}</h1> {/* Adjusted text size */}
+        <h1 className="text-xl my-2 text-black font-bold">{data?.productName}</h1> {/* Adjusted text size */}
         <p className="mb-1 text-black text-sm sm:text-base md:text-lg lg:text-xl">{shortDescription}</p> {/* Adjusted margin */}
-        <h2 className="font-semibold mb-2 text-gray-700 text-sm sm:text-base md:text-lg">${data.productPrice}</h2> {/* Adjusted margin */}
+        <h2 className="font-semibold mb-2 text-green-700 text-sm sm:text-base md:text-lg font-bold">Price: ${data.productPrice}</h2> {/* Adjusted margin */}
         <div className="space-x-1">
             <Link to={`/product/${data.id}`}>
-            <button className="bg-green-700 p-2 px-4  text-black rounded-md hover:bg-green-600 font-medium">See More</button>
+            <button className="bg-green-700 p-2 px-4  text-white rounded-md hover:bg-green-600 font-medium">See More</button>
             </Link>
-        <button className="p-2 px-4 bg-purple-500 text-black rounded-md hover:bg-purple-600 font-medium">
+        <button className="p-2 px-4 bg-purple-500 text-white rounded-md hover:bg-purple-600 font-medium">
             Add To Cart
         </button>
         </div>

@@ -35,7 +35,7 @@ const Home = () => {
       return <Card key={pd.id} data={pd} />;
     })}
 </div>
-
+    <Divider/>
     <Footer/>
     </>
   )

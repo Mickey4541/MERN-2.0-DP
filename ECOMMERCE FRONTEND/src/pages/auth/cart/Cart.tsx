@@ -5,11 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 const Cart = () => {
   const { items } = useAppSelector((state) => state.carts);
-
   const dispatch = useAppDispatch();
-
   const handleDelete = (productId: string) => {
-
+    console.log("Product ID in handleDelete:", productId);
     if (productId) {
         dispatch(deleteCartItem(productId));
     } else {
@@ -22,13 +20,14 @@ const handleUpdate = (productId:string, quantity:number)=>{
   dispatch(updateCartItem(productId, quantity))
 }
 
+
 const totalItemInCarts = items.reduce((total, item)=>item?.quantity + total, 0)//0 is accumulator and the initial value of total is 0.
 const totalPriceInCarts = items.reduce((total, item)=>item?.Product?.productPrice * item?.quantity + total, 0)
   
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-700 pt-20">
+      <div className="min-h-screen bg-gray-800 pt-28 sm:mx-4">
         <h1 className="mb-10 text-center text-2xl font-bold">MY CART ITEMS:</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0 ">
           <div className="rounded-lg md:w-2/3">
