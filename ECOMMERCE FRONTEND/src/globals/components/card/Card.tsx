@@ -40,7 +40,7 @@ import { Product } from "../types/productTypes";
 
         <h1 className="text-xl my-2 text-black font-bold">{data?.productName}</h1> {/* Adjusted text size */}
         <p className="mb-1 text-black text-sm sm:text-base md:text-lg lg:text-xl">{shortDescription}</p> {/* Adjusted margin */}
-        <h2 className="font-semibold mb-2 text-green-700 text-sm sm:text-base md:text-lg font-bold">Price: ${data.productPrice}</h2> {/* Adjusted margin */}
+        <h2 className=" mb-2 text-green-700 text-sm sm:text-base md:text-lg font-bold">Price: ${data.productPrice}</h2> {/* Adjusted margin */}
         <div className="space-x-1">
             <Link to={`/product/${data.id}`}>
             <button className="bg-green-700 p-2 px-4  text-white rounded-md hover:bg-green-600 font-medium">See More</button>

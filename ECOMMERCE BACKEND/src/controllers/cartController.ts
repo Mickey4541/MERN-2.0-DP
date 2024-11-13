@@ -48,7 +48,7 @@ class CartController{
         //day53 49minutes:::
         const data = await Cart.findAll({
             where : {
-                userId : userId
+                userId : userId,
             }
         })
         res.status(200).json({
@@ -68,7 +68,7 @@ class CartController{
             include : [
                 {
                     model : Product, //caerItems maa product ko data pani join vayera aauxa. just yaha join gareko
-                    attributes : ['productPrice', 'productName', 'productDescription', 'productImageUrl'],
+                    // attributes : ['productPrice', 'productName', 'productDescription', 'productImageUrl'],
                     include : [
                         {
                             model : Category,
@@ -77,7 +77,7 @@ class CartController{
                     ]
                 }
             ],
-            attributes : ['productId','quantity'] //getting product specific data in cart.
+            //attributes : ['productId','quantity'] //getting product specific data in cart.
         })
         if(cartItems.length === 0){
             res.status(404).json({
@@ -125,6 +125,7 @@ class CartController{
             res.status(400).json({
                 message : 'Please provide quantity'
             })
+            return
         }
         const cartData = await Cart.findOne({
             where : {

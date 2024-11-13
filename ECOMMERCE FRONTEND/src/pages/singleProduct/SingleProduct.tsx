@@ -42,7 +42,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">
-                        <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700" onClick={handleAddToCart}>Add to Cart</button>
+                        <button className="w-full bg-green-900 dark:bg-green-600 text-white py-2 px-4 rounded-full font-bold hover:bg-green-800 dark:hover:bg-green-700" onClick={handleAddToCart}>Add to Cart</button>
                     </div>
                     <div className="w-1/2 px-2">
                         <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to Wishlist</button>

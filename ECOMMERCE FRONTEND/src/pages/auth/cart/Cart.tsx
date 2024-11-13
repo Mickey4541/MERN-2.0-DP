@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 const Cart = () => {
   const { items } = useAppSelector((state) => state.carts);
   const dispatch = useAppDispatch();
+
+  
   const handleDelete = (productId: string) => {
-    console.log("Product ID in handleDelete:", productId);
     if (productId) {
         dispatch(deleteCartItem(productId));
     } else {
