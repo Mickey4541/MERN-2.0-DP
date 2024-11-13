@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "../../../globals/components/footer/Footer";
 import Navbar from "../../../globals/components/navbar/Navbar";
 import { deleteCartItem, updateCartItem } from "../../../store/cartSlice";
@@ -7,7 +8,7 @@ const Cart = () => {
   const { items } = useAppSelector((state) => state.carts);
   const dispatch = useAppDispatch();
 
-  
+
   const handleDelete = (productId: string) => {
     if (productId) {
         dispatch(deleteCartItem(productId));
@@ -103,9 +104,11 @@ const totalPriceInCarts = items.reduce((total, item)=>item?.Product?.productPric
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
+            <Link to ='/checkout'>
             <button className="mt-6 w-full rounded-md bg-green-700 py-1.5 font-medium text-blue-50 hover:bg-green-600">
               Check out
             </button>
+            </Link>
           </div>
         </div>
       </div>
