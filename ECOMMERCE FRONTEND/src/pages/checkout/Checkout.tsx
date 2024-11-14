@@ -1,13 +1,20 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Footer from "../../globals/components/footer/Footer";
 import Navbar from "../../globals/components/navbar/Navbar";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { ItemDetails, OrderData, PaymentMethod } from "../../globals/components/types/checkoutTypes";
+import { orderItem } from "../../store/checkoutSlice";
+import { Status } from "../../globals/components/types/types";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
     const { items } = useAppSelector((state) => state.carts);
     // console.log(items);
-    
+    const {khaltiUrl, status} = useAppSelector((state)=>state.orders)
+    console.log(khaltiUrl);
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.COD); // by default COD is selected
 
     const [data, setData] = useState<OrderData>({
@@ -40,7 +47,8 @@ const Checkout = () => {
     };
     // console.log(data);
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    let Subtotal = items.reduce((total, item) => item.Product.productPrice * item.quantity + total, 0);
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const itemDetails: ItemDetails[] = items.map((item) => {
             return {
@@ -48,15 +56,30 @@ const Checkout = () => {
                 quantity: item.quantity,
             };
         });
-        const totalAmount = items.reduce((total, item) => item.Product.productPrice * item.quantity + total, 0);
+       
         const orderData = {
             ...data,
             items: itemDetails,
-            totalAmount: totalAmount,
+            totalAmount: Subtotal,
         };
         console.log("order data is", orderData);
-    };
+        await dispatch(orderItem(orderData))
+        
+        if(khaltiUrl){
+            window.location.href = khaltiUrl
+        }
 
+        useEffect(() => {
+            if(status === Status.SUCCESS){
+                alert("Order Placed Successfully")
+                navigate('/')
+            }
+        }, [status, dispatch]);
+        
+
+    };
+    // console.log(Subtotal);
+    
     return (
         <>
         <Navbar />
@@ -167,26 +190,34 @@ const Checkout = () => {
                         <div className="mt-6 border-t border-b py-2">
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p className="font-semibold text-gray-900">Rs 1000</p>
+                                <p className="font-semibold text-gray-900">${Subtotal}</p>
                             </div>
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">Shipping</p>
-                                <p className="font-semibold text-gray-900">Rs 50</p>
+                                <p className="font-semibold text-gray-900">$4.99</p>
                             </div>
                         </div>
 
                         <div className="mt-6 flex items-center justify-between">
                             <p className="text-sm font-medium text-gray-900">Total</p>
-                            <p className="text-2xl font-semibold text-gray-900">Rs 1050</p>
+                            <p className="text-2xl font-semibold text-gray-900">$ {Subtotal + 4.99}</p>
                         </div>
 
                         {/* Action Buttons */}
-                        <button type="submit" className="mt-4 mb-8 w-full rounded-md bg-green-700 px-6 py-3 font-medium text-white hover:bg-gray-800 transition duration-300">
-                            Place Order
-                        </button>
-                        <button className="mt-4 mb-8 w-full rounded-md bg-[#5D2F9B] px-6 py-3 font-medium text-white hover:bg-gray-800 transition duration-300">
+                        {
+                            paymentMethod === PaymentMethod.khalti ? (
+                            <button className="mt-4 mb-8 w-full rounded-md bg-[#5D2F9B] px-6 py-3 font-medium text-white hover:bg-gray-800 transition duration-300">
                             Pay With Khalti
                         </button>
+                            ):(
+                            <button type="submit" className="mt-4 mb-8 w-full rounded-md bg-green-700 px-6 py-3 font-medium text-white hover:bg-gray-800 transition duration-300">
+                            Place Order
+                        </button>
+                            )
+
+                        }
+                        
+                        
                     </div>
                 </form>
             </div>

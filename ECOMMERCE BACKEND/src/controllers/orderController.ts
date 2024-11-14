@@ -6,6 +6,7 @@ import Order from "../database/models/Order";
 import OrderDetail from "../database/models/orderDetails";
 import axios from "axios";
 import Product from "../database/models/productTableModel";
+import Cart from "../database/models/Cart";
 
 
 
@@ -41,6 +42,7 @@ class OrderController{
             paymentId : paymentData.id
         })
         
+
         //items vanni hamilai array maa aairako hunxa so, each row table maa halnu pardaa loop garera halnu parney hunxa.
         let responseOrderData;
         for(var i= 0; i<items.length; i++){
@@ -48,6 +50,12 @@ class OrderController{
                 quantity : items[i].quantity,
                 productId : items[i].productId,
                 orderId : orderData.id
+            })
+            await Cart.destroy({
+                where : {
+                    productID : items[i].productId,
+                    userId : userId
+                }
             })
         }
         if(paymentDetails.paymentMethod === PaymentMethod.khalti){
