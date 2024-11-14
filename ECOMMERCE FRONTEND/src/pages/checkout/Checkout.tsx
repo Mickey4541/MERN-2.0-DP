@@ -11,7 +11,6 @@ const Checkout = () => {
     const { items } = useAppSelector((state) => state.carts);
     // console.log(items);
     const {khaltiUrl, status} = useAppSelector((state)=>state.orders)
-    console.log(khaltiUrl);
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -26,6 +25,9 @@ const Checkout = () => {
         },
         items: [],
     });
+
+    const [flashMessage, setFlashMessage] = useState<string | null>(null); // Flash message state
+
 
     const handlePaymentMethod = (e: ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(e.target.value as PaymentMethod);
@@ -64,26 +66,38 @@ const Checkout = () => {
         };
         console.log("order data is", orderData);
         await dispatch(orderItem(orderData))
-        
-        if(khaltiUrl){
-            window.location.href = khaltiUrl
-        }
-
-        useEffect(() => {
-            if(status === Status.SUCCESS){
-                alert("Order Placed Successfully")
-                navigate('/')
-            }
-        }, [status, dispatch]);
-        
 
     };
+
+    useEffect(() => {
+        if(status === Status.SUCCESS){
+            setFlashMessage("Order Placed Successfully")
+            setTimeout(()=>{
+                setFlashMessage(null); // Hide flash message after 3 seconds
+                navigate('/')
+            },3000)
+        }
+    }, [status, navigate]);
+    
+
+    useEffect(() => {
+        if (khaltiUrl) {
+            window.location.href = khaltiUrl;
+        }
+    }, [khaltiUrl]);
     // console.log(Subtotal);
     
     return (
         <>
         <Navbar />
+
         <div className="pt-24 px-4 sm:px-10 lg:px-20 xl:px-32">
+             {/* Flash Message */}
+            {flashMessage && (
+                    <div className="bg-green-500 text-white text-center p-4 rounded-md mb-4">
+                        {flashMessage}
+                    </div>
+                )}
             <div className="flex flex-col lg:flex-row gap-10">
                 {/* Left Side: Order Summary */}
                 <div className="lg:w-1/2">
@@ -190,7 +204,7 @@ const Checkout = () => {
                         <div className="mt-6 border-t border-b py-2">
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p className="font-semibold text-gray-900">${Subtotal}</p>
+                                <p className="font-semibold text-gray-900">${Subtotal.toFixed(2)}</p>
                             </div>
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">Shipping</p>

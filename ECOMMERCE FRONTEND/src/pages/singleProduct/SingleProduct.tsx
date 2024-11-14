@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import Footer from "../../globals/components/footer/Footer"
 import Navbar from "../../globals/components/navbar/Navbar"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchByProductId } from "../../store/productSlice"
 import { addToCart } from "../../store/cartSlice"
@@ -14,6 +14,7 @@ const SingleProduct = () => {
     const dispatch = useAppDispatch()
     const {status, singleProduct} = useAppSelector((state) => state.products)
 
+    const [flashMessage, setFlashMessage] = useState<string | null>(null)
 
     useEffect(() => {//This useEffect runs when the component first loads and whenever id or dispatch changes.
         if (id && !singleProduct) {
@@ -24,6 +25,14 @@ const SingleProduct = () => {
         const handleAddToCart = () => {
             if(id && singleProduct){
                 dispatch(addToCart(id))
+                 // Show flash message when product is added to cart (new addition)
+            setFlashMessage('Product added to cart successfully!')
+
+            // Automatically hide the flash message after 3 seconds (new addition)
+            setTimeout(() => {
+                setFlashMessage(null)
+            }, 3000)
+
             }
             
         }
@@ -45,7 +54,7 @@ const SingleProduct = () => {
                         <button className="w-full bg-green-900 dark:bg-green-600 text-white py-2 px-4 rounded-full font-bold hover:bg-green-800 dark:hover:bg-green-700" onClick={handleAddToCart}>Add to Cart</button>
                     </div>
                     <div className="w-1/2 px-2">
-                        <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to Wishlist</button>
+                        <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to wishlist</button>
                     </div>
                 </div>
             </div>
@@ -93,6 +102,12 @@ const SingleProduct = () => {
         </div>
     </div>
 </div>
+ {/* Flash Message */}
+ {flashMessage && (
+                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-6 rounded-md shadow-lg z-50">
+                    {flashMessage}
+                </div>
+            )}
 <Footer/>
     </>
 
