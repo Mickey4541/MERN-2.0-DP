@@ -1,11 +1,12 @@
+import { Product } from "./productTypes"
 import { Status } from "./types"
 
 export enum PaymentMethod{
     COD = 'cod',
-    khalti = 'khalti'
+    Khalti = 'khalti'
 }
 
-enum OrderStatus{
+export enum OrderStatus{
     Pending = 'pending',
     Delivered = 'delivered',
     Ontheway = 'ontheway',
@@ -39,16 +40,20 @@ export interface OrderData{
     phoneNumber : string,
     shippingAddress : string,
     totalAmount : number,
-    paymentDetails : {
-        paymentMethod : PaymentMethod
-    },
+    paymentDetails : Payment,
     items : ItemDetails[]
 }
 export interface OrderResponseData{
     items : OrderResponseItem[],
     status : Status,
     khaltiUrl : string | null,
-    myOrders : MyOrdersData[]
+    myOrders : MyOrdersData[],
+    orderDetails : OrderDetails[]
+}
+
+    interface UserData{
+    username : string,
+    email : string
 }
 
 export interface MyOrdersData{
@@ -59,6 +64,14 @@ export interface MyOrdersData{
     orderStatus : OrderStatus,
     createdAt : string,
     paymentId : string,
-    userId : string
+    userId : UserData,
     payment : OrderPaymentData
+}
+
+export interface OrderDetails{
+    id : string,
+    quantity : number,
+    orderId : string,
+    Product : Product,
+    Order : MyOrdersData
 }

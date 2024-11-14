@@ -2,6 +2,7 @@
     import Navbar from "../../../globals/components/navbar/Navbar";
     import { useAppDispatch, useAppSelector } from "../../../store/hooks";
     import { fetchMyOrders } from "../../../store/checkoutSlice";
+    import { Link } from "react-router-dom";
 
     const MyOrders = () => {
         const dispatch = useAppDispatch()
@@ -92,7 +93,7 @@
                             return (
                                 <tr key={order.id}>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <p className="text-blue-500 cursor-pointer">{order.id}</p>
+                                    <Link to={`/myorders/${order.id}`} ><p className="text-blue-500 cursor-pointer">{order.id}</p></Link>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
                                     <p className="text-gray-400">{order.totalAmount}</p>

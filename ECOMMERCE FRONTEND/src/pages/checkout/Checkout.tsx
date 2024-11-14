@@ -175,7 +175,7 @@
                     className="peer hidden"
                     id="radio_2"
                     type="radio"
-                    value={PaymentMethod?.khalti}
+                    value={PaymentMethod?.Khalti}
                     onChange={handlePaymentMethod}
                     name="paymentMethod"
                     />
@@ -269,7 +269,7 @@
                 </div>
 
                 {/* Action Buttons */}
-                {paymentMethod === PaymentMethod.khalti ? (
+                {paymentMethod === PaymentMethod.Khalti ? (
                     <button className="mt-4 mb-8 w-full rounded-md bg-[#5D2F9B] px-6 py-3 font-medium text-white hover:bg-gray-800 transition duration-300">
                     Pay With Khalti
                     </button>

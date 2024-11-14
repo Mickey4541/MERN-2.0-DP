@@ -7,6 +7,8 @@ import OrderDetail from "../database/models/orderDetails";
 import axios from "axios";
 import Product from "../database/models/productTableModel";
 import Cart from "../database/models/Cart";
+import User from "../database/models/userModel";
+import Category from "../database/models/Category";
 
 
 
@@ -162,7 +164,17 @@ class OrderController{
             include : [
                 {
                     model : payment
+                },{
+                    model : Order,
+                    include : [{
+                        model : payment,
+                        attributes : ['paymentMethod', 'paymentStatus']
+                    },{
+                        model : User,
+                        attributes : ['username', 'email']
+                    }]
                 }
+                
             ]
         })
         if(orders.length > 0){
@@ -187,7 +199,13 @@ class OrderController{
             },
             include : [
                 {
-                    model : Product
+                    model : Product,
+                    include : [
+                        {
+                           model : Category,
+                           attributes : ['categoryName'] 
+                        }
+                    ]
                 }
             ]
         })
