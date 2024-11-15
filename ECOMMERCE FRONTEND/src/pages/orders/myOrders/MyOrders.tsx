@@ -1,19 +1,43 @@
-    import { useEffect } from "react";
+    import { useEffect, useState } from "react";
     import Navbar from "../../../globals/components/navbar/Navbar";
     import { useAppDispatch, useAppSelector } from "../../../store/hooks";
     import { fetchMyOrders } from "../../../store/checkoutSlice";
     import { Link } from "react-router-dom";
+import { OrderStatus } from "../../../globals/components/types/checkoutTypes";
 
     const MyOrders = () => {
         const dispatch = useAppDispatch()
         const {myOrders} = useAppSelector((state)=>state.orders)
 
+        const [selectedItem, setselectedItem] = useState<OrderStatus>(OrderStatus.All)
+        const [searchTerm, setSearchTerm] = useState<string>("")
+        const [date, setDate] = useState("")
 
+
+        console.log(selectedItem);
+        
         useEffect(()=>{
             dispatch(fetchMyOrders())
         },[])
         console.log(myOrders);
         
+        const filteredOrders = myOrders.filter((order)=>selectedItem === OrderStatus.All || order.orderStatus === selectedItem)
+        .filter((order)=>order.id.toLowerCase().includes(searchTerm) || order.payment.paymentMethod.toLowerCase().includes(searchTerm) || order.totalAmount.toString().includes(searchTerm))
+        .filter((order)=>date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString())
+        // >>>>>>>>>>>>>>>>>>>>>OR>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // const filteredOrders = myOrders
+        // .filter(order => selectedItem === OrderStatus.All || order.orderStatus === selectedItem)
+        // .filter(order => {
+        //     const term = searchTerm?.toLowerCase() || ""; // Handle undefined by defaulting to an empty string
+        //     return (
+        //     order.id.toLowerCase().includes(term) ||
+        //     order.payment.paymentMethod.toLowerCase().includes(term) ||
+        //     order.totalAmount.toString().includes(term)
+        //     );
+        // });
+
+
+
     return (
         <>
         <Navbar />
@@ -26,15 +50,15 @@
                 <div className="my-4 flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:space-x-4">
                 <div className="flex flex-row mb-1 sm:mb-0">
                     <div className="relative">
-                    <select
+                    <select onChange={(e)=>setselectedItem(e.target.value as OrderStatus)}
                         className="h-full rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-gray-500"
                     >
-                        <option value="all">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="ontheway">On The Way</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="preparation">Preparation</option>
+                        <option value={OrderStatus.All}>All</option>
+                        <option value={OrderStatus.Pending}>Pending</option>
+                        <option value={OrderStatus.Delivered}>Delivered</option>
+                        <option value={OrderStatus.Ontheway}>On The Way</option>
+                        <option value={OrderStatus.Cancel}>Cancelled</option>
+                        <option value={OrderStatus.Preparation}>Preparation</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
                         <svg
@@ -49,16 +73,18 @@
                 </div>
                 <div className="block relative flex-grow">
                     <input
-                    placeholder="Search"
-                    value=""
+                    placeholder="Search by orderId, totalAmt. or paymentMethod"
+                    value={searchTerm}
+                    onChange={(e)=>setSearchTerm(e.target.value)}
                     className="appearance-none rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-6 pl-10 w-full text-sm placeholder-gray-400 focus:outline-none focus:bg-gray-700"
                     />
                 </div>
                 <div className="block relative flex-grow">
                     <input
-                    placeholder="Search by Date"
+                    placeholder="Search"
                     type="date"
-                    value=""
+                    onChange={(e)=>setDate(e.target.value)}
+                    value={date}
                     className="appearance-none rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-6 pl-10 w-full text-sm placeholder-gray-400 focus:outline-none focus:bg-gray-700"
                     />
                 </div>
@@ -87,7 +113,7 @@
                     </thead>
                     <tbody>
                        {
-                        myOrders.length > 0 && myOrders.map((order)=>{
+                        filteredOrders.length > 0 && filteredOrders.map((order)=>{
                             // console.log("The payment staus is ", order.Payment.paymentStatus);
                             
                             return (
