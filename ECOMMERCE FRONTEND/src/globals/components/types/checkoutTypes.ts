@@ -10,7 +10,7 @@ export enum OrderStatus{
     Pending = 'pending',
     Delivered = 'delivered',
     Ontheway = 'ontheway',
-    Cancelled = 'cancelled',
+    Cancel = 'cancelled',
     Preparation = 'preparation'
 }
 
@@ -73,5 +73,5 @@ export interface OrderDetails{
     quantity : number,
     orderId : string,
     Product : Product,
-    Order : MyOrdersData
+    order : MyOrdersData
 }

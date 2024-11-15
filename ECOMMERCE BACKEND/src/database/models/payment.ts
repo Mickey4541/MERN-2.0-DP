@@ -14,7 +14,7 @@ import {
 
 
 //inheritance
-class payment extends Model{
+class Payment extends Model{
     @Column({
         primaryKey : true,
         type : DataType.UUID, //universally unique identifier.
@@ -46,7 +46,7 @@ class payment extends Model{
     declare pidx : string
 
 }
- export default payment
+ export default Payment
 
 
  //if i have to make another table, i can use this code to make the table.

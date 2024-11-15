@@ -164,15 +164,6 @@ class OrderController{
             include : [
                 {
                     model : payment
-                },{
-                    model : Order,
-                    include : [{
-                        model : payment,
-                        attributes : ['paymentMethod', 'paymentStatus']
-                    },{
-                        model : User,
-                        attributes : ['username', 'email']
-                    }]
                 }
                 
             ]
@@ -202,12 +193,22 @@ class OrderController{
                     model : Product,
                     include : [
                         {
-                           model : Category,
-                           attributes : ['categoryName'] 
+                            model : Category,
+                            attributes : ['categoryName'] 
                         }
                     ]
+                },{
+                    model : Order,
+                    include : [{
+                        model : payment,
+                        attributes : ['paymentMethod', 'paymentStatus']
+                    },{
+                        model : User,
+                        attributes : ['username', 'email']
+                  
                 }
             ]
+        }]
         })
         if(orderDetails.length > 0){
             res.status(200).json({
