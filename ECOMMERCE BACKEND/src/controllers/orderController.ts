@@ -334,6 +334,30 @@ class OrderController{
                 })
             }
         }
+
+        //admin can see all the orders of every users.
+        async fetchOrders(req:AuthRequest, res:Response):Promise<void>{
+            const orders = await Order.findAll({
+                include : [
+                    {
+                        model : payment
+                    }
+                    
+                ]
+            })
+            if(orders.length > 0){
+                res.status(200).json({
+                    message : "Order fetched successfully",
+                    data : orders
+                })
+            }else{
+                res.status(404).json({
+                    message : "you haven't ordered anything yet.",
+                    data : [] //empty data pathaideko...
+                })
+            }
+        }
+    
     ///////////////////////////////// Admin Side conde end here ///////////////////////////////////////////
 
 }

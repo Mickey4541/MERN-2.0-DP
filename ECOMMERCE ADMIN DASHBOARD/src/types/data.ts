@@ -1,6 +1,6 @@
 import { Status } from "./status"
 
-interface User{
+export interface User{
     id: string,
     email: string,
     username: string
@@ -56,5 +56,6 @@ export interface InitialState{
     products : Product[], //products vanni key maa Product object ko array
     users : User[],
     orders : OrderData[],
-    status : Status
+    status : Status,
+    singleProduct : Product | null
 }
