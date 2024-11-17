@@ -14,12 +14,14 @@ interface User{
 
 interface AuthState{
     user : User,
-    status : Status
+    status : Status,
+    token : string | null
 }
 
 const initialState:AuthState = {
     user : {} as User,
-    status : Status.LOADING //initial status empty. status vaneko pahile network call gardaa k vairako xa:: success vayo ki, failure vayo ki, loading vayo ki tei decide garna ko lagi.
+    status : Status.LOADING, //initial status empty. status vaneko pahile network call gardaa k vairako xa:: success vayo ki, failure vayo ki, loading vayo ki tei decide garna ko lagi.
+    token : null
 }
 
 
@@ -61,7 +63,9 @@ export function login(data:LoginData){
     return async function loginThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await API.post('login',data)
+            const response = await API.post('/login',data)
+            console.log(response, "Response is");
+            
             if(response.status ===  200){
                 const {data} = response.data //data is token
                 //console.log(data);
