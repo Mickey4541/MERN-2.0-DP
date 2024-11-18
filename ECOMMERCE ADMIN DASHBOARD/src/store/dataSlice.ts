@@ -40,7 +40,7 @@ export default dataSlice.reducer
 
 
 //hamile manually function banauna lageko. Catchasyncthunk use gareko xainam. first aauta function banako ra tes function ley aarko asynchronous function return garxa.
-export function fetchProduct(){
+export function fetchProducts(){
     return async function fetchProductThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
@@ -83,7 +83,7 @@ export function fetchUsers(){
     return async function fetchUsersThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.post('/users')
+            const response = await APIAuthenticated.get('/users')
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setUsers(response.data.data))
@@ -122,6 +122,25 @@ export function deleteProduct(id:string){
         dispatch(setStatus(Status.LOADING))
         try {
             const response = await APIAuthenticated.delete('/admin/product'+ id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))               
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+
+
+
+export function deleteOrder(id:string){
+    return async function deleteOrderThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete('/order/admin'+ id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))               
             }else{

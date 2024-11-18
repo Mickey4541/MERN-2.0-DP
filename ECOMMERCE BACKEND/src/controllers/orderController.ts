@@ -341,6 +341,9 @@ class OrderController{
                 include : [
                     {
                         model : payment
+                    },
+                    {
+                        model : User
                     }
                     
                 ]

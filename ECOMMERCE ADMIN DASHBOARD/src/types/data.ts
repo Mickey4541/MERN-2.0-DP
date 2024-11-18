@@ -3,7 +3,8 @@ import { Status } from "./status"
 export interface User{
     id: string,
     email: string,
-    username: string
+    username: string,
+    createdAt: string
 }
 
 interface Category{
@@ -17,7 +18,7 @@ export interface Product{
     productName: string,
     productDescription: string,
     productPrice: number,
-    productTotalQty: number,
+    productTotalStockQty: number,
     productImageUrl:string,
     createdAt: string,
     updatedAt: string,
@@ -43,12 +44,22 @@ export enum PaymentMethod{
     Khalti = 'khalti'
 }
 
+export enum OrderStatus{
+    pending = 'pending',
+    Delivered = 'delivered',
+    Ontheway = 'ontheway',
+    Cancel = 'cancelled',
+    Preparation = 'preparation',
+    All = 'all'
+}
 export interface OrderData{
     phoneNumber : string,
     shippingAddress : string,
     totalAmount : number,
     paymentDetails : Payment,
-    items : ItemDetails[]
+    items : ItemDetails[],
+    id : string,
+    orderStatus : OrderStatus
 }
 
 
