@@ -15,7 +15,6 @@ const TableThree = () => {
       dispatch(fetchOrders())
     },[])
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>37 minutes>>>>>>>>>>>>>>>>>>bata suru chha.
     const handleDelete = (id:string)=>{
       dispatch(deleteOrder(id))
       dispatch(fetchOrders())
@@ -37,7 +36,7 @@ const TableThree = () => {
                 Shipping Address
               </th>
               <th className="py-4 px-4 font-medium text-black dark:text-white">
-                OrderStatus
+                Order Status
               </th>
               <th className="py-4 px-4 font-medium text-black dark:text-white">
                 Actions

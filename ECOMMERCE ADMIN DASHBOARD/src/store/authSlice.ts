@@ -5,10 +5,15 @@ import { Status } from '../types/status';
 import { API } from '../http';
 
 
-interface User{
-    username : string,
+interface LoginData{
     email : string,
-    password : string,
+    password : string
+}
+
+interface User{
+    username : string | null,
+    email : string | null,
+    password : string | null,
     token : string | null;
 }
 
@@ -22,13 +27,6 @@ const initialState:AuthState = {
     user : {} as User,
     status : Status.LOADING, //initial status empty. status vaneko pahile network call gardaa k vairako xa:: success vayo ki, failure vayo ki, loading vayo ki tei decide garna ko lagi.
     token : null
-}
-
-
-
-interface LoginData{
-    email : string,
-    password : string
 }
 
 
@@ -50,12 +48,21 @@ const authSlice = createSlice({
         },
         clearToken(state:AuthState){
             state.user.token = null;
+        },
+        setUserLogout(state:AuthState){
+            state.token = null
+            state.user = {
+                email : null, 
+                password : null, 
+                username : null, 
+                token : null
+            }
         }
     }
 })
 //yaha createSlice lai const authSlice maa store ta garim, yaha createSlice ley aauta object return garirako hunxa. Tyo object bhitra aauta action vanni key hunxa, ani tyo action vanni key bhitra pani feri reducers ko key haru hunxan jastai setUSer, setStatus haru.
 
-export const {setUser, setStatus, resetStatus, setToken, clearToken} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
+export const {setUser, setStatus, resetStatus, setToken, clearToken,setUserLogout} = authSlice.actions //aba kahi data pathauna paryo vani yei action user garnu parxa, 
 export default authSlice.reducer
 
 
