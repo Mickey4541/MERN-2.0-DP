@@ -1,27 +1,29 @@
-import { useEffect } from "react";
-import { deleteOrder, fetchOrders } from "../../store/dataSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { OrderStatus } from "../../types/data";
-
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { deleteOrder, fetchOrders, setDeleteProduct } from '../../store/dataSlice';
+import { OrderStatus } from '../../types/data';
+import { Link } from 'react-router-dom';
 
 
 const TableThree = () => {
-
-    const dispatch = useAppDispatch()
-    const {orders} = useAppSelector((state)=>state.datas)
-    console.log(orders);
+  const dispatch = useAppDispatch()
+  const {orders} = useAppSelector((state)=>state.datas)
+  console.log("Orders are::",orders);
   
-    useEffect(()=>{
-      dispatch(fetchOrders())
-    },[])
-
-    const handleDelete = (id:string)=>{
-      dispatch(deleteOrder(id))
-      dispatch(fetchOrders())
-    }
-
+  useEffect(()=>{
+    dispatch(fetchOrders())
+  },[])
+  const handleDelete  = (id:string)=>{
+    dispatch(deleteOrder(id))
+    dispatch(setDeleteProduct({productId:id}))
+  }
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+            <div className="py-6 px-4 md:px-6 xl:px-7.5">
+        <h4 className="text-xl font-semibold text-black dark:text-white">
+          Orders
+        </h4>
+      </div>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
@@ -30,13 +32,13 @@ const TableThree = () => {
                 id
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                phoneNumber
+               Phone Number 
               </th>
               <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                Shipping Address
+              Shipping Address
               </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Order Status
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+              Order Status
               </th>
               <th className="py-4 px-4 font-medium text-black dark:text-white">
                 Actions
@@ -44,11 +46,11 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.length > 0 && orders.map((order, key) => (
+            {orders.length> 0 && orders.map((order, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
-                    {order.id}
+                  <Link to={`/order/${order.id}`}>{order.id}</Link>
                   </h5>
                   <p className="text-sm">${order.phoneNumber}</p>
                 </td>
