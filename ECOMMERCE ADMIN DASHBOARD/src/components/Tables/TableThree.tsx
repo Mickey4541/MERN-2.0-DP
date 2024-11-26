@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteOrder, fetchOrders, setDeleteProduct } from '../../store/dataSlice';
+import { deleteOrder, fetchOrders } from '../../store/dataSlice';
 import { OrderStatus } from '../../types/data';
 import { Link } from 'react-router-dom';
 
@@ -15,8 +15,10 @@ const TableThree = () => {
   },[])
   const handleDelete  = (id:string)=>{
     dispatch(deleteOrder(id))
-    dispatch(setDeleteProduct({productId:id}))
   }
+
+
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             <div className="py-6 px-4 md:px-6 xl:px-7.5">

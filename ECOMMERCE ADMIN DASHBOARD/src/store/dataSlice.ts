@@ -1,14 +1,26 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { InitialState, OrderData, Product, User } from '../types/data'
+import { Category, InitialState, OrderData, Product, User } from '../types/data'
 import { Status } from '../types/status'
 import { AppDispatch } from './store'
 import { APIAuthenticated } from '../http'
 
 
+
+export interface AddProduct{
+    productName : string,
+    productDescription : string,
+    productPrice : number,
+    productTotalStockQty : number,
+    image : null,
+    categoryId : string
+    
+}
+
 const initialState:InitialState = {
     orders : [],
     products : [],
     users : [],
+    categories : [],
     status : Status.LOADING,
     singleProduct : null
 }
@@ -22,6 +34,14 @@ interface DeleteUser{
     userId : string
 }
 
+interface DeleteOrder{
+    orderId : string
+}
+
+
+interface DeleteCategory{
+    categoryId : string
+}
 
 const dataSlice = createSlice({
     name : 'data',
@@ -36,6 +56,9 @@ const dataSlice = createSlice({
         setOrders(state:InitialState,action:PayloadAction<OrderData[]>){
             state.orders = action.payload
         },
+        setCategories(state:InitialState,action:PayloadAction<Category[]>){
+            state.categories = action.payload
+        },
         setUsers(state:InitialState,action:PayloadAction<User[]>){
             state.users = action.payload
         },
@@ -49,11 +72,19 @@ const dataSlice = createSlice({
         setDeleteUser(state:InitialState, action:PayloadAction<DeleteUser>){
             const index = state.users.findIndex(item => item.id = action.payload.userId)
             state.users.splice(index, 1)
+        },
+        setDeleteOrder(state:InitialState, action:PayloadAction<DeleteOrder>){
+            const index = state.orders.findIndex(item => item.id = action.payload.orderId)
+            state.orders.splice(index, 1)
+        }
+        setDeleteCategory(state:InitialState, action:PayloadAction<DeleteCategory>){
+            const index = state.categories.findIndex(item => item.id = action.payload.categoryId)
+            state.orders.splice(index, 1)
         }
     }
 })
 
-export const {setStatus, setProduct, setOrders, setUsers, setSingleProduct, setDeleteProduct, setDeleteUser} = dataSlice.actions
+export const {setStatus, setProduct, setOrders, setCategories, setDeleteCategory, setUsers, setSingleProduct, setDeleteProduct, setDeleteUser, setDeleteOrder} = dataSlice.actions
 export default dataSlice.reducer
 
 
@@ -118,13 +149,17 @@ export function fetchUsers(){
 
 
 //admin ley product add gardaa>>>
-export function addProduct(data:Product){
+export function addProduct(data:AddProduct){
     return async function addProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.post('/admin/product',data)
+            const response = await APIAuthenticated.post('/admin/product',data,{
+                headers : {
+                    'Content-Type' : "multipart/form-data"
+                }
+            })
             if(response.status === 200){
-                dispatch(setStatus(Status.SUCCESS))               
+                dispatch(setStatus(Status.SUCCESS))   
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -134,6 +169,28 @@ export function addProduct(data:Product){
     }
 }
 
+
+
+export function addCategory(data:{categoryName : string}){
+    return async function addcategoryThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.post('/admin/category',data)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                setCategories(response.data.data)
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+
+//1:06:34 day 66/////////
+skdjflksdjf
 
 
 export function deleteProduct(id:string){
@@ -160,9 +217,10 @@ export function deleteUser(id:string){
     return async function deleteUserThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.delete('/admin/user/'+ id)
+            const response = await APIAuthenticated.delete('/users/'+ id)
             if(response.status === 200){
-                dispatch(setStatus(Status.SUCCESS))           
+                dispatch(setStatus(Status.SUCCESS))  
+                dispatch(setDeleteUser({userId:id}))            
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -181,7 +239,8 @@ export function deleteOrder(id:string){
         try {
             const response = await APIAuthenticated.delete('/order/admin/'+ id)
             if(response.status === 200){
-                dispatch(setStatus(Status.SUCCESS))               
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setDeleteOrder({orderId : id}))
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -209,3 +268,5 @@ export function singleProduct(id:string){
         }
     }
 }
+
+//23.55

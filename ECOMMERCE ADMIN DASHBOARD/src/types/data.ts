@@ -7,11 +7,7 @@ export interface User{
     createdAt: string
 }
 
-interface Category{
-    id : string,
-    categoryName: string,
 
-}
 
 export interface Product{
     id?: string,
@@ -61,12 +57,16 @@ export interface OrderData{
     id : string,
     orderStatus : OrderStatus
 }
-
+export interface Category{
+    id :string,
+    categoryName : string
+}
 
 export interface InitialState{
     products : Product[], //products vanni key maa Product object ko array
     users : User[],
     orders : OrderData[],
     status : Status,
+    categories : Category[],
     singleProduct : Product | null
 }

@@ -98,6 +98,19 @@ class AuthController {
             })
         }
     }
+
+
+
+
+    public static async deleteUser(req:AuthRequest, res:Response):Promise<void>{
+        const id = req.params.id
+        const users = await User.destroy({where:{
+            id : id
+        }})
+            res.status(200).json({
+                message : "Order deleted successfully",
+            })
+    }
 }
 
 

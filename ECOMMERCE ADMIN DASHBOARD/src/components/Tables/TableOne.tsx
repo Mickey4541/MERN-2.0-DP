@@ -1,7 +1,7 @@
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
-import { deleteUser, fetchUsers, setDeleteUser} from '../../store/dataSlice';
+import { deleteUser, fetchUsers} from '../../store/dataSlice';
 
 const TableOne = () => {
   const dispatch = useAppDispatch()
@@ -14,7 +14,7 @@ const TableOne = () => {
   
   const handleDelete  = (id:string)=>{
     dispatch(deleteUser(id))
-    dispatch(setDeleteUser({userId:id}))
+    // console.log("The id is", id);
   }
 
 

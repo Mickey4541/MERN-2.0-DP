@@ -17,6 +17,7 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import AddCategory from './pages/Form/Add Category';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -74,12 +75,24 @@ function App() {
             </DefaultLayout>
           }
         />
-        <Route
+       <Route
           path="/forms/form-layout"
+          element={
+            <>
+              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <DefaultLayout>
+
+              <FormLayout />
+              </DefaultLayout>
+            </>
+          }
+        />
+       <Route
+          path="/forms/add-category"
           element={
             <DefaultLayout>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormLayout />
+              <AddCategory/>
             </DefaultLayout>
           }
         />
