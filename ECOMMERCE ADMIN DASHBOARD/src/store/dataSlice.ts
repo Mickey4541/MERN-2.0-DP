@@ -76,7 +76,7 @@ const dataSlice = createSlice({
         setDeleteOrder(state:InitialState, action:PayloadAction<DeleteOrder>){
             const index = state.orders.findIndex(item => item.id = action.payload.orderId)
             state.orders.splice(index, 1)
-        }
+        },
         setDeleteCategory(state:InitialState, action:PayloadAction<DeleteCategory>){
             const index = state.categories.findIndex(item => item.id = action.payload.categoryId)
             state.orders.splice(index, 1)
@@ -99,6 +99,27 @@ export function fetchProducts(){
                 const {data} = response.data
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setProduct(data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+
+
+
+export function fetchCategories(){
+    return async function fetchCategoriesThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.get('/admin/category')
+            if(response.status === 200){
+                const {data} = response.data
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setCategories(data))
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -189,10 +210,6 @@ export function addCategory(data:{categoryName : string}){
 }
 
 
-//1:06:34 day 66/////////
-skdjflksdjf
-
-
 export function deleteProduct(id:string){
     return async function deleteProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
@@ -251,6 +268,25 @@ export function deleteOrder(id:string){
 }
 
 
+
+
+
+export function deletecategory(id:string){
+    return async function deleteOrderThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete('/admin/category/'+ id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setDeleteCategory({categoryId : id}))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
 
 export function singleProduct(id:string){
     return async function singleProductThunk(dispatch:AppDispatch){

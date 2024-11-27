@@ -1,20 +1,18 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteOrder, fetchOrders } from '../../store/dataSlice';
-import { OrderStatus } from '../../types/data';
+import { deletecategory, fetchCategories, } from '../../store/dataSlice';
 import { Link } from 'react-router-dom';
 
 
 const TableFour = () => {
 const dispatch = useAppDispatch()
 const {categories} = useAppSelector((state)=>state.datas)
-console.log("Orders are::",orders);
 
 useEffect(()=>{
 dispatch(fetchCategories())
 },[])
 const handleDelete  = (id:string)=>{
-dispatch(deleteCategory(id))
+dispatch(deletecategory(id))
 }
 
 
@@ -34,46 +32,25 @@ categories
         id
     </th>
     <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-    Phone Number 
+    Category Name 
     </th>
-    <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-    Shipping Address
-    </th>
-    <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-    Order Status
-    </th>
+ 
     <th className="py-4 px-4 font-medium text-black dark:text-white">
         Actions
     </th>
     </tr>
 </thead>
 <tbody>
-    {orders.length> 0 && orders.map((order, key) => (
+    {categories.length> 0 && categories.map((category, key) => (
     <tr key={key}>
         <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
         <h5 className="font-medium text-black dark:text-white">
-        <Link to={`/order/${order.id}`}>{order.id}</Link>
+        <Link to={`/order/${category.id}`}>{category.id}</Link>
         </h5>
-        <p className="text-sm">${order.phoneNumber}</p>
+        <p className="text-sm">${category.categoryName}</p>
         </td>
-        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-        <p className="text-black dark:text-white">
-            {order.shippingAddress}
-        </p>
-        </td>
-        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-        <p
-            className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-            order.orderStatus === OrderStatus.Delivered
-                ? 'bg-success text-success'
-                : order.orderStatus === OrderStatus.Cancel
-                ? 'bg-danger text-danger'
-                : 'bg-warning text-warning'
-            }`}
-        >
-            {order.orderStatus}
-        </p>
-        </td>
+       
+        
         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
         <div className="flex items-center space-x-3.5">
             <button className="hover:text-primary">
@@ -95,7 +72,7 @@ categories
                 />
             </svg>
             </button>
-            <button onClick={()=>handleDelete(order.id)} className="hover:text-primary">
+            <button onClick={()=>handleDelete(category.id)} className="hover:text-primary">
             <svg
                 className="fill-current"
                 width="18"
