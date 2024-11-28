@@ -18,6 +18,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import AddCategory from './pages/Form/Add Category';
+import SingleOrder from './pages/SingleOrder';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -148,6 +149,16 @@ function App() {
               <PageTitle title="login" />
               <SignIn />
             </>
+          }
+        />
+
+          <Route
+          path="/order/:id"
+          element={
+            <DefaultLayout>
+              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <SingleOrder/>
+            </DefaultLayout>
           }
         />
       </Routes>
