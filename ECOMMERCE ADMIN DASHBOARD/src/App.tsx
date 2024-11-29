@@ -19,6 +19,14 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import AddCategory from './pages/Form/Add Category';
 import SingleOrder from './pages/SingleOrder';
+import {io} from 'socket.io-client'
+
+export const socket = io("http://localhost:3000",{
+  auth : {
+    token : localStorage.getItem('token')
+  }
+})
+
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);

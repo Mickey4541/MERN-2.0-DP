@@ -1,9 +1,10 @@
     import { useEffect, useState } from "react";
     import Navbar from "../../../globals/components/navbar/Navbar";
     import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-    import { fetchMyOrders } from "../../../store/checkoutSlice";
+    import { fetchMyOrders, updateOrderStatusInStore } from "../../../store/checkoutSlice";
     import { Link } from "react-router-dom";
 import { OrderStatus } from "../../../globals/components/types/checkoutTypes";
+import { socket } from "../../../App";
 
     const MyOrders = () => {
         const dispatch = useAppDispatch()
@@ -36,7 +37,11 @@ import { OrderStatus } from "../../../globals/components/types/checkoutTypes";
         //     );
         // });
 
-
+        useEffect(()=>{
+            socket.on("statusUpdated", (data:any)=>{
+                dispatch(updateOrderStatusInStore(data))
+            })
+        },[socket])
 
     return (
         <>

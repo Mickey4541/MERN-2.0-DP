@@ -60,12 +60,56 @@ app.use("/customer/cart", cartRoute)
 
 //order Route
 import orderRoute from './routes/orderRoute'
+import { Server } from 'socket.io';
+import { promisify } from 'util';
+import jwt from 'jsonwebtoken'
+import User from './database/models/userModel';
 app.use("/order", orderRoute)
 
 
 
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log("Server has started at port", PORT);
     
+})
+
+
+const io = new Server(server, {
+    cors : {
+        origin : ['http://localhost:5173', 'http://localhost:5174']
+    }
+})
+
+
+let onlineUsers:any = []
+const addToOnlineUsers = (socketId: string, userId: string, role: string)=>{
+    onlineUsers = onlineUsers.filter((user:any)=>user.userId !==userId)
+    onlineUsers.push({socketId, userId, role})
+}
+
+
+
+io.on("connection", async (socket)=>{
+    console.log("A Client is connected");
+    const {token} = socket.handshake.auth
+    if(token){
+                //@ts-ignore
+        const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY)
+         //@ts-ignore
+        const doesUserExists = await User.findByPk(decoded.id)
+        if(doesUserExists){
+            addToOnlineUsers(socket.id, doesUserExists.id, doesUserExists.role)
+        }
+    }
+  
+    
+    socket.on("updatedOrderStatus",({status,orderId, userId})=>{
+        const findUser = onlineUsers.find((user:any)=>user.userId == userId)
+        if(findUser){
+            io.to(findUser.socketId).emit("statusUpdated"),{
+                status, orderId
+            }
+        }
+    })
 })

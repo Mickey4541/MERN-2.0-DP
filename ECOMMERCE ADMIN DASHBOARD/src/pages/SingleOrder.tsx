@@ -1,8 +1,9 @@
     import  { ChangeEvent, useEffect, useState,  } from 'react';
     import { useParams } from 'react-router-dom';
     import { useAppDispatch, useAppSelector } from '../store/hooks';
-    import { singleOrder } from '../store/dataSlice';
+    import { handleOrderStatusById, singleOrder } from '../store/dataSlice';
     import { OrderStatus } from '../types/data';
+import { socket } from '../App';
     // import { socket } from '../App';
 
     const SingleOrder = () => {
@@ -17,6 +18,7 @@
         }
     }, []);
 
+    
     const handleOrderStatus = (e:ChangeEvent<HTMLSelectElement>)=>{
         setOrderStatus(e.target.value)
         if(id) {
@@ -25,7 +27,9 @@
             orderId : id, 
             userId : order.Order.userId
             })
-            dispatch(handleOrderStatusById(e.target.value as OrderStatus,id))
+            if(id){
+                dispatch(handleOrderStatusById(e.target.value as OrderStatus,id))
+            }
         }
         
 
