@@ -10,8 +10,10 @@ import { socket } from '../App';
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const {singleOrder: [order]} = useAppSelector((state) => state.datas);
-    const [ setOrderStatus] = useState(order?.Order?.orderStatus as string);
-
+    const [ orderStatus, setOrderStatus] = useState(order?.Order?.orderStatus as string);
+    
+    // console.log(orderStatus);
+    
     useEffect(() => {
         if (id) {
         dispatch(singleOrder(id));
@@ -27,13 +29,14 @@ import { socket } from '../App';
             orderId : id, 
             userId : order.Order.userId
             })
-            if(id){
-                dispatch(handleOrderStatusById(e.target.value as OrderStatus,id))
-            }
+            dispatch(handleOrderStatusById(e.target.value as OrderStatus,id))
+        }else{
+            console.error('Order or Order details are not available');
         }
+        console.log(order);
         
 
-    }
+    };
 
     return (
         <div className="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -54,10 +57,11 @@ import { socket } from '../App';
 
                 <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
                 <div className="pb-4 md:pb-8 w-full md:w-40">
-                    <img className="w-full hidden md:block" alt="dress" />
+                    <img className="w-full hidden md:block" src={`http://localhost:3000/uploads/${order?.Product?.productImageUrl}`} alt="dress" />
                     <img
                     className="w-full md:hidden"
-                    src={order?.Product?.productImageUrl}
+                    // src={order?.Product?.productImageUrl}
+                    src={`http://localhost:3000/uploads/${order?.Product?.productImageUrl}`}
                     alt="dress"
                     />
                 </div>

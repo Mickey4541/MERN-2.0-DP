@@ -282,7 +282,7 @@ export function deleteOrder(id:string){
 
 
 export function deletecategory(id:string){
-    return async function deleteOrderThunk(dispatch:AppDispatch){
+    return async function deletecategoryThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
             const response = await APIAuthenticated.delete('/admin/category/'+ id)
@@ -302,7 +302,7 @@ export function singleProduct(id:string){
     return async function singleProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.get('/admin/product'+ id)
+            const response = await APIAuthenticated.get('/admin/product/'+ id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))               
                 dispatch(setSingleProduct(response.data.data))               
@@ -319,7 +319,9 @@ export function singleOrder(id:string){
     return async function singleOrderThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.get('/order/customer'+ id)
+            const response = await APIAuthenticated.get('/order/customer/'+ id)
+            // console.log(response, "This is the response of api");
+            
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))               
                 dispatch(setSingleOrder(response.data.data))               
@@ -337,7 +339,7 @@ export function handleOrderStatusById(status:OrderStatus, id:string){
     return async function handleOrderStatusByIdThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.patch('/order/admin/'+ id)
+            const response = await APIAuthenticated.patch('/order/admin/'+ id,{OrderStatus : status})
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))               
                 dispatch(updateOrderStatusById({orderId : id, status}))               

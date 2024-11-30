@@ -1,47 +1,65 @@
     import { useEffect, useState } from "react";
     import Navbar from "../../../globals/components/navbar/Navbar";
     import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-    import { fetchMyOrders, updateOrderStatusInStore } from "../../../store/checkoutSlice";
+    import {
+    fetchMyOrders,
+    updateOrderStatusInStore,
+    } from "../../../store/checkoutSlice";
     import { Link } from "react-router-dom";
-import { OrderStatus } from "../../../globals/components/types/checkoutTypes";
-import { socket } from "../../../App";
+    import { OrderStatus } from "../../../globals/components/types/checkoutTypes";
+    import { socket } from "../../../App";
 
     const MyOrders = () => {
-        const dispatch = useAppDispatch()
-        const {myOrders} = useAppSelector((state)=>state.orders)
+    const dispatch = useAppDispatch();
+    const { myOrders } = useAppSelector((state) => state.orders);
 
-        const [selectedItem, setselectedItem] = useState<OrderStatus>(OrderStatus.All)
-        const [searchTerm, setSearchTerm] = useState<string>("")
-        const [date, setDate] = useState("")
+    const [selectedItem, setselectedItem] = useState<OrderStatus>(
+        OrderStatus.All
+    );
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [date, setDate] = useState("");
 
+    // console.log(selectedItem);
 
-        console.log(selectedItem);
-        
-        useEffect(()=>{
-            dispatch(fetchMyOrders())
-        },[])
-        console.log(myOrders);
-        
-        const filteredOrders = myOrders.filter((order)=>selectedItem === OrderStatus.All || order.orderStatus === selectedItem)
-        .filter((order)=>order.id.toLowerCase().includes(searchTerm) || order.payment.paymentMethod.toLowerCase().includes(searchTerm) || order.totalAmount.toString().includes(searchTerm))
-        .filter((order)=>date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString())
-        // >>>>>>>>>>>>>>>>>>>>>OR>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        // const filteredOrders = myOrders
-        // .filter(order => selectedItem === OrderStatus.All || order.orderStatus === selectedItem)
-        // .filter(order => {
-        //     const term = searchTerm?.toLowerCase() || ""; // Handle undefined by defaulting to an empty string
-        //     return (
-        //     order.id.toLowerCase().includes(term) ||
-        //     order.payment.paymentMethod.toLowerCase().includes(term) ||
-        //     order.totalAmount.toString().includes(term)
-        //     );
-        // });
+    useEffect(() => {
+        dispatch(fetchMyOrders());
+    }, []);
+    console.log(myOrders);
 
-        useEffect(()=>{
-            socket.on("statusUpdated", (data:any)=>{
-                dispatch(updateOrderStatusInStore(data))
-            })
-        },[socket])
+    const filteredOrders = myOrders
+        .filter(
+        (order) =>
+            selectedItem === OrderStatus.All || order.orderStatus === selectedItem
+        )
+        .filter(
+        (order) =>
+            order.id.toLowerCase().includes(searchTerm) ||
+            order.payment.paymentMethod.toLowerCase().includes(searchTerm) ||
+            order.totalAmount.toString().includes(searchTerm)
+        )
+        .filter(
+        (order) =>
+            date === "" ||
+            new Date(order.createdAt).toLocaleDateString() ===
+            new Date(date).toLocaleDateString()
+        );
+    // >>>>>>>>>>>>>>>>>>>>>OR>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // const filteredOrders = myOrders
+    // .filter(order => selectedItem === OrderStatus.All || order.orderStatus === selectedItem)
+    // .filter(order => {
+    //     const term = searchTerm?.toLowerCase() || ""; // Handle undefined by defaulting to an empty string
+    //     return (
+    //     order.id.toLowerCase().includes(term) ||
+    //     order.payment.paymentMethod.toLowerCase().includes(term) ||
+    //     order.totalAmount.toString().includes(term)
+    //     );
+    // });
+
+    useEffect(() => {
+        socket.on("statusUpdated", (data: any) => {
+        dispatch(updateOrderStatusInStore(data));
+        });
+    }, [socket]);
 
     return (
         <>
@@ -50,12 +68,17 @@ import { socket } from "../../../App";
             <div className="container mx-auto px-4 sm:px-8">
             <div className="py-8">
                 <div>
-                <h2 className="text-3xl font-semibold leading-tight text-white">Orders</h2>
+                <h2 className="text-3xl font-semibold leading-tight text-white">
+                    Orders
+                </h2>
                 </div>
                 <div className="my-4 flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:space-x-4">
                 <div className="flex flex-row mb-1 sm:mb-0">
                     <div className="relative">
-                    <select onChange={(e)=>setselectedItem(e.target.value as OrderStatus)}
+                    <select
+                        onChange={(e) =>
+                        setselectedItem(e.target.value as OrderStatus)
+                        }
                         className="h-full rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-gray-500"
                     >
                         <option value={OrderStatus.All}>All</option>
@@ -80,7 +103,7 @@ import { socket } from "../../../App";
                     <input
                     placeholder="Search by orderId, totalAmt. or paymentMethod"
                     value={searchTerm}
-                    onChange={(e)=>setSearchTerm(e.target.value)}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="appearance-none rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-6 pl-10 w-full text-sm placeholder-gray-400 focus:outline-none focus:bg-gray-700"
                     />
                 </div>
@@ -88,7 +111,7 @@ import { socket } from "../../../App";
                     <input
                     placeholder="Search"
                     type="date"
-                    onChange={(e)=>setDate(e.target.value)}
+                    onChange={(e) => setDate(e.target.value)}
                     value={date}
                     className="appearance-none rounded-lg border border-gray-600 bg-gray-800 text-white py-2 px-6 pl-10 w-full text-sm placeholder-gray-400 focus:outline-none focus:bg-gray-700"
                     />
@@ -117,34 +140,45 @@ import { socket } from "../../../App";
                         </tr>
                     </thead>
                     <tbody>
-                       {
-                        filteredOrders.length > 0 && filteredOrders.map((order)=>{
+                        {filteredOrders.length > 0 &&
+                        filteredOrders.map((order) => {
                             // console.log("The payment staus is ", order.Payment.paymentStatus);
-                            
+
                             return (
-                                <tr key={order.id}>
+                            <tr key={order.id}>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <Link to={`/myorders/${order.id}`} ><p className="text-blue-500 cursor-pointer">{order.id}</p></Link>
+                                <Link to={`/myorders/${order.id}`}>
+                                    <p className="text-blue-500 cursor-pointer">
+                                    {order.id}
+                                    </p>
+                                </Link>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <p className="text-gray-400">{order.totalAmount}</p>
+                                <p className="text-gray-400">
+                                    {order.totalAmount}
+                                </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <p className="text-green-400">{order.payment. paymentStatus ?? 'N/A'}</p>
+                                <p className="text-green-400">
+                                    {order.payment.paymentStatus ?? "N/A"}
+                                </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <span className="relative inline-block px-3 py-1 font-semibold text-yellow-500 leading-tight">
+                                <span className="relative inline-block px-3 py-1 font-semibold text-yellow-500 leading-tight">
                                     <span className="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"></span>
-                                    <span className="relative">{order.orderStatus}</span>
+                                    <span className="relative">
+                                    {order.orderStatus}
                                     </span>
+                                </span>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
-                                    <p className="text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
+                                <p className="text-gray-400">
+                                    {new Date(order.createdAt).toLocaleDateString()}
+                                </p>
                                 </td>
-                                </tr>
-                            )
-                        })
-                       }
+                            </tr>
+                            );
+                        })}
                     </tbody>
                     </table>
                     <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">

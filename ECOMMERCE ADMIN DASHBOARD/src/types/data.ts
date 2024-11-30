@@ -59,6 +59,7 @@ export interface Category{
     categoryName : string
 }
 
+
 export interface SingleOrder{
     id: string,
     quantity: number,
@@ -100,4 +101,3 @@ export interface InitialState{
     singleOrder : SingleOrder[]
 
 }
-

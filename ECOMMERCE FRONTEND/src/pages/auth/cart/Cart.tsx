@@ -50,7 +50,7 @@ const totalPriceInCarts = items.reduce((total, item)=>item?.Product?.productPric
                           {item?.Product?.productName}
                         </h2>
                         <p className="mt-1 text-xs text-blue-800 font-bold">
-                          {item?.Product?.category?.categoryName}
+                          {item?.Product?.Category?.categoryName}
                         </p>
                         <p className="mt-1 text-xs text-gray-700">
                           {item?.Product?.productDescription}

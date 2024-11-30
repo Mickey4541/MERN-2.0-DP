@@ -64,6 +64,7 @@ import { Server } from 'socket.io';
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken'
 import User from './database/models/userModel';
+import { log } from 'console';
 app.use("/order", orderRoute)
 
 
@@ -84,7 +85,7 @@ const io = new Server(server, {
 
 let onlineUsers:any = []
 const addToOnlineUsers = (socketId: string, userId: string, role: string)=>{
-    onlineUsers = onlineUsers.filter((user:any)=>user.userId !==userId)
+    onlineUsers = onlineUsers.filter((user:any)=>user.userId !== userId)
     onlineUsers.push({socketId, userId, role})
 }
 
@@ -112,4 +113,6 @@ io.on("connection", async (socket)=>{
             }
         }
     })
+    console.log(onlineUsers);
+    
 })

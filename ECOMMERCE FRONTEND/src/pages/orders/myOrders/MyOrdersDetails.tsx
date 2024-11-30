@@ -102,7 +102,7 @@ const MyOrdersDetails = () => {
                                     Total
                                 </p>
                                 <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
-                                    Rs. ...
+                                    Rs.{orderDetails[0]?.order?.totalAmount}
                                 </p>
                             </div>
                         </div>
@@ -134,26 +134,39 @@ const MyOrdersDetails = () => {
                         </div>
                     </div>
                     {/* Customer Section */}
-                    <div className="flex flex-col bg-green-100 dark:bg-gray-700 w-full xl:w-96 px-4 py-4 xl:p-8 space-y-4 rounded-lg">
-                        <h3 className="text-xl dark:text-blue-600  leading-5 text-emerald-800 font-bold">
+                    <div className="flex flex-col bg-green-100 dark:bg-gray-700 w-full xl:w-96 px-6 py-6 xl:py-8 space-y-6 rounded-lg">
+                        <h3 className="text-xl dark:text-blue-600 font-bold leading-5 text-emerald-800">
                             Customer Details:
                         </h3>
                         <div className="space-y-4">
-                            <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
-                                Address: {orderDetails[0]?.order?.shippingAddress}
-                            </p>
-                            <p className="text-sm font-bold dark:text-gray-300 text-gray-600">
-                                Phone Number:  {orderDetails[0]?.order?.phoneNumber}
-                            </p>
+                            {/* Address Section */}
+                            <div className="flex flex-col space-y-2">
+                                <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
+                                    Address:
+                                </p>
+                                <p className="text-sm dark:text-gray-300 leading-5 text-gray-600">
+                                    {orderDetails[0]?.order?.shippingAddress}
+                                </p>
+                            </div>
+                            {/* Phone Number Section */}
+                            <div className="flex flex-col space-y-2">
+                                <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
+                                    Phone Number:
+                                </p>
+                                <p className="text-sm dark:text-gray-300 leading-5 text-gray-600">
+                                    {orderDetails[0]?.order?.phoneNumber}
+                                </p>
+                            </div>
                         </div>
-                        <div className="flex space-x-4">
-                            <button className="dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-2 hover:bg-gray-200 border border-gray-800 w-full text-center font-medium text-gray-800 rounded-md">
+                        {/* Buttons Section */}
+                        <div className="flex flex-wrap gap-4">
+                            <button className="dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-2 px-4 hover:bg-gray-200 border border-gray-800 text-center font-medium text-gray-800 rounded-md w-full sm:w-auto">
                                 Edit Order
                             </button>
-                            <button className="dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-2 hover:bg-red-200 border border-gray-800 w-full text-center font-medium text-gray-800 rounded-md">
+                            <button className="dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-2 px-4 hover:bg-red-200 border border-gray-800 text-center font-medium text-gray-800 rounded-md w-full sm:w-auto">
                                 Cancel Order
                             </button>
-                            <button className="dark:border-white dark:bg-red-600 dark:hover:bg-red-700 py-2 border border-gray-800 w-full text-center font-medium text-white bg-red-600 hover:bg-red-700 rounded-md">
+                            <button className="dark:border-white dark:bg-red-600 dark:hover:bg-red-700 py-2 px-4 border border-gray-800 text-center font-medium text-white bg-red-600 hover:bg-red-700 rounded-md w-full sm:w-auto">
                                 Delete Order
                             </button>
                         </div>
