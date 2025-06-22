@@ -3,7 +3,7 @@
 
 const mongoose = require("mongoose")
 
-const connectionString = "mongodb+srv://rajan:rajan@cluster0.4c60z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const connectionString = "mongodb+srv://rajan:rajan@cluster0.i2kbtyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 //It is asynchronous task, so it takes time, so async await.

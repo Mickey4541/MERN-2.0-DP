@@ -9,7 +9,7 @@ const SingleBook = () => {
   const [book, setBook] = useState({})
   const fetchBook = async () => {
     // const response = await axios.get('http://localhost:3000/' + id)
-    const response = await axios.get(`https://bms-backend-lp6t.onrender.com/book/${id}`)
+    const response = await axios.get(`http://localhost:3000/book/${id}`)
     //console.log(response);
     if(response.status === 200){
       setBook(response.data.data)
@@ -26,7 +26,7 @@ const SingleBook = () => {
   const navigate = useNavigate()
 const handleDelete = async () => {
   console.log(id);
-  const response = await axios.delete(`https://bms-backend-lp6t.onrender.com/book/${id}`) //specific book ko id chai url maa aako xa, tya bata useparams use garera id maa store vako thiyo, tei id lai access garera delete gareko.
+  const response = await axios.delete(`http://localhost:3000/book/${id}`) //specific book ko id chai url maa aako xa, tya bata useparams use garera id maa store vako thiyo, tei id lai access garera delete gareko.
   if(response.status === 200){
     navigate('/');
   }else{

@@ -14,9 +14,11 @@ const Navbar = () => {
             className="h-8"
             alt="Rajan's Logo"
           />
+          <Link to='/'>
           <span className="self-start text-2xl font-semibold whitespace-nowrap dark:text-white">
             BMS
           </span>
+          </Link>
         </a>
         <div className="flex space-x-3 md:space-x-0 rtl:space-x-reverse w-auto justify-between">
           <Link to='/addBook'>
